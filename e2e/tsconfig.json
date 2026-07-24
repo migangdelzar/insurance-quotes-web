@@ -1,0 +1,4 @@
+{
+  "extends": "@clara/build-config/tsconfig.base.json",
+  "include": ["tests", "support", "playwright.config.ts"]
+}
