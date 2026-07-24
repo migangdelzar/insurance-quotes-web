@@ -3,9 +3,15 @@ import { App } from '@app/App';
 import { AuthProvider, useAuth } from '@features/auth/context/AuthProvider';
 import { LoginPage } from '@features/auth/pages/LoginPage';
 import { QuoteWizardProvider } from '@features/quote-wizard/context/QuoteWizardProvider';
+import {
+  RequireCoverage,
+  RequireQuote,
+} from '@features/quote-wizard/context/stepGuards';
 import { PersonalInfoStep } from '@features/quote-wizard/steps/personal/PersonalInfoStep';
 import { CoverageStep } from '@features/quote-wizard/steps/coverage/CoverageStep';
 import { SummaryStep } from '@features/quote-wizard/steps/summary/SummaryStep';
+import { QuotesListPage } from '@pages/QuotesListPage';
+import { NotFoundPage } from '@pages/NotFoundPage';
 
 function Providers() {
   return (
@@ -23,6 +29,14 @@ export function RequireAuth() {
   return <Outlet />;
 }
 
+function WizardShell() {
+  return (
+    <QuoteWizardProvider>
+      <Outlet />
+    </QuoteWizardProvider>
+  );
+}
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -32,21 +46,29 @@ export const router = createBrowserRouter([
       {
         element: <RequireAuth />,
         children: [
+          { index: true, element: <Navigate to="/quotes" replace /> },
+          { path: 'quotes', element: <QuotesListPage /> },
           {
-            element: (
-              <QuoteWizardProvider>
-                <Outlet />
-              </QuoteWizardProvider>
-            ),
+            element: <WizardShell />,
             children: [
               { path: 'quote/personal', element: <PersonalInfoStep /> },
-              { path: 'quote/coverage', element: <CoverageStep /> },
-              { path: 'quote/summary', element: <SummaryStep /> },
+              {
+                element: <RequireQuote />,
+                children: [
+                  { path: 'quote/coverage', element: <CoverageStep /> },
+                  {
+                    element: <RequireCoverage />,
+                    children: [
+                      { path: 'quote/summary', element: <SummaryStep /> },
+                    ],
+                  },
+                ],
+              },
             ],
           },
-          { index: true, element: <Navigate to="/quotes" replace /> },
         ],
       },
+      { path: '*', element: <NotFoundPage /> },
     ],
   },
 ]);

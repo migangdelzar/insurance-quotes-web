@@ -240,6 +240,34 @@ export const texts = {
       es: 'Iniciar cotización',
       testId: 'btn-start-quote',
     },
+    statusDraft: { en: 'Draft', es: 'Borrador', testId: 'quote-status-draft' },
+    statusSubmitted: {
+      en: 'Submitted',
+      es: 'Enviada',
+      testId: 'quote-status-submitted',
+    },
+    statusFailed: {
+      en: 'Submission failed',
+      es: 'Envío fallido',
+      testId: 'quote-status-failed',
+    },
+    statusExpired: {
+      en: 'Expired',
+      es: 'Expirada',
+      testId: 'quote-status-expired',
+    },
+  },
+  notFound: {
+    title: {
+      en: 'Page not found',
+      es: 'Página no encontrada',
+      testId: 'not-found-title',
+    },
+    home: {
+      en: 'Go to quotes',
+      es: 'Ir a cotizaciones',
+      testId: 'not-found-home',
+    },
   },
   errors: {
     QUOTE_NOT_FOUND: {
