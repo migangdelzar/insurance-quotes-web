@@ -9,7 +9,11 @@ export function PasskeyPrompt() {
 
   return (
     <Stack spacing={2} alignItems="flex-start">
-      <Typography variant="h6" data-testid={tid('auth.mfa.title')}>
+      <Typography
+        component="h3"
+        variant="h6"
+        data-testid={tid('auth.mfa.title')}
+      >
         {t('auth.mfa.title')}
       </Typography>
       <Typography data-testid={tid('auth.mfa.prompt')}>

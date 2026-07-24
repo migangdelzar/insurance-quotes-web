@@ -45,6 +45,8 @@ export function LoginForm({ labelledBy, describedBy }: LoginFormProps) {
         )}
         <TextField
           label={t('auth.login.username')}
+          name="username"
+          autoComplete="username"
           value={username}
           onChange={(event) => setUsername(event.target.value)}
           inputProps={{ 'data-testid': tid('auth.login.username') }}
@@ -53,6 +55,8 @@ export function LoginForm({ labelledBy, describedBy }: LoginFormProps) {
         <TextField
           label={t('auth.login.password')}
           type="password"
+          name="password"
+          autoComplete="current-password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           inputProps={{ 'data-testid': tid('auth.login.password') }}

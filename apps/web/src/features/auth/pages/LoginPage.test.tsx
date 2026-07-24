@@ -80,6 +80,17 @@ describe('LoginPage', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('renders the passkey MFA prompt as the next accessible heading level', () => {
+    renderPage();
+
+    expect(
+      screen.getByRole('heading', {
+        level: 3,
+        name: i18n.t('auth.mfa.title'),
+      })
+    ).toBeVisible();
+  });
+
   it('keeps password and passkey actions available in the premium auth layout', () => {
     mockedUseAuth.mockReturnValue({
       sessionState: 'anonymous',
@@ -116,6 +127,22 @@ describe('LoginPage', () => {
     ).not.toBeInTheDocument();
     expect(screen.getByTestId(tid('auth.login.username'))).toBeVisible();
     expect(screen.getByTestId(tid('auth.login.password'))).toBeVisible();
+    expect(screen.getByTestId(tid('auth.login.username'))).toHaveAttribute(
+      'name',
+      'username'
+    );
+    expect(screen.getByTestId(tid('auth.login.username'))).toHaveAttribute(
+      'autocomplete',
+      'username'
+    );
+    expect(screen.getByTestId(tid('auth.login.password'))).toHaveAttribute(
+      'name',
+      'password'
+    );
+    expect(screen.getByTestId(tid('auth.login.password'))).toHaveAttribute(
+      'autocomplete',
+      'current-password'
+    );
     expect(screen.getByTestId(tid('auth.login.submit'))).toBeVisible();
     expect(screen.getByTestId(tid('auth.login.passwordless'))).toBeVisible();
   });

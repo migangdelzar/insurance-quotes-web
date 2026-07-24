@@ -5,7 +5,7 @@
 - [x] Implement Task 2: shared application shell.
 - [x] Review Task 2 and resolve all Important/Critical findings (placeholder support copy removed; approved).
 - [x] Implement Task 3: authentication redesign.
-- [ ] Review Task 3 and resolve all Important/Critical findings.
+- [x] Review Task 3 and resolve all Important/Critical findings, including the scoped accessibility and responsive follow-ups.
 - [ ] Implement Task 4: quotes dashboard redesign.
 - [ ] Review Task 4 and resolve all Important/Critical findings.
 - [ ] Implement Task 5: wizard frame and premium estimate treatment.
@@ -61,3 +61,5 @@
 - [x] Add localized auth brand/trust/security copy to both English and Spanish catalogs.
 - [x] Run auth tests, i18n tests/validation, lint, build, and responsive Playwright checks.
 - [x] Verify fresh runtime layout at 1280px (two columns) and 375px (single column) with no horizontal overflow.
+- [x] Address review findings: semantic MFA heading, credential autocomplete metadata, and 1024px responsive coverage.
+- [x] Record the RED/GREEN cycle and verification evidence in `.superpowers/sdd/task-3-report.md`.
