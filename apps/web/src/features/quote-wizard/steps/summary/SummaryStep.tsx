@@ -1,0 +1,86 @@
+import {
+  Button,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+  Typography,
+} from '@mui/material';
+import { testIds } from '@clara/app-i18n';
+import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import { PremiumDisplay } from '@features/quote-wizard/components/PremiumDisplay';
+import { WizardProgress } from '@features/quote-wizard/components/WizardProgress';
+import { useQuoteWizard } from '@features/quote-wizard/context/QuoteWizardProvider';
+import { SubmissionResult } from './SubmissionResult';
+import { useSubmitQuote } from './useSubmitQuote';
+
+export function SummaryStep() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { state, dispatch } = useQuoteWizard();
+  const { submit, submission, error } = useSubmitQuote(state, dispatch);
+  const rows: Array<[string, string]> = [
+    [
+      t('wizard.personal.name'),
+      state.personal?.name ?? t('common.notAvailable'),
+    ],
+    [
+      t('wizard.personal.email'),
+      state.personal?.email ?? t('common.notAvailable'),
+    ],
+    [
+      t('wizard.personal.age'),
+      state.personal ? String(state.personal.age) : t('common.notAvailable'),
+    ],
+    [
+      t('wizard.personal.zipCode'),
+      state.personal?.zipCode ?? t('common.notAvailable'),
+    ],
+    [
+      t('wizard.coverage.title'),
+      state.coverage.coverageType ?? t('common.notAvailable'),
+    ],
+  ];
+
+  return (
+    <Stack spacing={3}>
+      <WizardProgress activeStep={2} />
+      <Typography variant="h5" data-testid={testIds.wizard.summary.title}>
+        {t('wizard.summary.title')}
+      </Typography>
+      <List aria-label={t('wizard.summary.title')}>
+        {rows.map(([label, value]) => (
+          <ListItem key={label}>
+            <ListItemText primary={label} secondary={value} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <PremiumDisplay premium={state.premium} updating={false} />
+      <SubmissionResult
+        submission={submission}
+        error={error}
+        onRetry={submit}
+      />
+      {submission === 'idle' ? (
+        <Stack direction="row" spacing={2}>
+          <Button
+            onClick={() => void navigate('/quote/coverage')}
+            data-testid={testIds.common.back}
+          >
+            {t('common.back')}
+          </Button>
+          <Button
+            variant="contained"
+            onClick={submit}
+            data-testid={testIds.wizard.summary.submit}
+          >
+            {t('wizard.summary.submit')}
+          </Button>
+        </Stack>
+      ) : null}
+    </Stack>
+  );
+}

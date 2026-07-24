@@ -5,6 +5,7 @@ import { LoginPage } from '@features/auth/pages/LoginPage';
 import { QuoteWizardProvider } from '@features/quote-wizard/context/QuoteWizardProvider';
 import { PersonalInfoStep } from '@features/quote-wizard/steps/personal/PersonalInfoStep';
 import { CoverageStep } from '@features/quote-wizard/steps/coverage/CoverageStep';
+import { SummaryStep } from '@features/quote-wizard/steps/summary/SummaryStep';
 
 function Providers() {
   return (
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
             children: [
               { path: 'quote/personal', element: <PersonalInfoStep /> },
               { path: 'quote/coverage', element: <CoverageStep /> },
+              { path: 'quote/summary', element: <SummaryStep /> },
             ],
           },
           { index: true, element: <Navigate to="/quotes" replace /> },
