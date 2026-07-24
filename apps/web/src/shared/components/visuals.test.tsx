@@ -45,20 +45,30 @@ function getRgbChannels(color: string) {
 
 function getContrastRatio(colorA: string, colorB: string) {
   const getLuminance = (color: string) => {
-    const [red, green, blue] = getRgbChannels(color).map((channel) => {
+    const channels = getRgbChannels(color).map((channel) => {
       const normalized = channel / 255;
 
       return normalized <= 0.03928
         ? normalized / 12.92
         : ((normalized + 0.055) / 1.055) ** 2.4;
     });
+    const [red, green, blue] = channels;
+
+    if (red == null || green == null || blue == null) {
+      throw new Error(`Expected three color channels for ${color}`);
+    }
 
     return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
   };
 
-  const [light, dark] = [getLuminance(colorA), getLuminance(colorB)].sort(
+  const luminances = [getLuminance(colorA), getLuminance(colorB)].sort(
     (left, right) => right - left
   );
+  const [light, dark] = luminances;
+
+  if (light == null || dark == null) {
+    throw new Error('Expected two luminance values to compare contrast.');
+  }
 
   return (light + 0.05) / (dark + 0.05);
 }
