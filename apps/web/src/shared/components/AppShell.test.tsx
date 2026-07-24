@@ -67,6 +67,10 @@ describe('AppShell', () => {
     expect(screen.getByRole('contentinfo')).toBeVisible();
     expect(screen.getByRole('link', { name: /support/i })).toBeVisible();
     expect(
+      screen.getByText(/contact your benefits administrator or employer/i)
+    ).toBeVisible();
+    expect(screen.queryByText(/support@clara\.com/i)).not.toBeInTheDocument();
+    expect(
       screen.getByRole('link', { name: /privacy & security/i })
     ).toBeVisible();
     expect(

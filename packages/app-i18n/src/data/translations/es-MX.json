@@ -27,7 +27,7 @@
       "support": "Soporte",
       "privacySecurity": "Privacidad y seguridad",
       "trustStatement": "Clara mantiene cada paso de la cotización en un flujo premium protegido.",
-      "supportContact": "¿Necesitas ayuda? Escribe a support@clara.com",
+      "supportContact": "Para recibir ayuda, contacta al administrador de beneficios o a tu empleador.",
       "privacySummary": "El acceso listo para passkeys y las sesiones seguras ayudan a proteger tu información mientras revisas cotizaciones.",
       "buildLabel": "Compilación · {{label}}"
     }

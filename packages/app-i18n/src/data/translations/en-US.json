@@ -27,7 +27,7 @@
       "support": "Support",
       "privacySecurity": "Privacy & security",
       "trustStatement": "Clara keeps every quote step in a protected, premium workflow.",
-      "supportContact": "Need help? Email support@clara.com",
+      "supportContact": "For help, contact your benefits administrator or employer.",
       "privacySummary": "Passkey-ready sign-in and secure sessions help protect your information while you review quotes.",
       "buildLabel": "Build · {{label}}"
     }
