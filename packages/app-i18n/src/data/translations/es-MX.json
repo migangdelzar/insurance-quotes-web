@@ -1,0 +1,96 @@
+{
+  "common": {
+    "appName": "Cotizaciones de Seguro",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "retry": "Reintentar",
+    "loading": "Cargando…",
+    "networkError": "No se puede conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.",
+    "sessionExpired": "Tu sesión expiró. Inicia sesión de nuevo.",
+    "reference": " (ref: {{traceId}})",
+    "apiError": "No se pudo completar la solicitud.",
+    "currencyPrefix": "$",
+    "notAvailable": "—",
+    "skipToContent": "Saltar al contenido"
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "submit": "Entrar",
+      "passwordless": "Entrar con passkey",
+      "invalidCredentials": "Usuario o contraseña inválidos"
+    },
+    "mfa": {
+      "title": "Confirma con tu passkey",
+      "prompt": "Usa tu passkey para terminar de iniciar sesión."
+    },
+    "enroll": {
+      "title": "Protege tu cuenta",
+      "action": "Registrar un passkey",
+      "skip": "Ahora no"
+    }
+  },
+  "wizard": {
+    "progress": "Progreso de la cotización",
+    "personal": {
+      "title": "Información personal",
+      "name": "Nombre completo",
+      "email": "Correo electrónico",
+      "age": "Edad",
+      "zipCode": "Código postal",
+      "nameRequired": "El nombre es obligatorio",
+      "emailInvalid": "Ingresa un correo válido",
+      "ageRange": "La edad debe estar entre 18 y 120",
+      "zipFormat": "El código postal debe tener 5 dígitos"
+    },
+    "coverage": {
+      "title": "Selección de cobertura",
+      "basic": "Básica",
+      "standard": "Estándar",
+      "premium": "Premium",
+      "premiumLabel": "Prima mensual estimada",
+      "health": {
+        "title": "Preguntas de salud",
+        "preexisting": "¿Condiciones preexistentes?",
+        "conditions": "¿Cuáles condiciones?",
+        "diabetes": "Diabetes",
+        "heartDisease": "Enfermedad cardíaca",
+        "hypertension": "Hipertensión",
+        "cancerHistory": "Historial de cáncer",
+        "other": "Otra",
+        "prescription": "¿Medicamento con receta?",
+        "tobacco": "¿Consumo de tabaco?",
+        "spouse": "¿Cobertura para cónyuge?",
+        "yes": "Sí",
+        "no": "No"
+      }
+    },
+    "summary": {
+      "title": "Revisar y enviar",
+      "submit": "Enviar cotización",
+      "success": "Tu cotización se envió con éxito.",
+      "failure": "El envío falló. Tu cotización quedó guardada y puedes reintentar.",
+      "checking": "Confirmando el estado del envío…"
+    }
+  },
+  "quotesList": {
+    "title": "Mis cotizaciones",
+    "empty": "Aún no hay cotizaciones. ¡Comienza la primera!",
+    "startQuote": "Iniciar cotización",
+    "statusDraft": "Borrador",
+    "statusSubmitted": "Enviada",
+    "statusFailed": "Envío fallido",
+    "statusExpired": "Expirada"
+  },
+  "notFound": { "title": "Página no encontrada", "home": "Ir a cotizaciones" },
+  "errors": {
+    "QUOTE_NOT_FOUND": "Cotización no encontrada",
+    "QUOTE_INVALID_STATE_TRANSITION": "Esta cotización ya no permite esa acción",
+    "QUOTE_HEALTH_DATA_NOT_ALLOWED": "La información de salud aplica solo a mayores de 65",
+    "QUOTE_INCOMPLETE": "A la cotización le falta información",
+    "INSURER_UNAVAILABLE": "La aseguradora no pudo procesar el envío",
+    "EXPIRED": "Esta cotización expiró. Inicia una nueva."
+  }
+}

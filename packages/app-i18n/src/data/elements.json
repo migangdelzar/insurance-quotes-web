@@ -1,0 +1,102 @@
+{
+  "common": {
+    "appName": "app-title",
+    "next": "btn-next",
+    "back": "btn-back",
+    "retry": "btn-retry",
+    "loading": "loading-indicator",
+    "networkError": "network-error",
+    "sessionExpired": "session-expired",
+    "reference": "error-reference",
+    "apiError": "api-error",
+    "currencyPrefix": "currency-prefix",
+    "notAvailable": "not-available",
+    "skipToContent": "skip-to-content"
+  },
+  "layout": {
+    "main": "main-content"
+  },
+  "auth": {
+    "login": {
+      "title": "login-title",
+      "username": "login-username",
+      "password": "login-password",
+      "submit": "login-submit",
+      "passwordless": "login-passkey",
+      "invalidCredentials": "login-error"
+    },
+    "mfa": {
+      "title": "mfa-title",
+      "prompt": "mfa-prompt"
+    },
+    "enroll": {
+      "title": "enroll-title",
+      "action": "enroll-passkey",
+      "skip": "enroll-skip"
+    }
+  },
+  "wizard": {
+    "progress": "wizard-progress",
+    "personal": {
+      "title": "wizard-personal-title",
+      "name": "wizard-personal-name",
+      "email": "wizard-personal-email",
+      "age": "wizard-personal-age",
+      "zipCode": "wizard-personal-zip",
+      "nameRequired": "error-name-required",
+      "emailInvalid": "error-email-invalid",
+      "ageRange": "error-age-range",
+      "zipFormat": "error-zip-format"
+    },
+    "coverage": {
+      "title": "wizard-coverage-title",
+      "basic": "coverage-basic",
+      "standard": "coverage-standard",
+      "premium": "coverage-premium",
+      "premiumLabel": "premium-display",
+      "health": {
+        "title": "health-title",
+        "preexisting": "health-preexisting",
+        "conditions": "health-conditions",
+        "diabetes": "condition-diabetes",
+        "heartDisease": "condition-heart-disease",
+        "hypertension": "condition-hypertension",
+        "cancerHistory": "condition-cancer-history",
+        "other": "condition-other",
+        "prescription": "health-prescription",
+        "tobacco": "health-tobacco",
+        "spouse": "health-spouse",
+        "yes": "answer-yes",
+        "no": "answer-no"
+      }
+    },
+    "summary": {
+      "title": "wizard-summary-title",
+      "submit": "summary-submit",
+      "success": "submission-success",
+      "failure": "submission-failure",
+      "checking": "submission-checking"
+    }
+  },
+  "quotesList": {
+    "title": "quotes-list-title",
+    "empty": "quotes-empty-state",
+    "startQuote": "btn-start-quote",
+    "statusDraft": "quote-status-draft",
+    "statusSubmitted": "quote-status-submitted",
+    "statusFailed": "quote-status-failed",
+    "statusExpired": "quote-status-expired"
+  },
+  "notFound": {
+    "title": "not-found-title",
+    "home": "not-found-home"
+  },
+  "errors": {
+    "QUOTE_NOT_FOUND": "err-quote-not-found",
+    "QUOTE_INVALID_STATE_TRANSITION": "err-invalid-state",
+    "QUOTE_HEALTH_DATA_NOT_ALLOWED": "err-health-not-allowed",
+    "QUOTE_INCOMPLETE": "err-incomplete",
+    "INSURER_UNAVAILABLE": "err-insurer",
+    "EXPIRED": "err-expired"
+  }
+}

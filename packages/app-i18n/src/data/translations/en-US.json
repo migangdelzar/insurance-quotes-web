@@ -1,0 +1,96 @@
+{
+  "common": {
+    "appName": "Insurance Quotes",
+    "next": "Next",
+    "back": "Back",
+    "retry": "Retry",
+    "loading": "Loading…",
+    "networkError": "Can't reach the server. Check your connection and try again.",
+    "sessionExpired": "Your session expired. Please sign in again.",
+    "reference": " (ref: {{traceId}})",
+    "apiError": "The request could not be completed.",
+    "currencyPrefix": "$",
+    "notAvailable": "—",
+    "skipToContent": "Skip to content"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "username": "Username",
+      "password": "Password",
+      "submit": "Sign in",
+      "passwordless": "Sign in with a passkey",
+      "invalidCredentials": "Invalid username or password"
+    },
+    "mfa": {
+      "title": "Confirm with your passkey",
+      "prompt": "Use your passkey to finish signing in."
+    },
+    "enroll": {
+      "title": "Protect your account",
+      "action": "Register a passkey",
+      "skip": "Not now"
+    }
+  },
+  "wizard": {
+    "progress": "Quote progress",
+    "personal": {
+      "title": "Personal information",
+      "name": "Full name",
+      "email": "Email",
+      "age": "Age",
+      "zipCode": "Zip code",
+      "nameRequired": "Name is required",
+      "emailInvalid": "Enter a valid email",
+      "ageRange": "Age must be between 18 and 120",
+      "zipFormat": "Zip code must be 5 digits"
+    },
+    "coverage": {
+      "title": "Coverage selection",
+      "basic": "Basic",
+      "standard": "Standard",
+      "premium": "Premium",
+      "premiumLabel": "Estimated monthly premium",
+      "health": {
+        "title": "Health questions",
+        "preexisting": "Pre-existing conditions?",
+        "conditions": "Which conditions?",
+        "diabetes": "Diabetes",
+        "heartDisease": "Heart disease",
+        "hypertension": "Hypertension",
+        "cancerHistory": "Cancer history",
+        "other": "Other",
+        "prescription": "Prescription medication?",
+        "tobacco": "Tobacco use?",
+        "spouse": "Spouse coverage?",
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "summary": {
+      "title": "Review and submit",
+      "submit": "Submit quote",
+      "success": "Your quote was submitted successfully.",
+      "failure": "Submission failed. Your quote was saved and you can retry.",
+      "checking": "Confirming submission status…"
+    }
+  },
+  "quotesList": {
+    "title": "My quotes",
+    "empty": "No quotes yet. Start your first one!",
+    "startQuote": "Start a quote",
+    "statusDraft": "Draft",
+    "statusSubmitted": "Submitted",
+    "statusFailed": "Submission failed",
+    "statusExpired": "Expired"
+  },
+  "notFound": { "title": "Page not found", "home": "Go to quotes" },
+  "errors": {
+    "QUOTE_NOT_FOUND": "Quote not found",
+    "QUOTE_INVALID_STATE_TRANSITION": "This quote no longer allows that action",
+    "QUOTE_HEALTH_DATA_NOT_ALLOWED": "Health information applies only to applicants over 65",
+    "QUOTE_INCOMPLETE": "The quote is missing required information",
+    "INSURER_UNAVAILABLE": "The insurer could not process the submission",
+    "EXPIRED": "This quote expired. Please start a new one."
+  }
+}
