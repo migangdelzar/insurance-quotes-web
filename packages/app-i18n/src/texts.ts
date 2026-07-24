@@ -31,6 +31,8 @@ export const texts = {
       es: 'No se pudo completar la solicitud.',
       testId: 'api-error',
     },
+    currencyPrefix: { en: '$', es: '$', testId: 'currency-prefix' },
+    notAvailable: { en: '—', es: '—', testId: 'not-available' },
   },
   auth: {
     login: {
