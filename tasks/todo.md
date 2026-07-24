@@ -1,7 +1,7 @@
 # Premium fintech web redesign
 
-- [ ] Implement Task 1: luxury-fintech theme and primitives.
-- [ ] Review Task 1 and resolve all Important/Critical findings.
+- [x] Implement Task 1: luxury-fintech theme and primitives (`04ccd34`, `168d26e`).
+- [x] Review Task 1 and resolve all Important/Critical findings (approved).
 - [ ] Implement Task 2: shared application shell.
 - [ ] Review Task 2 and resolve all Important/Critical findings.
 - [ ] Implement Task 3: authentication redesign.
