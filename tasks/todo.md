@@ -3,7 +3,7 @@
 - [x] Implement Task 1: luxury-fintech theme and primitives (`04ccd34`, `168d26e`).
 - [x] Review Task 1 and resolve all Important/Critical findings (approved).
 - [x] Implement Task 2: shared application shell.
-- [ ] Review Task 2 and resolve all Important/Critical findings.
+- [x] Review Task 2 and resolve all Important/Critical findings (placeholder support copy removed; approved).
 - [ ] Implement Task 3: authentication redesign.
 - [ ] Review Task 3 and resolve all Important/Critical findings.
 - [ ] Implement Task 4: quotes dashboard redesign.
@@ -50,4 +50,4 @@
 - [x] Run focused shell tests plus relevant existing web verification, and fix any new issues.
 - [x] Run lint/build checks relevant to the touched surface.
 - [x] Write `.superpowers/sdd/task-2-report.md` with commands, evidence, changed files, self-review, and concerns.
-- [ ] Commit Task 2 with a conventional commit message.
+- [x] Commit Task 2 with conventional commits (`e5752d0`, `3141fd6`, `9610ab0`).
