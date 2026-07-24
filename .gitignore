@@ -7,3 +7,4 @@ mise.local.toml
 *.tsbuildinfo
 test-results/
 playwright-report/
+.superpowers/
