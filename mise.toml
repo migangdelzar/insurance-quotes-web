@@ -1,0 +1,23 @@
+[tools]
+bun = "1"
+node = "22"
+
+[env]
+VITE_API_BASE_URL = "http://localhost:8080"
+
+[tasks.dev]
+run = "bun run dev"
+[tasks.build]
+run = "bun run build"
+[tasks.test]
+run = "bun run test"
+[tasks.e2e]
+run = "bun run e2e"
+[tasks.lint]
+run = "bun run lint"
+[tasks.format]
+run = "bun run format"
+[tasks.contract]
+run = "bun run contract"
+[tasks.setup]
+run = "mise install && bun install"

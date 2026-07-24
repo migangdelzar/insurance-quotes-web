@@ -1,0 +1,28 @@
+{
+  "name": "insurance-quotes-web",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "e2e"
+  ],
+  "scripts": {
+    "dev": "bun run --filter web dev",
+    "build": "bun run --filter '*' build",
+    "test": "bun run --filter '*' test",
+    "e2e": "bun run --filter e2e test",
+    "lint": "bun run --filter '*' lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "contract": "bun run --filter @clara/api-contract generate",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "eslint": "^9.17.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.4.2"
+  }
+}

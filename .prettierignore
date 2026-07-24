@@ -1,0 +1,4 @@
+dist/
+coverage/
+bun.lock
+packages/api-contract/src/generated/
