@@ -1,0 +1,14 @@
+{
+  "extends": "@clara/build-config/tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@features/*": ["src/features/*"],
+      "@pages/*": ["src/pages/*"],
+      "@shared/*": ["src/shared/*"]
+    },
+    "types": ["vite/client", "@testing-library/jest-dom"]
+  },
+  "include": ["src"]
+}
