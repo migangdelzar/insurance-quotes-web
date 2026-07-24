@@ -7,7 +7,7 @@ The web app uses the browser's preferred languages to select `en-US` or `es-MX` 
 Run unit/build checks with `bun run test`, `bun run build`, and `bun run lint`. With the service stack running, run the browser layout audit at 320, 375, 768, and 1280 pixels:
 
 ```bash
-E2E_BASE_URL=http://localhost:3000 bunx playwright test tests/responsive-layout.spec.ts --project=desktop-chromium
+E2E_BASE_URL=http://localhost:3100 bunx playwright test tests/responsive-layout.spec.ts --project=desktop-chromium
 ```
 
 The audit checks document overflow, critical login controls, and keyboard visibility of the skip link. Screenshots can be captured with Playwright for visual review; pixel snapshots are intentionally not required.
@@ -28,7 +28,7 @@ For the integrated reviewer flow, start the backend’s full-stack Compose overl
 
 ```bash
 cd ../insurance-quotes-service
-mise run up jvm full                # API :8080 and nginx frontend :3000
+mise run up jvm full                # API :8080 and nginx frontend :3100
 mise run up jvm full e2e            # also WireMock :8089
 ```
 
@@ -41,7 +41,7 @@ bun run test
 bun run lint
 bun run build
 bun run format:check
-E2E_BASE_URL=http://localhost:3000 bun run e2e
+E2E_BASE_URL=http://localhost:3100 bun run e2e
 ```
 
 The Playwright suite requires the backend full-stack E2E overlay. It covers standard adult submission, the senior health-question path and worked-example premium, insurer failure/retry, and WebAuthn enrollment/MFA/passwordless flows. The mobile-tagged journeys run with the Pixel 7 project.
@@ -103,5 +103,5 @@ mise run up jvm full
 Then run browser tests from this repository after adding the E2E overlay:
 
 ```bash
-E2E_BASE_URL=http://localhost:3000 bun run e2e
+E2E_BASE_URL=http://localhost:3100 bun run e2e
 ```

@@ -7,7 +7,7 @@ export default defineConfig({
   timeout: 60_000,
   retries: 1,
   use: {
-    baseURL: process.env.E2E_BASE_URL ?? 'http://localhost:3000',
+    baseURL: process.env.E2E_BASE_URL ?? 'http://localhost:3100',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
