@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { alpha, createTheme } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -151,6 +151,8 @@ theme = createTheme(theme, {
       styleOverrides: {
         ':root': {
           colorScheme: 'light',
+          '--clara-focus-ring-inner': theme.palette.surface.main,
+          '--clara-focus-ring-outer': theme.palette.primary.main,
         },
         '*, *::before, *::after': {
           boxSizing: 'border-box',
@@ -169,9 +171,11 @@ theme = createTheme(theme, {
         '#root': {
           minHeight: '100vh',
         },
-        '*:focus-visible': {
-          outline: `2px solid ${theme.palette.secondary.main}`,
-          outlineOffset: '3px',
+        '*:focus-visible, *[data-focus-visible-added]': {
+          outline: '2px solid transparent',
+          outlineOffset: '2px',
+          boxShadow:
+            '0 0 0 2px var(--clara-focus-ring-inner), 0 0 0 4px var(--clara-focus-ring-outer)',
         },
         '@media (prefers-reduced-motion: reduce)': {
           'html:focus-within': {
@@ -211,8 +215,8 @@ theme = createTheme(theme, {
       styleOverrides: {
         root: {
           backgroundImage: 'none',
-          border: '1px solid rgba(27, 29, 33, 0.08)',
-          boxShadow: '0 8px 24px rgba(27, 29, 33, 0.05)',
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
+          boxShadow: `0 8px 24px ${alpha(theme.palette.primary.main, 0.05)}`,
         },
       },
     },

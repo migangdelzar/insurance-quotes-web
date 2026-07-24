@@ -16,7 +16,6 @@ export function PageIntro({
 }: PageIntroProps) {
   return (
     <Stack
-      component="section"
       spacing={2}
       sx={{
         width: '100%',

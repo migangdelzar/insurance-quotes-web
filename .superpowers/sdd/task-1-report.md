@@ -157,3 +157,131 @@ This covered:
 
 - The new primitives are created and tested, but most user-facing pages still use their existing layouts until later redesign tasks integrate them.
 - Browser verification for Task 1 was limited to the existing login responsive flow because broader shell/dashboard redesign is scheduled for later tasks.
+
+---
+
+## Review fix follow-up: Important findings resolved
+
+Date: 2026-07-24
+
+### Review scope addressed
+
+- accessible shared keyboard focus indicator on light and dark surfaces
+- rendered-behavior Testing Library coverage for shared primitives
+- shared theme-token derivation for `Surface` and `StatusBadge`
+- `PageIntro` root semantics cleanup
+
+### Changed files
+
+- `apps/web/src/shared/theme/theme.ts`
+- `apps/web/src/shared/components/visuals.test.tsx`
+- `apps/web/src/shared/components/Surface.tsx`
+- `apps/web/src/shared/components/StatusBadge.tsx`
+- `apps/web/src/shared/components/PageIntro.tsx`
+- `.superpowers/sdd/task-1-report.md`
+
+### TDD evidence
+
+#### RED
+
+Command:
+
+```bash
+bun run --filter web test -- src/shared/components/visuals.test.tsx
+```
+
+Observed failures:
+
+```text
+× shared visual primitives > renders keyboard focus with an observable accessible ring on light and dark surfaces
+  Expected two ring colors in box-shadow:
+
+× shared visual primitives > renders a page intro with an accessible level-one heading in a generic container
+  expected 'SECTION' to be 'DIV'
+
+× shared visual primitives > derives the gold surface tone styles from shared theme tokens
+  expected 'rgba(200, 166, 106, 0.16)' to be 'rgba(128, 90, 213, 0.16)'
+
+× shared visual primitives > derives submitted status styling from shared theme tokens
+  expected styling to follow the overridden success token
+```
+
+Root-cause notes:
+
+- the global focus rule still used the low-contrast gold outline
+- `PageIntro` still rendered a `section`
+- `Surface` gold tone still depended on local RGBA values
+- `StatusBadge` still depended on component-local status colors
+
+#### GREEN
+
+Command:
+
+```bash
+bun run --filter web test -- src/shared/components/visuals.test.tsx
+```
+
+Observed result:
+
+```text
+✓ src/shared/components/visuals.test.tsx (7 tests)
+Test Files  1 passed (1)
+Tests  7 passed (7)
+```
+
+### Verification
+
+#### Lint
+
+Command:
+
+```bash
+bun run --filter web lint
+```
+
+Observed result:
+
+```text
+✖ 3 problems (0 errors, 3 warnings)
+```
+
+Warnings remained pre-existing `react-refresh/only-export-components` warnings in:
+
+- `apps/web/src/app/routes.tsx`
+- `apps/web/src/features/auth/context/AuthProvider.tsx`
+- `apps/web/src/features/quote-wizard/context/QuoteWizardProvider.tsx`
+
+#### Responsive/browser check
+
+Command:
+
+```bash
+E2E_BASE_URL=http://localhost:3100 bun run --filter e2e test tests/responsive-layout.spec.ts --project=desktop-chromium
+```
+
+Observed result:
+
+```text
+✓ login remains usable at 320px
+✓ login remains usable at 375px
+✓ login remains usable at 768px
+✓ login remains usable at 1280px
+4 passed (2.6s)
+```
+
+### What changed
+
+- replaced the gold-only global focus outline with shared two-tone focus ring tokens exposed through CSS variables in the shared theme baseline
+- made the focus ring observable in tests through rendered DOM/computed-style checks and verified contrast against both light and dark rendered surfaces
+- replaced config-only visual assertions with rendered assertions for focus styling, `PageIntro`, `Surface`, `StatusBadge`, and `BrandMark`
+- made `Surface` tone colors derive from shared theme palette tokens with `alpha(...)`
+- made `StatusBadge` tone colors derive from shared theme palette tokens with `alpha(...)`
+- changed `PageIntro` to use the default non-landmark container
+
+### Self-review
+
+- Kept the fix inside the reviewed shared theme/primitives and the existing Task 1 report.
+- Did not change routes, reducers, auth, API behavior, or existing test IDs.
+- Kept the primitive APIs unchanged while moving styling decisions into shared theme tokens.
+- Verified the focus ring behavior with rendered DOM assertions instead of theme-object inspection.
+- Left the existing lint warnings untouched because they predate this task and are outside the review scope.

@@ -1,3 +1,4 @@
+import { alpha } from '@mui/material/styles';
 import type { ReactNode } from 'react';
 import { Paper, type PaperProps } from '@mui/material';
 
@@ -12,17 +13,17 @@ const toneStyles: Record<SurfaceTone, Pick<PaperProps, 'sx'>['sx']> = {
   default: (theme) => ({
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
-    borderColor: 'rgba(27, 29, 33, 0.08)',
+    borderColor: alpha(theme.palette.primary.main, 0.08),
   }),
   dark: (theme) => ({
     backgroundColor: theme.palette.charcoal.main,
     color: theme.palette.charcoal.contrastText,
-    borderColor: 'rgba(248, 244, 236, 0.12)',
+    borderColor: alpha(theme.palette.charcoal.contrastText, 0.12),
   }),
   gold: (theme) => ({
-    backgroundColor: 'rgba(200, 166, 106, 0.16)',
+    backgroundColor: alpha(theme.palette.gold.main, 0.16),
     color: theme.palette.text.primary,
-    borderColor: 'rgba(200, 166, 106, 0.42)',
+    borderColor: alpha(theme.palette.gold.main, 0.42),
   }),
 };
 
