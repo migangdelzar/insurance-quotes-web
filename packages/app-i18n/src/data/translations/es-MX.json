@@ -13,6 +13,25 @@
     "notAvailable": "—",
     "skipToContent": "Saltar al contenido"
   },
+  "layout": {
+    "secureSessionAnonymous": "Acceso seguro",
+    "secureSessionAuthenticated": "Sesión segura",
+    "secureSessionDefault": "Experiencia protegida",
+    "languageLabel": "Idioma",
+    "languages": {
+      "en-US": "English",
+      "es-MX": "Español"
+    },
+    "signOut": "Cerrar sesión",
+    "footer": {
+      "support": "Soporte",
+      "privacySecurity": "Privacidad y seguridad",
+      "trustStatement": "Clara mantiene cada paso de la cotización en un flujo premium protegido.",
+      "supportContact": "¿Necesitas ayuda? Escribe a support@clara.com",
+      "privacySummary": "El acceso listo para passkeys y las sesiones seguras ayudan a proteger tu información mientras revisas cotizaciones.",
+      "buildLabel": "Compilación · {{label}}"
+    }
+  },
   "auth": {
     "login": {
       "title": "Iniciar sesión",
