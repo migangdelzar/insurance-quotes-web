@@ -21,6 +21,16 @@ export const texts = {
       es: 'Tu sesión expiró. Inicia sesión de nuevo.',
       testId: 'session-expired',
     },
+    reference: {
+      en: ' (ref: {{traceId}})',
+      es: ' (ref: {{traceId}})',
+      testId: 'error-reference',
+    },
+    apiError: {
+      en: 'The request could not be completed.',
+      es: 'No se pudo completar la solicitud.',
+      testId: 'api-error',
+    },
   },
   auth: {
     login: {
