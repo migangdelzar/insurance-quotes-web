@@ -1,6 +1,6 @@
 import { Container } from '@mui/material';
 import { Outlet } from 'react-router';
-import { tid, testIds } from '@clara/app-i18n';
+import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
 
 export function App() {
@@ -10,7 +10,7 @@ export function App() {
     <>
       <a
         href={`#${tid('layout.main')}`}
-        data-testid={testIds.common.skipToContent}
+        data-testid={tid('common.skipToContent')}
       >
         {t('common.skipToContent')}
       </a>

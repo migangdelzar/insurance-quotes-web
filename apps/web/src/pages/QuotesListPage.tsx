@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { testIds } from '@clara/app-i18n';
+import { tid } from '@clara/app-i18n';
 import type { QuoteStatus } from '@clara/api-contract';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -30,15 +30,15 @@ export function QuotesListPage() {
 
   return (
     <Stack spacing={2}>
-      <Typography variant="h5" data-testid={testIds.quotesList.title}>
+      <Typography variant="h5" data-testid={tid('quotesList.title')}>
         {t('quotesList.title')}
       </Typography>
       {quotes.isPending ? (
-        <Skeleton height={120} data-testid={testIds.common.loading} />
+        <Skeleton height={120} data-testid={tid('common.loading')} />
       ) : null}
       {quotes.isError ? <ApiErrorAlert error={quotes.error} /> : null}
       {quotes.isSuccess && quotes.data.length === 0 ? (
-        <Alert severity="info" data-testid={testIds.quotesList.empty}>
+        <Alert severity="info" data-testid={tid('quotesList.empty')}>
           {t('quotesList.empty')}
         </Alert>
       ) : null}
@@ -66,7 +66,7 @@ export function QuotesListPage() {
       <Button
         variant="contained"
         onClick={() => void navigate('/quote/personal')}
-        data-testid={testIds.quotesList.startQuote}
+        data-testid={tid('quotesList.startQuote')}
       >
         {t('quotesList.startQuote')}
       </Button>

@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { testIds } from '@clara/app-i18n';
+import { tid } from '@clara/app-i18n';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { PremiumDisplay } from '@features/quote-wizard/components/PremiumDisplay';
@@ -54,7 +54,7 @@ export function SummaryStep() {
         variant="h5"
         tabIndex={-1}
         ref={headingRef}
-        data-testid={testIds.wizard.summary.title}
+        data-testid={tid('wizard.summary.title')}
       >
         {t('wizard.summary.title')}
       </Typography>
@@ -76,14 +76,14 @@ export function SummaryStep() {
         <Stack direction="row" spacing={2}>
           <Button
             onClick={() => void navigate('/quote/coverage')}
-            data-testid={testIds.common.back}
+            data-testid={tid('common.back')}
           >
             {t('common.back')}
           </Button>
           <Button
             variant="contained"
             onClick={submit}
-            data-testid={testIds.wizard.summary.submit}
+            data-testid={tid('wizard.summary.submit')}
           >
             {t('wizard.summary.submit')}
           </Button>

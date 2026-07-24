@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { I18nextProvider } from 'react-i18next';
 import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { testIds } from '@clara/app-i18n';
+import { tid } from '@clara/app-i18n';
 import i18n from '@app/i18n';
 import * as quoteApi from '@features/quote-wizard/api/quoteApi';
 import { QuoteWizardProvider } from '@features/quote-wizard/context/QuoteWizardProvider';
@@ -35,7 +35,7 @@ describe('PersonalInfoStep', () => {
   it('shows validation errors and blocks next on invalid data', async () => {
     renderStep();
 
-    await userEvent.click(screen.getByTestId(testIds.common.next));
+    await userEvent.click(screen.getByTestId(tid('common.next')));
 
     await waitFor(() => {
       expect(
@@ -53,19 +53,19 @@ describe('PersonalInfoStep', () => {
     renderStep();
 
     await userEvent.type(
-      screen.getByTestId(testIds.wizard.personal.name),
+      screen.getByTestId(tid('wizard.personal.name')),
       'Jane Roe'
     );
     await userEvent.type(
-      screen.getByTestId(testIds.wizard.personal.email),
+      screen.getByTestId(tid('wizard.personal.email')),
       'jane@example.com'
     );
-    await userEvent.type(screen.getByTestId(testIds.wizard.personal.age), '34');
+    await userEvent.type(screen.getByTestId(tid('wizard.personal.age')), '34');
     await userEvent.type(
-      screen.getByTestId(testIds.wizard.personal.zipCode),
+      screen.getByTestId(tid('wizard.personal.zipCode')),
       '06600'
     );
-    await userEvent.click(screen.getByTestId(testIds.common.next));
+    await userEvent.click(screen.getByTestId(tid('common.next')));
 
     await waitFor(() => {
       expect(quoteApi.createQuote).toHaveBeenCalledWith({

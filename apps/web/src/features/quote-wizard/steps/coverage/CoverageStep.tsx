@@ -1,7 +1,7 @@
 import { Button, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, Typography } from '@mui/material';
 import { COVERAGE_TYPES } from '@clara/api-contract';
 import type { CoverageType } from '@clara/api-contract';
-import { testIds } from '@clara/app-i18n';
+import { tid } from '@clara/app-i18n';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import type { InputHTMLAttributes } from 'react';
@@ -14,9 +14,9 @@ import { HealthQuestionsSection } from './HealthQuestionsSection';
 import { useDebouncedCoverageSync } from './useDebouncedCoverageSync';
 
 const coverageTestIds: Record<CoverageType, string> = {
-  BASIC: testIds.wizard.coverage.basic,
-  STANDARD: testIds.wizard.coverage.standard,
-  PREMIUM: testIds.wizard.coverage.premium,
+  BASIC: tid('wizard.coverage.basic'),
+  STANDARD: tid('wizard.coverage.standard'),
+  PREMIUM: tid('wizard.coverage.premium'),
 };
 
 export function CoverageStep() {
@@ -35,7 +35,7 @@ export function CoverageStep() {
   return (
     <div>
       <WizardProgress activeStep={1} />
-      <Typography component="h1" variant="h5" gutterBottom tabIndex={-1} ref={headingRef} data-testid={testIds.wizard.coverage.title}>{t('wizard.coverage.title')}</Typography>
+      <Typography component="h1" variant="h5" gutterBottom tabIndex={-1} ref={headingRef} data-testid={tid('wizard.coverage.title')}>{t('wizard.coverage.title')}</Typography>
       {error ? <ApiErrorAlert error={error} /> : null}
       <Stack spacing={3}>
         <div>
@@ -49,8 +49,8 @@ export function CoverageStep() {
         {isSenior ? <HealthQuestionsSection coverage={state.coverage} onChange={(coverage) => dispatch({ type: 'COVERAGE_CHANGED', coverage })} /> : null}
         <PremiumDisplay premium={state.premium} updating={updating} />
         <Stack direction="row" spacing={2}>
-          <Button onClick={() => void navigate('/quote/personal')} data-testid={testIds.common.back}>{t('common.back')}</Button>
-          <Button variant="contained" disabled={!state.coverage.coverageType || updating} onClick={() => void navigate('/quote/summary')} data-testid={testIds.common.next}>{t('common.next')}</Button>
+          <Button onClick={() => void navigate('/quote/personal')} data-testid={tid('common.back')}>{t('common.back')}</Button>
+          <Button variant="contained" disabled={!state.coverage.coverageType || updating} onClick={() => void navigate('/quote/summary')} data-testid={tid('common.next')}>{t('common.next')}</Button>
         </Stack>
       </Stack>
     </div>

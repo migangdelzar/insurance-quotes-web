@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup, Stack, Typography } from '@mui/material';
 import { HEALTH_CONDITIONS } from '@clara/api-contract';
 import type { HealthCondition } from '@clara/api-contract';
-import { testIds } from '@clara/app-i18n';
+import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
 import type { InputHTMLAttributes } from 'react';
 import type { CoverageData } from '@features/quote-wizard/context/wizardReducer';
@@ -9,11 +9,11 @@ import type { CoverageData } from '@features/quote-wizard/context/wizardReducer'
 type Props = { coverage: CoverageData; onChange: (next: CoverageData) => void };
 
 const conditionTestIds: Record<HealthCondition, string> = {
-  DIABETES: testIds.wizard.coverage.health.diabetes,
-  HEART_DISEASE: testIds.wizard.coverage.health.heartDisease,
-  HYPERTENSION: testIds.wizard.coverage.health.hypertension,
-  CANCER_HISTORY: testIds.wizard.coverage.health.cancerHistory,
-  OTHER: testIds.wizard.coverage.health.other,
+  DIABETES: tid('wizard.coverage.health.diabetes'),
+  HEART_DISEASE: tid('wizard.coverage.health.heartDisease'),
+  HYPERTENSION: tid('wizard.coverage.health.hypertension'),
+  CANCER_HISTORY: tid('wizard.coverage.health.cancerHistory'),
+  OTHER: tid('wizard.coverage.health.other'),
 };
 
 const conditionLabelKeys: Record<HealthCondition, string> = {
@@ -60,12 +60,12 @@ export function HealthQuestionsSection({ coverage, onChange }: Props) {
 
   return (
     <Stack spacing={2}>
-      <Typography variant="h6" data-testid={testIds.wizard.coverage.health.title}>
+      <Typography variant="h6" data-testid={tid('wizard.coverage.health.title')}>
         {t('wizard.coverage.health.title')}
       </Typography>
-      <YesNoQuestion labelKey="wizard.coverage.health.preexisting" testId={testIds.wizard.coverage.health.preexisting} value={coverage.hasPreexistingConditions} onAnswer={(answer) => onChange({ ...coverage, hasPreexistingConditions: answer, conditions: answer ? coverage.conditions : [] })} />
+      <YesNoQuestion labelKey="wizard.coverage.health.preexisting" testId={tid('wizard.coverage.health.preexisting')} value={coverage.hasPreexistingConditions} onAnswer={(answer) => onChange({ ...coverage, hasPreexistingConditions: answer, conditions: answer ? coverage.conditions : [] })} />
       {coverage.hasPreexistingConditions === true ? (
-        <FormGroup data-testid={testIds.wizard.coverage.health.conditions}>
+        <FormGroup data-testid={tid('wizard.coverage.health.conditions')}>
           <FormLabel>{t('wizard.coverage.health.conditions')}</FormLabel>
           {HEALTH_CONDITIONS.map((condition) => (
             <FormControlLabel
@@ -76,9 +76,9 @@ export function HealthQuestionsSection({ coverage, onChange }: Props) {
           ))}
         </FormGroup>
       ) : null}
-      <YesNoQuestion labelKey="wizard.coverage.health.prescription" testId={testIds.wizard.coverage.health.prescription} value={coverage.takesPrescriptionMedication} onAnswer={(answer) => onChange({ ...coverage, takesPrescriptionMedication: answer })} />
-      <YesNoQuestion labelKey="wizard.coverage.health.tobacco" testId={testIds.wizard.coverage.health.tobacco} value={coverage.usesTobacco} onAnswer={(answer) => onChange({ ...coverage, usesTobacco: answer })} />
-      <YesNoQuestion labelKey="wizard.coverage.health.spouse" testId={testIds.wizard.coverage.health.spouse} value={coverage.needsSpouseCoverage} onAnswer={(answer) => onChange({ ...coverage, needsSpouseCoverage: answer })} />
+      <YesNoQuestion labelKey="wizard.coverage.health.prescription" testId={tid('wizard.coverage.health.prescription')} value={coverage.takesPrescriptionMedication} onAnswer={(answer) => onChange({ ...coverage, takesPrescriptionMedication: answer })} />
+      <YesNoQuestion labelKey="wizard.coverage.health.tobacco" testId={tid('wizard.coverage.health.tobacco')} value={coverage.usesTobacco} onAnswer={(answer) => onChange({ ...coverage, usesTobacco: answer })} />
+      <YesNoQuestion labelKey="wizard.coverage.health.spouse" testId={tid('wizard.coverage.health.spouse')} value={coverage.needsSpouseCoverage} onAnswer={(answer) => onChange({ ...coverage, needsSpouseCoverage: answer })} />
     </Stack>
   );
 }

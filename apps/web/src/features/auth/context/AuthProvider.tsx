@@ -14,9 +14,11 @@ import * as authApi from '../api/authApi';
 const REFRESH_KEY = 'iq.refreshToken';
 
 type SessionState = 'anonymous' | 'mfa-pending' | 'authenticated';
+type AuthenticationMethod = 'password' | 'mfa' | 'passkey' | 'refresh' | null;
 
 type AuthContextValue = {
   sessionState: SessionState;
+  authenticationMethod: AuthenticationMethod;
   isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<void>;
   completeMfa: () => Promise<void>;
@@ -29,13 +31,20 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [sessionState, setSessionState] = useState<SessionState>('anonymous');
+  const [authenticationMethod, setAuthenticationMethod] =
+    useState<AuthenticationMethod>(null);
   const accessTokenRef = useRef<string | null>(null);
   const mfaTokenRef = useRef<string | null>(null);
 
   const storeTokens = useCallback(
-    (accessToken: string, refreshToken: string) => {
+    (
+      accessToken: string,
+      refreshToken: string,
+      method: AuthenticationMethod
+    ) => {
       accessTokenRef.current = accessToken;
       sessionStorage.setItem(REFRESH_KEY, refreshToken);
+      setAuthenticationMethod(method);
       setSessionState('authenticated');
     },
     []
@@ -55,7 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     try {
       const pair = await authApi.refresh(stored);
-      storeTokens(pair.accessToken ?? '', pair.refreshToken ?? '');
+      storeTokens(pair.accessToken ?? '', pair.refreshToken ?? '', 'refresh');
     } catch {
       clearSession();
     }
@@ -80,7 +89,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       storeTokens(
         response.tokens?.accessToken ?? '',
-        response.tokens?.refreshToken ?? ''
+        response.tokens?.refreshToken ?? '',
+        'password'
       );
     },
     [storeTokens]
@@ -89,12 +99,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const completeMfa = useCallback(async () => {
     const pair = await authApi.assertPasskey(mfaTokenRef.current ?? undefined);
     mfaTokenRef.current = null;
-    storeTokens(pair.accessToken ?? '', pair.refreshToken ?? '');
+    storeTokens(pair.accessToken ?? '', pair.refreshToken ?? '', 'mfa');
   }, [storeTokens]);
 
   const loginWithPasskey = useCallback(async () => {
     const pair = await authApi.assertPasskey();
-    storeTokens(pair.accessToken ?? '', pair.refreshToken ?? '');
+    storeTokens(pair.accessToken ?? '', pair.refreshToken ?? '', 'passkey');
   }, [storeTokens]);
 
   const enrollPasskey = useCallback(() => authApi.registerPasskey(), []);
@@ -110,6 +120,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value = useMemo(
     () => ({
       sessionState,
+      authenticationMethod,
       isAuthenticated: sessionState === 'authenticated',
       login,
       completeMfa,
@@ -117,7 +128,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       enrollPasskey,
       logout,
     }),
-    [sessionState, login, completeMfa, loginWithPasskey, enrollPasskey, logout]
+    [
+      sessionState,
+      authenticationMethod,
+      login,
+      completeMfa,
+      loginWithPasskey,
+      enrollPasskey,
+      logout,
+    ]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,5 +1,5 @@
 import { Alert, Button, Stack } from '@mui/material';
-import { testIds } from '@clara/app-i18n';
+import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
 import { ApiErrorAlert } from '@shared/components/ApiErrorAlert';
 import type { SubmissionState } from '@features/quote-wizard/context/wizardReducer';
@@ -15,14 +15,14 @@ export function SubmissionResult({ submission, error, onRetry }: Props) {
 
   if (submission === 'succeeded') {
     return (
-      <Alert severity="success" data-testid={testIds.wizard.summary.success}>
+      <Alert severity="success" data-testid={tid('wizard.summary.success')}>
         {t('wizard.summary.success')}
       </Alert>
     );
   }
   if (submission === 'checking') {
     return (
-      <Alert severity="info" data-testid={testIds.wizard.summary.checking}>
+      <Alert severity="info" data-testid={tid('wizard.summary.checking')}>
         {t('wizard.summary.checking')}
       </Alert>
     );
@@ -30,14 +30,14 @@ export function SubmissionResult({ submission, error, onRetry }: Props) {
   if (submission === 'failed') {
     return (
       <Stack spacing={1}>
-        <Alert severity="error" data-testid={testIds.wizard.summary.failure}>
+        <Alert severity="error" data-testid={tid('wizard.summary.failure')}>
           {t('wizard.summary.failure')}
         </Alert>
         {error ? <ApiErrorAlert error={error} /> : null}
         <Button
           variant="outlined"
           onClick={onRetry}
-          data-testid={testIds.common.retry}
+          data-testid={tid('common.retry')}
         >
           {t('common.retry')}
         </Button>

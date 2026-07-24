@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { testIds } from '@clara/app-i18n';
+import { tid } from '@clara/app-i18n';
 import { ApiErrorAlert } from '@shared/components/ApiErrorAlert';
 import { useFocusHeading } from '@shared/hooks/useFocusHeading';
 import { createQuote } from '@features/quote-wizard/api/quoteApi';
@@ -62,7 +62,7 @@ export function PersonalInfoStep() {
         gutterBottom
         tabIndex={-1}
         ref={headingRef}
-        data-testid={testIds.wizard.personal.title}
+        data-testid={tid('wizard.personal.title')}
       >
         {t('wizard.personal.title')}
       </Typography>
@@ -70,14 +70,14 @@ export function PersonalInfoStep() {
       <Stack spacing={2}>
         <TextField
           label={t('wizard.personal.name')}
-          inputProps={{ 'data-testid': testIds.wizard.personal.name }}
+          inputProps={{ 'data-testid': tid('wizard.personal.name') }}
           error={Boolean(errorKey('name'))}
           helperText={errorKey('name') ? t(errorKey('name') ?? '') : undefined}
           {...form.register('name')}
         />
         <TextField
           label={t('wizard.personal.email')}
-          inputProps={{ 'data-testid': testIds.wizard.personal.email }}
+          inputProps={{ 'data-testid': tid('wizard.personal.email') }}
           error={Boolean(errorKey('email'))}
           helperText={
             errorKey('email') ? t(errorKey('email') ?? '') : undefined
@@ -87,14 +87,14 @@ export function PersonalInfoStep() {
         <TextField
           label={t('wizard.personal.age')}
           type="number"
-          inputProps={{ 'data-testid': testIds.wizard.personal.age }}
+          inputProps={{ 'data-testid': tid('wizard.personal.age') }}
           error={Boolean(errorKey('age'))}
           helperText={errorKey('age') ? t(errorKey('age') ?? '') : undefined}
           {...form.register('age', { valueAsNumber: true })}
         />
         <TextField
           label={t('wizard.personal.zipCode')}
-          inputProps={{ 'data-testid': testIds.wizard.personal.zipCode }}
+          inputProps={{ 'data-testid': tid('wizard.personal.zipCode') }}
           error={Boolean(errorKey('zipCode'))}
           helperText={
             errorKey('zipCode') ? t(errorKey('zipCode') ?? '') : undefined
@@ -105,7 +105,7 @@ export function PersonalInfoStep() {
           type="submit"
           variant="contained"
           disabled={creation.isPending}
-          data-testid={testIds.common.next}
+          data-testid={tid('common.next')}
         >
           {t('common.next')}
         </Button>

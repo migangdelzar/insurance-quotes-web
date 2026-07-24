@@ -6,7 +6,7 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import { testIds } from '@clara/app-i18n';
+import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthProvider';
 
@@ -25,22 +25,22 @@ export function PasskeyEnrollDialog({ open, onClose }: Props) {
     <Dialog
       open={open}
       onClose={onClose}
-      aria-labelledby={testIds.auth.enroll.title}
+      aria-labelledby={tid('auth.enroll.title')}
     >
-      <DialogTitle data-testid={testIds.auth.enroll.title}>
+      <DialogTitle data-testid={tid('auth.enroll.title')}>
         {t('auth.enroll.title')}
       </DialogTitle>
       <DialogContent>
         <Typography>{t('auth.mfa.prompt')}</Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} data-testid={testIds.auth.enroll.skip}>
+        <Button onClick={onClose} data-testid={tid('auth.enroll.skip')}>
           {t('auth.enroll.skip')}
         </Button>
         <Button
           variant="contained"
           onClick={() => void enroll()}
-          data-testid={testIds.auth.enroll.action}
+          data-testid={tid('auth.enroll.action')}
         >
           {t('auth.enroll.action')}
         </Button>

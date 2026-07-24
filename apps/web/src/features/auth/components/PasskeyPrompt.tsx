@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from '@mui/material';
-import { testIds } from '@clara/app-i18n';
+import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthProvider';
 
@@ -9,16 +9,16 @@ export function PasskeyPrompt() {
 
   return (
     <Stack spacing={2} alignItems="flex-start">
-      <Typography variant="h6" data-testid={testIds.auth.mfa.title}>
+      <Typography variant="h6" data-testid={tid('auth.mfa.title')}>
         {t('auth.mfa.title')}
       </Typography>
-      <Typography data-testid={testIds.auth.mfa.prompt}>
+      <Typography data-testid={tid('auth.mfa.prompt')}>
         {t('auth.mfa.prompt')}
       </Typography>
       <Button
         variant="contained"
         onClick={() => void completeMfa()}
-        data-testid={testIds.auth.login.passwordless}
+        data-testid={tid('auth.login.passwordless')}
       >
         {t('auth.login.passwordless')}
       </Button>
