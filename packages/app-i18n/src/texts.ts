@@ -33,6 +33,11 @@ export const texts = {
     },
     currencyPrefix: { en: '$', es: '$', testId: 'currency-prefix' },
     notAvailable: { en: '—', es: '—', testId: 'not-available' },
+    skipToContent: {
+      en: 'Skip to content',
+      es: 'Saltar al contenido',
+      testId: 'skip-to-content',
+    },
   },
   auth: {
     login: {

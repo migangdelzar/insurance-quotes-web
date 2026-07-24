@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { testIds } from '@clara/app-i18n';
 import { ApiErrorAlert } from '@shared/components/ApiErrorAlert';
+import { useFocusHeading } from '@shared/hooks/useFocusHeading';
 import { createQuote } from '@features/quote-wizard/api/quoteApi';
 import { useQuoteWizard } from '@features/quote-wizard/context/QuoteWizardProvider';
 import { WizardProgress } from '@features/quote-wizard/components/WizardProgress';
@@ -16,6 +17,7 @@ export function PersonalInfoStep() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { state, dispatch } = useQuoteWizard();
+  const headingRef = useFocusHeading<HTMLHeadingElement>();
   const form = useForm<PersonalFormValues>({
     resolver: yupResolver(personalSchema),
     defaultValues: state.personal ?? {
@@ -55,8 +57,11 @@ export function PersonalInfoStep() {
     <form onSubmit={onNext} noValidate>
       <WizardProgress activeStep={0} />
       <Typography
+        component="h1"
         variant="h5"
         gutterBottom
+        tabIndex={-1}
+        ref={headingRef}
         data-testid={testIds.wizard.personal.title}
       >
         {t('wizard.personal.title')}

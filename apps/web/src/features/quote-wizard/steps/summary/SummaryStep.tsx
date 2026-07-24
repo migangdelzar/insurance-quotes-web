@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { PremiumDisplay } from '@features/quote-wizard/components/PremiumDisplay';
 import { WizardProgress } from '@features/quote-wizard/components/WizardProgress';
 import { useQuoteWizard } from '@features/quote-wizard/context/QuoteWizardProvider';
+import { useFocusHeading } from '@shared/hooks/useFocusHeading';
 import { SubmissionResult } from './SubmissionResult';
 import { useSubmitQuote } from './useSubmitQuote';
 
@@ -20,6 +21,7 @@ export function SummaryStep() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { state, dispatch } = useQuoteWizard();
+  const headingRef = useFocusHeading<HTMLHeadingElement>();
   const { submit, submission, error } = useSubmitQuote(state, dispatch);
   const rows: Array<[string, string]> = [
     [
@@ -47,7 +49,13 @@ export function SummaryStep() {
   return (
     <Stack spacing={3}>
       <WizardProgress activeStep={2} />
-      <Typography variant="h5" data-testid={testIds.wizard.summary.title}>
+      <Typography
+        component="h1"
+        variant="h5"
+        tabIndex={-1}
+        ref={headingRef}
+        data-testid={testIds.wizard.summary.title}
+      >
         {t('wizard.summary.title')}
       </Typography>
       <List aria-label={t('wizard.summary.title')}>

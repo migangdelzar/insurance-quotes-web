@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import type { InputHTMLAttributes } from 'react';
 import { ApiErrorAlert } from '@shared/components/ApiErrorAlert';
+import { useFocusHeading } from '@shared/hooks/useFocusHeading';
 import { PremiumDisplay } from '@features/quote-wizard/components/PremiumDisplay';
 import { WizardProgress } from '@features/quote-wizard/components/WizardProgress';
 import { useQuoteWizard } from '@features/quote-wizard/context/QuoteWizardProvider';
@@ -22,6 +23,7 @@ export function CoverageStep() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { state, dispatch } = useQuoteWizard();
+  const headingRef = useFocusHeading<HTMLHeadingElement>();
   const { updating, error } = useDebouncedCoverageSync(state, dispatch);
   const isSenior = (state.personal?.age ?? 0) > 65;
 
@@ -33,7 +35,7 @@ export function CoverageStep() {
   return (
     <div>
       <WizardProgress activeStep={1} />
-      <Typography variant="h5" gutterBottom data-testid={testIds.wizard.coverage.title}>{t('wizard.coverage.title')}</Typography>
+      <Typography component="h1" variant="h5" gutterBottom tabIndex={-1} ref={headingRef} data-testid={testIds.wizard.coverage.title}>{t('wizard.coverage.title')}</Typography>
       {error ? <ApiErrorAlert error={error} /> : null}
       <Stack spacing={3}>
         <div>
