@@ -35,6 +35,17 @@
   "auth": {
     "login": {
       "title": "Iniciar sesión",
+      "eyebrow": "Cotizaciones de seguro Clara",
+      "brandHeadline": "Protección, con una perspectiva más clara.",
+      "brandDescription": "Diseña tu plan de cobertura con una experiencia guiada pensada para darte confianza.",
+      "trustTitle": "Una forma más pensada de protegerte",
+      "trust": {
+        "guided": "Los pasos guiados mantienen clara cada decisión.",
+        "secure": "El acceso con passkey hace simple el inicio de sesión.",
+        "private": "Tus datos permanecen dentro de tu sesión segura."
+      },
+      "description": "Usa tus credenciales de Clara para continuar a tu espacio de cotizaciones.",
+      "securityNote": "Tu sesión está protegida. También puedes usar un passkey para acceder más rápido.",
       "username": "Usuario",
       "password": "Contraseña",
       "submit": "Entrar",

@@ -4,7 +4,7 @@
 - [x] Review Task 1 and resolve all Important/Critical findings (approved).
 - [x] Implement Task 2: shared application shell.
 - [x] Review Task 2 and resolve all Important/Critical findings (placeholder support copy removed; approved).
-- [ ] Implement Task 3: authentication redesign.
+- [x] Implement Task 3: authentication redesign.
 - [ ] Review Task 3 and resolve all Important/Critical findings.
 - [ ] Implement Task 4: quotes dashboard redesign.
 - [ ] Review Task 4 and resolve all Important/Critical findings.
@@ -51,3 +51,13 @@
 - [x] Run lint/build checks relevant to the touched surface.
 - [x] Write `.superpowers/sdd/task-2-report.md` with commands, evidence, changed files, self-review, and concerns.
 - [x] Commit Task 2 with conventional commits (`e5752d0`, `3141fd6`, `9610ab0`).
+
+## Task 3 checklist
+
+- [x] Read the approved Task 3 brief, design, existing auth components, provider, routes, and i18n catalog.
+- [x] Add focused RED tests for premium brand/trust layout, auth controls, and accessible form descriptions.
+- [x] Run focused LoginPage tests in RED and confirm failures came from the missing redesign contract.
+- [x] Implement the responsive auth composition without changing auth handlers, routes, API calls, MFA, passkey, or selectors.
+- [x] Add localized auth brand/trust/security copy to both English and Spanish catalogs.
+- [x] Run auth tests, i18n tests/validation, lint, build, and responsive Playwright checks.
+- [x] Verify fresh runtime layout at 1280px (two columns) and 375px (single column) with no horizontal overflow.

@@ -35,6 +35,17 @@
   "auth": {
     "login": {
       "title": "Sign in",
+      "eyebrow": "Clara insurance quotes",
+      "brandHeadline": "Protection, with a clearer point of view.",
+      "brandDescription": "Build your coverage plan through a guided experience designed around your confidence.",
+      "trustTitle": "A more considered way to get covered",
+      "trust": {
+        "guided": "Guided steps keep every decision clear.",
+        "secure": "Passkey-ready access keeps sign-in simple.",
+        "private": "Your details stay within your secure session."
+      },
+      "description": "Use your Clara credentials to continue to your quote workspace.",
+      "securityNote": "Your session is protected. You can also use a passkey for faster access.",
       "username": "Username",
       "password": "Password",
       "submit": "Sign in",

@@ -5,7 +5,12 @@ import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthProvider';
 
-export function LoginForm() {
+type LoginFormProps = {
+  labelledBy?: string;
+  describedBy?: string;
+};
+
+export function LoginForm({ labelledBy, describedBy }: LoginFormProps) {
   const { t } = useTranslation();
   const { login, loginWithPasskey } = useAuth();
   const [username, setUsername] = useState('');
@@ -23,7 +28,12 @@ export function LoginForm() {
   };
 
   return (
-    <form onSubmit={submit} noValidate>
+    <form
+      onSubmit={submit}
+      noValidate
+      aria-labelledby={labelledBy}
+      aria-describedby={describedBy}
+    >
       <Stack spacing={2}>
         {error && (
           <Alert
