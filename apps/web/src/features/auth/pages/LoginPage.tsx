@@ -38,7 +38,9 @@ export function LoginPage() {
   };
 
   return (
-    <Paper sx={{ p: 3, maxWidth: 420, mx: 'auto' }}>
+    <Paper
+      sx={{ p: { xs: 2, sm: 3 }, maxWidth: 420, mx: 'auto', width: '100%' }}
+    >
       <Typography
         variant="h5"
         gutterBottom

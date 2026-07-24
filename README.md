@@ -1,5 +1,17 @@
 # insurance-quotes-web
 
+The web app uses the browser's preferred languages to select `en-US` or `es-MX` at startup. The selected locale is also sent to the service as `Accept-Language`, keeping localized API errors consistent with the visible UI. Unsupported browser preferences fall back to `en-US`.
+
+## Responsive verification
+
+Run unit/build checks with `bun run test`, `bun run build`, and `bun run lint`. With the service stack running, run the browser layout audit at 320, 375, 768, and 1280 pixels:
+
+```bash
+E2E_BASE_URL=http://localhost:3000 bunx playwright test tests/responsive-layout.spec.ts --project=desktop-chromium
+```
+
+The audit checks document overflow, critical login controls, and keyboard visibility of the skip link. Screenshots can be captured with Playwright for visual review; pixel snapshots are intentionally not required.
+
 React/Vite frontend for the insurance quote flow. It is organized by capability (`auth`, `quote-wizard`, and shared application concerns) and consumes the backend through the versioned API contract.
 
 Sibling backend: [insurance-quotes-service](../insurance-quotes-service)

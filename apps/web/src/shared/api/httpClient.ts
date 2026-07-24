@@ -1,10 +1,12 @@
 import { ApiRequestError, type FieldError } from './ApiRequestError';
+import { detectLocale, normalizeLocale } from '@app/locale';
 
 type HttpClientConfig = {
   baseUrl: string;
   getAccessToken: () => string | null;
   refreshSession: () => Promise<void>;
   onSessionExpired: () => void;
+  getLocale?: () => string;
 };
 
 type RequestInitLite = {
@@ -20,6 +22,7 @@ let config: HttpClientConfig = {
   getAccessToken: () => null,
   refreshSession: () => Promise.resolve(),
   onSessionExpired: () => undefined,
+  getLocale: detectLocale,
 };
 
 export function configureHttpClient(next: HttpClientConfig): void {
@@ -55,6 +58,7 @@ async function performFetch(
   const headers = new Headers({
     'Content-Type': 'application/json',
     'API-Version': '1.0',
+    'Accept-Language': normalizeLocale(config.getLocale?.()),
   });
   const token = config.getAccessToken();
   if (token) {

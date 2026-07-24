@@ -11,6 +11,18 @@ export function App() {
       <a
         href={`#${tid('layout.main')}`}
         data-testid={tid('common.skipToContent')}
+        style={{
+          position: 'absolute',
+          left: '-10000px',
+          top: 8,
+          zIndex: 1300,
+        }}
+        onFocus={(event) => {
+          event.currentTarget.style.left = '8px';
+        }}
+        onBlur={(event) => {
+          event.currentTarget.style.left = '-10000px';
+        }}
       >
         {t('common.skipToContent')}
       </a>
@@ -19,7 +31,11 @@ export function App() {
         id={tid('layout.main')}
         data-testid={tid('layout.main')}
         maxWidth="md"
-        sx={{ py: { xs: 2, md: 3 }, px: { xs: 1.5, md: 3 } }}
+        sx={{
+          py: { xs: 2, md: 3 },
+          px: { xs: 1.5, sm: 2.5, md: 3 },
+          minWidth: 0,
+        }}
       >
         <Outlet />
       </Container>

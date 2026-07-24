@@ -9,6 +9,7 @@ import {
 } from 'react';
 import type { ReactNode } from 'react';
 import { configureHttpClient } from '@shared/api/httpClient';
+import i18n from '@app/i18n';
 import * as authApi from '../api/authApi';
 
 const REFRESH_KEY = 'iq.refreshToken';
@@ -76,6 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       getAccessToken: () => accessTokenRef.current,
       refreshSession,
       onSessionExpired: clearSession,
+      getLocale: () => i18n.language,
     });
   }, [clearSession, refreshSession]);
 

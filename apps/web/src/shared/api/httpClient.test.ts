@@ -14,6 +14,7 @@ describe('httpClient', () => {
       getAccessToken: () => 'token-1',
       refreshSession,
       onSessionExpired,
+      getLocale: () => 'es-MX',
     });
   });
 
@@ -40,6 +41,7 @@ describe('httpClient', () => {
       'Bearer token-1'
     );
     expect(new Headers(init.headers).get('API-Version')).toBe('1.0');
+    expect(new Headers(init.headers).get('Accept-Language')).toBe('es-MX');
   });
 
   it('refreshes once after a 401 and retries', async () => {

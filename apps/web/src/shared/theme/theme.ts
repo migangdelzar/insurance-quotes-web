@@ -7,5 +7,13 @@ export const theme = createTheme({
   },
   components: {
     MuiTextField: { defaultProps: { fullWidth: true, size: 'small' } },
+    MuiListItemText: {
+      styleOverrides: {
+        root: {
+          minWidth: 0,
+          overflowWrap: 'anywhere',
+        },
+      },
+    },
   },
 });

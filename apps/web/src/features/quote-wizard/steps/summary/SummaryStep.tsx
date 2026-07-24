@@ -58,9 +58,17 @@ export function SummaryStep() {
       >
         {t('wizard.summary.title')}
       </Typography>
-      <List aria-label={t('wizard.summary.title')}>
+      <List
+        aria-label={t('wizard.summary.title')}
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))' },
+          gap: 1,
+          p: 0,
+        }}
+      >
         {rows.map(([label, value]) => (
-          <ListItem key={label}>
+          <ListItem key={label} sx={{ display: 'block', minWidth: 0, p: 1 }}>
             <ListItemText primary={label} secondary={value} />
           </ListItem>
         ))}
@@ -73,7 +81,11 @@ export function SummaryStep() {
         onRetry={submit}
       />
       {submission === 'idle' ? (
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={2}
+          sx={{ '& > *': { width: { xs: '100%', sm: 'auto' } } }}
+        >
           <Button
             onClick={() => void navigate('/quote/coverage')}
             data-testid={tid('common.back')}

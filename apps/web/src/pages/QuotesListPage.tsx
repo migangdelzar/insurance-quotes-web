@@ -43,7 +43,14 @@ export function QuotesListPage() {
         </Alert>
       ) : null}
       {quotes.isSuccess && quotes.data.length > 0 ? (
-        <List>
+        <List
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))' },
+            gap: 1,
+            p: 0,
+          }}
+        >
           {quotes.data.map((quote) => {
             const status = quote.status
               ? t(statusKeys[quote.status])
@@ -53,7 +60,7 @@ export function QuotesListPage() {
                 ? ''
                 : ` · ${t('common.currencyPrefix')}${quote.monthlyPremium}`;
             return (
-              <ListItem key={quote.id} divider>
+              <ListItem key={quote.id} divider sx={{ minWidth: 0, p: 1 }}>
                 <ListItemText
                   primary={`${quote.name ?? t('common.notAvailable')} — ${quote.coverageType ?? t('common.notAvailable')}`}
                   secondary={`${status}${premium}`}
@@ -65,6 +72,7 @@ export function QuotesListPage() {
       ) : null}
       <Button
         variant="contained"
+        fullWidth
         onClick={() => void navigate('/quote/personal')}
         data-testid={tid('quotesList.startQuote')}
       >

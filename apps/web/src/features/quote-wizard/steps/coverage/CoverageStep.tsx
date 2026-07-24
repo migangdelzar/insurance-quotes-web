@@ -48,7 +48,7 @@ export function CoverageStep() {
         </div>
         {isSenior ? <HealthQuestionsSection coverage={state.coverage} onChange={(coverage) => dispatch({ type: 'COVERAGE_CHANGED', coverage })} /> : null}
         <PremiumDisplay premium={state.premium} updating={updating} />
-        <Stack direction="row" spacing={2}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ '& > *': { width: { xs: '100%', sm: 'auto' } } }}>
           <Button onClick={() => void navigate('/quote/personal')} data-testid={tid('common.back')}>{t('common.back')}</Button>
           <Button variant="contained" disabled={!state.coverage.coverageType || updating} onClick={() => void navigate('/quote/summary')} data-testid={tid('common.next')}>{t('common.next')}</Button>
         </Stack>
