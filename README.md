@@ -34,6 +34,10 @@ mise run up jvm full e2e            # also WireMock :8089
 
 The production image is built from this repository’s `Dockerfile` and served by nginx. `VITE_API_BASE_URL` defaults to `http://localhost:8080` and can be supplied as a build argument or environment value.
 
+## GitHub Actions
+
+Frontend CI runs on every push and pull request. Runs are grouped by source branch and cancel older in-progress runs when a newer commit arrives. It installs the locked Bun dependencies, runs web tests, lint, formatting checks, the production build, and the four-viewport responsive browser audit.
+
 ## Tests and quality checks
 
 ```bash
