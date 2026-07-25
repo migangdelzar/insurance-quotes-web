@@ -27,6 +27,9 @@ describe('PremiumDisplay', () => {
 
   it('shows a loading state while updating', () => {
     renderDisplay('100.00', true);
+    expect(
+      screen.getByTestId(tid('wizard.coverage.premiumLabel'))
+    ).toHaveTextContent('$100.00');
     expect(screen.getByTestId(tid('common.loading'))).toBeInTheDocument();
   });
 

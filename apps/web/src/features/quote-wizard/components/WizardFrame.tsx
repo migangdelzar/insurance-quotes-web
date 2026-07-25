@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import type { TypographyProps } from '@mui/material';
+import { tid } from '@clara/app-i18n';
+import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { PageIntro } from '@shared/components/PageIntro';
 import { Surface } from '@shared/components/Surface';
@@ -44,6 +46,17 @@ export function WizardFrame({
   return (
     <Stack spacing={{ xs: 2.5, sm: 3 }} sx={{ width: '100%', minWidth: 0 }}>
       <WizardProgress activeStep={activeStep} />
+      <Stack direction="row" justifyContent="flex-start">
+        <Button
+          component={Link}
+          to="/quotes"
+          variant="outlined"
+          size="small"
+          data-testid={tid('wizard.backToQuotes')}
+        >
+          {t('wizard.backToQuotes')}
+        </Button>
+      </Stack>
       <Box
         sx={{
           display: 'grid',

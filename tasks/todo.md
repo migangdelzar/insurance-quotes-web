@@ -16,6 +16,14 @@
 - [x] Review Task 7 and resolve all Important/Critical findings.
 - [x] Run Task 8 final quality gate and whole-branch review.
 
+## Wizard interaction polish
+
+- [x] Reproduce the coverage-selection flicker and identify the pending Skeleton swap as the cause.
+- [x] Keep the current premium mounted while coverage synchronization is pending.
+- [x] Add a localized, route-safe button to return to the quotes page.
+- [x] Add focused regression coverage for both behaviors.
+- [x] Run the full web quality gate and verify the fresh runtime in a browser.
+
 ## Working notes
 
 - The feature branch is `feat-frontend`.

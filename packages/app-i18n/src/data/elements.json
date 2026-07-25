@@ -37,6 +37,7 @@
   },
   "wizard": {
     "progress": "wizard-progress",
+    "backToQuotes": "wizard-back-to-quotes",
     "personal": {
       "title": "wizard-personal-title",
       "name": "wizard-personal-name",

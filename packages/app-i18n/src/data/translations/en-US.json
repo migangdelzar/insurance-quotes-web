@@ -64,6 +64,7 @@
   },
   "wizard": {
     "progress": "Quote progress",
+    "backToQuotes": "Back to quotes",
     "personal": {
       "title": "Personal information",
       "description": "Start with a few details so we can shape the right quote for you.",

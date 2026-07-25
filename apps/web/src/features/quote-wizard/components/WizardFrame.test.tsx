@@ -1,6 +1,7 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import { I18nextProvider } from 'react-i18next';
+import { MemoryRouter } from 'react-router';
 import { describe, expect, it } from 'vitest';
 import { tid } from '@clara/app-i18n';
 import i18n from '@app/i18n';
@@ -9,20 +10,22 @@ import { WizardFrame } from './WizardFrame';
 
 function renderFrame() {
   return render(
-    <I18nextProvider i18n={i18n}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <WizardFrame
-          activeStep={1}
-          title="Coverage selection"
-          titleProps={{ 'data-testid': tid('wizard.coverage.title') }}
-          description="Choose the protection that fits your plan."
-          aside={<span>Private and secure</span>}
-        >
-          <div>Form</div>
-        </WizardFrame>
-      </ThemeProvider>
-    </I18nextProvider>
+    <MemoryRouter initialEntries={['/quote/coverage']}>
+      <I18nextProvider i18n={i18n}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <WizardFrame
+            activeStep={1}
+            title="Coverage selection"
+            titleProps={{ 'data-testid': tid('wizard.coverage.title') }}
+            description="Choose the protection that fits your plan."
+            aside={<span>Private and secure</span>}
+          >
+            <div>Form</div>
+          </WizardFrame>
+        </ThemeProvider>
+      </I18nextProvider>
+    </MemoryRouter>
   );
 }
 
@@ -56,5 +59,13 @@ describe('WizardFrame', () => {
       'data-testid',
       tid('wizard.coverage.title')
     );
+  });
+
+  it('provides a route-safe way back to the quotes page', () => {
+    renderFrame();
+
+    expect(
+      screen.getByRole('link', { name: 'Back to quotes' })
+    ).toHaveAttribute('href', '/quotes');
   });
 });

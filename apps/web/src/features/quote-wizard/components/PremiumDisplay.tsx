@@ -1,4 +1,4 @@
-import { Skeleton, Stack, Typography } from '@mui/material';
+import { CircularProgress, Stack, Typography } from '@mui/material';
 import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
 import { Surface } from '@shared/components/Surface';
@@ -10,18 +10,22 @@ export function PremiumDisplay({ premium, updating }: Props) {
 
   return (
     <Surface tone="gold" sx={{ textAlign: 'center' }}>
-      <Stack spacing={0.5} alignItems="center" aria-live="polite">
+      <Stack
+        spacing={0.5}
+        alignItems="center"
+        aria-live="polite"
+        aria-busy={updating}
+      >
         <Typography variant="overline" color="text.secondary">
           {t('wizard.coverage.premiumLabel')}
         </Typography>
-        {updating ? (
-          <Skeleton
-            width={120}
-            height={48}
-            sx={{ mx: 'auto' }}
-            data-testid={tid('common.loading')}
-          />
-        ) : (
+        <Stack
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          justifyContent="center"
+          sx={{ minHeight: 48 }}
+        >
           <Typography
             variant="h4"
             data-testid={tid('wizard.coverage.premiumLabel')}
@@ -30,7 +34,14 @@ export function PremiumDisplay({ premium, updating }: Props) {
               ? `${t('common.currencyPrefix')}${premium}`
               : t('common.notAvailable')}
           </Typography>
-        )}
+          {updating && (
+            <CircularProgress
+              size={16}
+              aria-label={t('common.loading')}
+              data-testid={tid('common.loading')}
+            />
+          )}
+        </Stack>
       </Stack>
     </Surface>
   );

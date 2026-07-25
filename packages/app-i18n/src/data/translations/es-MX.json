@@ -64,6 +64,7 @@
   },
   "wizard": {
     "progress": "Progreso de la cotización",
+    "backToQuotes": "Volver a cotizaciones",
     "personal": {
       "title": "Información personal",
       "description": "Comienza con algunos datos para crear la cotización adecuada para ti.",

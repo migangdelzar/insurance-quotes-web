@@ -108,6 +108,10 @@ test('premium shell preserves the standard quote journey on mobile @mobile', asy
     'tabindex',
     '-1'
   );
+  await expect(page.getByTestId(tid('wizard.backToQuotes'))).toHaveAttribute(
+    'href',
+    '/quotes'
+  );
   await page.getByTestId(tid('wizard.coverage.standard')).check();
   await expect(
     page.getByTestId(tid('wizard.coverage.premiumLabel'))
