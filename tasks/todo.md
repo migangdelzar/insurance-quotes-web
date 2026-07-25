@@ -12,9 +12,9 @@
 - [x] Review Task 5 and resolve all Important/Critical findings (step selectors preserved on focusable headings; re-review clean).
 - [x] Implement Task 6: localization and not-found copy (`aee046d`).
 - [x] Review Task 6 and resolve all Important/Critical findings.
-- [ ] Implement Task 7: browser/accessibility verification.
-- [ ] Review Task 7 and resolve all Important/Critical findings.
-- [ ] Run Task 8 final quality gate and whole-branch review.
+- [x] Implement Task 7: browser/accessibility verification (`a68a715`).
+- [x] Review Task 7 and resolve all Important/Critical findings.
+- [x] Run Task 8 final quality gate and whole-branch review.
 
 ## Working notes
 
@@ -90,3 +90,16 @@
 - [x] Preserve existing not-found selectors and `/quotes` route.
 - [x] Run not-found/i18n tests, validation, lint, and build.
 - [x] Record RED/GREEN evidence in `.superpowers/sdd/task-6-report.md`.
+
+## Task 7 checklist
+
+- [x] Add isolated premium-shell Playwright coverage for standard mobile and senior desktop journeys.
+- [x] Verify fresh-bundle login/dashboard responsiveness at 320, 375, 768, 1024, and 1280 pixels.
+- [x] Run real integrated standard, senior, failure/retry, and passkey journeys in mutation-safe order.
+- [x] Record the fresh-port CORS constraint and passkey shared-state behavior in `.superpowers/sdd/task-7-report.md`.
+
+## Task 8 checklist
+
+- [x] Run formatting, lint, web tests, package tests, E2E typecheck, and production build.
+- [x] Review changed frontend, i18n, and E2E files for selector, copy, and contract regressions.
+- [x] Update the plan, working notes, and lessons with verification evidence.

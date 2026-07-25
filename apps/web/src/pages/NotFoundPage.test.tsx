@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { I18nextProvider } from 'react-i18next';
 import { MemoryRouter } from 'react-router';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -23,6 +23,7 @@ function renderPage() {
 
 describe('NotFoundPage', () => {
   afterEach(async () => {
+    cleanup();
     await i18n.changeLanguage('en-US');
   });
 

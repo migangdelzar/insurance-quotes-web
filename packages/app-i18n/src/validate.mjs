@@ -3,7 +3,8 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const directory = dirname(fileURLToPath(import.meta.url));
-const readJson = (path) => JSON.parse(readFileSync(resolve(directory, path), 'utf8'));
+const readJson = (path) =>
+  JSON.parse(readFileSync(resolve(directory, path), 'utf8'));
 const elements = readJson('data/elements.json');
 const enUS = readJson('data/translations/en-US.json');
 const esMX = readJson('data/translations/es-MX.json');
@@ -62,7 +63,9 @@ function checkElements(node, path = '') {
     if (isObject(value) && typeof value.testId === 'string') {
       checkTestId(value.testId, fullPath);
       if (value.i18nKey && typeof getValue(enUS, value.i18nKey) !== 'string') {
-        console.error(`INVALID: ${fullPath} references missing ${value.i18nKey}`);
+        console.error(
+          `INVALID: ${fullPath} references missing ${value.i18nKey}`
+        );
         exitCode = 1;
       }
       continue;
@@ -73,7 +76,9 @@ function checkElements(node, path = '') {
       continue;
     }
 
-    console.error(`INVALID: ${fullPath} must define a testId or an object containing one`);
+    console.error(
+      `INVALID: ${fullPath} must define a testId or an object containing one`
+    );
     exitCode = 1;
   }
 }
@@ -81,5 +86,6 @@ function checkElements(node, path = '') {
 checkTranslationKeys(enUS, esMX);
 checkElements(elements);
 
-if (exitCode === 0) console.log('All locale keys, element references, and testIds are valid.');
+if (exitCode === 0)
+  console.log('All locale keys, element references, and testIds are valid.');
 process.exit(exitCode);

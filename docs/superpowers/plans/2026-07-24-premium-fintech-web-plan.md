@@ -392,6 +392,8 @@ git commit -m "feat(i18n): add premium shell and dashboard copy"
 
 ## Task 7: Browser, accessibility, and visual verification
 
+**Status:** ✅ Done — commit `a68a715`; fresh-bundle responsive/premium-shell checks and all four ordered integrated journeys pass. The aggregate E2E suite was intentionally not used after passkey mutation because the demo user remains in MFA state.
+
 **Files:**
 
 - Modify: `e2e/tests/responsive-layout.spec.ts`
@@ -450,6 +452,8 @@ git commit -m "test(web): verify premium shell journeys and accessibility"
 
 ## Task 8: Full quality gate and handoff
 
+**Status:** ✅ Done — formatting, lint, 54 web tests, package/E2E checks, and production build pass; known warnings are documented below.
+
 - [ ] **Step 1: Run formatting, lint, unit tests, and build**
 
 ```bash
@@ -485,9 +489,9 @@ Expected: clean working tree and remote tip at the final redesign commit.
 
 ## Definition of Done
 
-- [ ] Shared header, footer, shell, login, dashboard, and wizard have the approved luxury-fintech treatment.
-- [ ] English and Spanish locales contain all new visible copy.
-- [ ] Existing authentication and quote journeys pass unchanged.
-- [ ] Responsive and accessibility browser checks pass.
-- [ ] Unit tests, lint, formatting, and production build pass.
-- [ ] Commits are focused, pushed to `feat-frontend`, and the plan is marked complete.
+- [x] Shared header, footer, shell, login, dashboard, and wizard have the approved luxury-fintech treatment.
+- [x] English and Spanish locales contain all new visible copy.
+- [x] Existing authentication and quote journeys pass unchanged.
+- [x] Responsive and accessibility browser checks pass.
+- [x] Unit tests, lint, formatting, and production build pass.
+- [x] Commits are focused, pushed to `feat-frontend`, and the plan is marked complete.
