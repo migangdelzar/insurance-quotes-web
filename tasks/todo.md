@@ -30,7 +30,7 @@
 - [x] Configure Vite and Nginx to proxy `/api/*` to the backend while preserving backend routes.
 - [x] Make `/api` the safe frontend API default and update Compose build configuration.
 - [x] Verify mocked browser journeys, responsive dashboard coverage, lint, typecheck, and build.
-- [ ] Rebuild the full Docker stack and verify the production Nginx proxy end to end.
+- [x] Rebuild the full Docker stack and verify the production Nginx proxy end to end.
 
 ## Working notes
 
