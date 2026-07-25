@@ -48,6 +48,8 @@ e2e/tests/journey-standard.spec.ts                          # preserved happy pa
 
 ## Task 1: Build the luxury-fintech theme and primitives
 
+**Status:** ✅ Done — commits `04ccd34` and `168d26e`; review clean.
+
 **Files:**
 
 - Modify: `apps/web/src/shared/theme/theme.ts`
@@ -125,6 +127,8 @@ git commit -m "feat(web): add luxury fintech theme primitives"
 
 ## Task 2: Add the shared application shell
 
+**Status:** ✅ Done — commits `e5752d0`, `3141fd6`, and `9610ab0`; review clean.
+
 **Files:**
 
 - Create: `apps/web/src/shared/components/AppShell.tsx`
@@ -190,6 +194,8 @@ git commit -m "feat(web): add responsive application shell"
 
 ## Task 3: Redesign authentication without changing auth behavior
 
+**Status:** ✅ Done — commits `78d1ae0` and `5ceb403`; review clean.
+
 **Files:**
 
 - Modify: `apps/web/src/features/auth/pages/LoginPage.tsx`
@@ -235,6 +241,8 @@ git commit -m "feat(web): redesign authentication experience"
 ```
 
 ## Task 4: Redesign the quotes dashboard
+
+**Status:** ✅ Done — commits `b430801`, `49be93d`, and `725d54e`; review clean.
 
 **Files:**
 
