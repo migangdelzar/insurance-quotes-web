@@ -46,11 +46,8 @@ export function SummaryStep() {
   return (
     <WizardFrame
       activeStep={2}
-      title={
-        <span data-testid={tid('wizard.summary.title')}>
-          {t('wizard.summary.title')}
-        </span>
-      }
+      title={t('wizard.summary.title')}
+      titleProps={{ 'data-testid': tid('wizard.summary.title') }}
       description={t('wizard.summary.description')}
     >
       <Stack spacing={3}>

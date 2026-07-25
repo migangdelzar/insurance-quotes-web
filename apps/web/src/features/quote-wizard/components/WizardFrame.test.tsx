@@ -15,6 +15,7 @@ function renderFrame() {
         <WizardFrame
           activeStep={1}
           title="Coverage selection"
+          titleProps={{ 'data-testid': tid('wizard.coverage.title') }}
           description="Choose the protection that fits your plan."
           aside={<span>Private and secure</span>}
         >
@@ -46,5 +47,14 @@ describe('WizardFrame', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: 'Coverage selection' })
     ).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('keeps the step selector on the focusable heading', () => {
+    renderFrame();
+
+    expect(screen.getByRole('heading', { level: 1 })).toHaveAttribute(
+      'data-testid',
+      tid('wizard.coverage.title')
+    );
   });
 });

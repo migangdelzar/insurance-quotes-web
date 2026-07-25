@@ -33,7 +33,8 @@ export function CoverageStep() {
   return (
     <WizardFrame
       activeStep={1}
-      title={<span data-testid={tid('wizard.coverage.title')}>{t('wizard.coverage.title')}</span>}
+      title={t('wizard.coverage.title')}
+      titleProps={{ 'data-testid': tid('wizard.coverage.title') }}
       description={t('wizard.coverage.description')}
     >
       {error ? <ApiErrorAlert error={error} /> : null}

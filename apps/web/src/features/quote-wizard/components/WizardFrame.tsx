@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
+import type { TypographyProps } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { PageIntro } from '@shared/components/PageIntro';
 import { Surface } from '@shared/components/Surface';
@@ -9,6 +10,7 @@ import { WizardProgress } from './WizardProgress';
 type WizardFrameProps = {
   activeStep: 0 | 1 | 2;
   title: ReactNode;
+  titleProps?: TypographyProps;
   description?: ReactNode;
   children: ReactNode;
   aside?: ReactNode;
@@ -17,6 +19,7 @@ type WizardFrameProps = {
 export function WizardFrame({
   activeStep,
   title,
+  titleProps,
   description,
   children,
   aside,
@@ -58,7 +61,7 @@ export function WizardFrame({
             title={title}
             description={description}
             titleRef={headingRef}
-            titleProps={{ tabIndex: -1 }}
+            titleProps={{ ...titleProps, tabIndex: -1 }}
           />
           {children}
         </Surface>

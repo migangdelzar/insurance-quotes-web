@@ -54,11 +54,8 @@ export function PersonalInfoStep() {
   return (
     <WizardFrame
       activeStep={0}
-      title={
-        <span data-testid={tid('wizard.personal.title')}>
-          {t('wizard.personal.title')}
-        </span>
-      }
+      title={t('wizard.personal.title')}
+      titleProps={{ 'data-testid': tid('wizard.personal.title') }}
       description={t('wizard.personal.description')}
     >
       <form onSubmit={onNext} noValidate>
