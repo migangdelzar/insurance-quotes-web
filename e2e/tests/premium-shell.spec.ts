@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import type { Page, Route } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
 
-const API = 'http://localhost:8080';
+const API = '**/api';
 
 async function mockQuoteApi(page: Page) {
   await page.route(`${API}/auth/login`, async (route: Route) => {
@@ -92,6 +92,12 @@ async function login(page: Page) {
 test('premium shell preserves the standard quote journey on mobile @mobile', async ({
   page,
 }) => {
+  const sameOriginApiRequests: string[] = [];
+  page.on('request', (request) => {
+    if (new URL(request.url()).pathname.startsWith('/api/')) {
+      sameOriginApiRequests.push(request.url());
+    }
+  });
   await mockQuoteApi(page);
   await page.setViewportSize({ width: 375, height: 800 });
   await login(page);
@@ -120,6 +126,12 @@ test('premium shell preserves the standard quote journey on mobile @mobile', asy
   await page.getByTestId(tid('wizard.summary.submit')).click();
   await expect(page.getByTestId(tid('wizard.summary.success'))).toBeVisible();
   await expect(page.getByRole('contentinfo')).toBeVisible();
+  expect(sameOriginApiRequests.length).toBeGreaterThan(0);
+  expect(
+    sameOriginApiRequests.every(
+      (url) => new URL(url).origin === new URL(page.url()).origin
+    )
+  ).toBe(true);
 });
 
 test('premium shell preserves the senior health path on desktop', async ({

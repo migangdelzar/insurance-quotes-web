@@ -32,7 +32,7 @@ mise run up jvm full                # API :8080 and nginx frontend :3100
 mise run up jvm full e2e            # also WireMock :8089
 ```
 
-The production image is built from this repository’s `Dockerfile` and served by nginx. `VITE_API_BASE_URL` defaults to `http://localhost:8080` and can be supplied as a build argument or environment value.
+The production image is built from this repository’s `Dockerfile` and served by nginx. The browser uses the same-origin `/api` base path; nginx serves the SPA and proxies `/api/*` to the backend container. `VITE_API_BASE_URL` defaults to `/api` and can be supplied as a build argument or environment value.
 
 ## GitHub Actions
 

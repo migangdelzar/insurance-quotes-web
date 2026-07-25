@@ -24,6 +24,14 @@
 - [x] Add focused regression coverage for both behaviors.
 - [x] Run the full web quality gate and verify the fresh runtime in a browser.
 
+## Same-origin frontend proxy
+
+- [x] Add a failing browser contract proving API requests use the frontend origin.
+- [x] Configure Vite and Nginx to proxy `/api/*` to the backend while preserving backend routes.
+- [x] Make `/api` the safe frontend API default and update Compose build configuration.
+- [x] Verify mocked browser journeys, responsive dashboard coverage, lint, typecheck, and build.
+- [ ] Rebuild the full Docker stack and verify the production Nginx proxy end to end.
+
 ## Working notes
 
 - The feature branch is `feat-frontend`.

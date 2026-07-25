@@ -73,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     configureHttpClient({
-      baseUrl: import.meta.env.VITE_API_BASE_URL ?? '',
+      baseUrl: import.meta.env.VITE_API_BASE_URL ?? '/api',
       getAccessToken: () => accessTokenRef.current,
       refreshSession,
       onSessionExpired: clearSession,

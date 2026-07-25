@@ -22,7 +22,7 @@ const quotes: QuoteView[] = [
 
 for (const width of viewports) {
   test(`dashboard remains usable at ${width}px`, async ({ page }) => {
-    await page.route('http://localhost:8080/auth/login', async (route) => {
+    await page.route('**/api/auth/login', async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -36,7 +36,7 @@ for (const width of viewports) {
         }),
       });
     });
-    await page.route('http://localhost:8080/quotes', async (route) => {
+    await page.route('**/api/quotes', async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
