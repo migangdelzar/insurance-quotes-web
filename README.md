@@ -20,9 +20,11 @@ Sibling backend: [insurance-quotes-service](../insurance-quotes-service)
 
 ```bash
 mise run setup
-bun run dev                         # http://localhost:5173
+bun run dev                         # Vite + HMR at http://localhost:5173
 bun run build                       # production workspace build
 ```
+
+The Vite development server keeps hot-module replacement enabled on port `5173`. It proxies the same-origin `/api/*` requests to `http://localhost:8080`, so local debugging uses the same browser/API boundary as the production Nginx image without requiring browser CORS.
 
 For the integrated reviewer flow, start the backend’s full-stack Compose overlay from the sibling repository:
 

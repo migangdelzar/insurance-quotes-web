@@ -32,6 +32,12 @@
 - [x] Verify mocked browser journeys, responsive dashboard coverage, lint, typecheck, and build.
 - [x] Rebuild the full Docker stack and verify the production Nginx proxy end to end.
 
+## Vite debugging server
+
+- [x] Keep Vite HMR enabled with a predictable port and host binding.
+- [x] Preserve the `/api` development proxy while debugging the full flow locally.
+- [x] Verify the Vite client, HMR WebSocket, and API proxy from a running dev server.
+
 ## Working notes
 
 - The feature branch is `feat-frontend`.
