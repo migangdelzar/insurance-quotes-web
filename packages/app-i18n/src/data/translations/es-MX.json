@@ -66,6 +66,7 @@
     "progress": "Progreso de la cotización",
     "personal": {
       "title": "Información personal",
+      "description": "Comienza con algunos datos para crear la cotización adecuada para ti.",
       "name": "Nombre completo",
       "email": "Correo electrónico",
       "age": "Edad",
@@ -77,6 +78,7 @@
     },
     "coverage": {
       "title": "Selección de cobertura",
+      "description": "Compara tus opciones y mira cómo cambia la estimación mientras defines tu plan.",
       "basic": "Básica",
       "standard": "Estándar",
       "premium": "Premium",
@@ -99,10 +101,16 @@
     },
     "summary": {
       "title": "Revisar y enviar",
+      "description": "Revisa tus datos una última vez antes de enviar tu cotización.",
       "submit": "Enviar cotización",
       "success": "Tu cotización se envió con éxito.",
       "failure": "El envío falló. Tu cotización quedó guardada y puedes reintentar.",
       "checking": "Confirmando el estado del envío…"
+    },
+    "reassurance": {
+      "eyebrow": "Estándar Clara",
+      "title": "Una forma más tranquila de protegerte",
+      "description": "Tus datos permanecen en un flujo seguro mientras comparas tus opciones."
     }
   },
   "quotesList": {

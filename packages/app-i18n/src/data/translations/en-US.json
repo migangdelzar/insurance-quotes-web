@@ -66,6 +66,7 @@
     "progress": "Quote progress",
     "personal": {
       "title": "Personal information",
+      "description": "Start with a few details so we can shape the right quote for you.",
       "name": "Full name",
       "email": "Email",
       "age": "Age",
@@ -77,6 +78,7 @@
     },
     "coverage": {
       "title": "Coverage selection",
+      "description": "Compare your options and see an estimate update as your plan takes shape.",
       "basic": "Basic",
       "standard": "Standard",
       "premium": "Premium",
@@ -99,10 +101,16 @@
     },
     "summary": {
       "title": "Review and submit",
+      "description": "Take one final look at your details before you send your quote.",
       "submit": "Submit quote",
       "success": "Your quote was submitted successfully.",
       "failure": "Submission failed. Your quote was saved and you can retry.",
       "checking": "Confirming submission status…"
+    },
+    "reassurance": {
+      "eyebrow": "Clara standard",
+      "title": "A calmer path to cover",
+      "description": "Your details stay in a secure flow while you compare your options."
     }
   },
   "quotesList": {

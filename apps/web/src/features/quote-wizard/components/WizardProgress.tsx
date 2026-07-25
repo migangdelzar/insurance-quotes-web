@@ -26,6 +26,8 @@ export function WizardProgress({ activeStep }: Props) {
       orientation={isNarrow ? 'vertical' : 'horizontal'}
       sx={{ mb: 3 }}
       data-testid={tid('wizard.progress')}
+      component="nav"
+      aria-label={t('wizard.progress')}
     >
       {labels.map((label, index) => (
         <Step

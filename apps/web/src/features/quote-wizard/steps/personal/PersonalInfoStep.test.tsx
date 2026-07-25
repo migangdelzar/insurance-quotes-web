@@ -1,3 +1,4 @@
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -9,6 +10,7 @@ import i18n from '@app/i18n';
 import * as quoteApi from '@features/quote-wizard/api/quoteApi';
 import { QuoteWizardProvider } from '@features/quote-wizard/context/QuoteWizardProvider';
 import { PersonalInfoStep } from './PersonalInfoStep';
+import { theme } from '@shared/theme/theme';
 
 vi.mock('../../api/quoteApi');
 
@@ -18,13 +20,16 @@ function renderStep() {
   });
   return render(
     <I18nextProvider i18n={i18n}>
-      <MemoryRouter>
-        <QueryClientProvider client={queryClient}>
-          <QuoteWizardProvider>
-            <PersonalInfoStep />
-          </QuoteWizardProvider>
-        </QueryClientProvider>
-      </MemoryRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <MemoryRouter>
+          <QueryClientProvider client={queryClient}>
+            <QuoteWizardProvider>
+              <PersonalInfoStep />
+            </QuoteWizardProvider>
+          </QueryClientProvider>
+        </MemoryRouter>
+      </ThemeProvider>
     </I18nextProvider>
   );
 }

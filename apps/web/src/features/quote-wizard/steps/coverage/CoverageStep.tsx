@@ -1,4 +1,4 @@
-import { Button, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, Typography } from '@mui/material';
+import { Button, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from '@mui/material';
 import { COVERAGE_TYPES } from '@clara/api-contract';
 import type { CoverageType } from '@clara/api-contract';
 import { tid } from '@clara/app-i18n';
@@ -6,9 +6,8 @@ import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import type { InputHTMLAttributes } from 'react';
 import { ApiErrorAlert } from '@shared/components/ApiErrorAlert';
-import { useFocusHeading } from '@shared/hooks/useFocusHeading';
 import { PremiumDisplay } from '@features/quote-wizard/components/PremiumDisplay';
-import { WizardProgress } from '@features/quote-wizard/components/WizardProgress';
+import { WizardFrame } from '@features/quote-wizard/components/WizardFrame';
 import { useQuoteWizard } from '@features/quote-wizard/context/QuoteWizardProvider';
 import { HealthQuestionsSection } from './HealthQuestionsSection';
 import { useDebouncedCoverageSync } from './useDebouncedCoverageSync';
@@ -23,7 +22,6 @@ export function CoverageStep() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { state, dispatch } = useQuoteWizard();
-  const headingRef = useFocusHeading<HTMLHeadingElement>();
   const { updating, error } = useDebouncedCoverageSync(state, dispatch);
   const isSenior = (state.personal?.age ?? 0) > 65;
 
@@ -33,9 +31,11 @@ export function CoverageStep() {
   };
 
   return (
-    <div>
-      <WizardProgress activeStep={1} />
-      <Typography component="h1" variant="h5" gutterBottom tabIndex={-1} ref={headingRef} data-testid={tid('wizard.coverage.title')}>{t('wizard.coverage.title')}</Typography>
+    <WizardFrame
+      activeStep={1}
+      title={<span data-testid={tid('wizard.coverage.title')}>{t('wizard.coverage.title')}</span>}
+      description={t('wizard.coverage.description')}
+    >
       {error ? <ApiErrorAlert error={error} /> : null}
       <Stack spacing={3}>
         <div>
@@ -53,6 +53,6 @@ export function CoverageStep() {
           <Button variant="contained" disabled={!state.coverage.coverageType || updating} onClick={() => void navigate('/quote/summary')} data-testid={tid('common.next')}>{t('common.next')}</Button>
         </Stack>
       </Stack>
-    </div>
+    </WizardFrame>
   );
 }

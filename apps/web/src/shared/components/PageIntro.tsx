@@ -1,11 +1,14 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import { Stack, Typography } from '@mui/material';
+import type { TypographyProps } from '@mui/material';
 
 type PageIntroProps = {
   eyebrow?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
   actions?: ReactNode;
+  titleRef?: Ref<HTMLHeadingElement>;
+  titleProps?: TypographyProps;
 };
 
 export function PageIntro({
@@ -13,6 +16,8 @@ export function PageIntro({
   title,
   description,
   actions,
+  titleRef,
+  titleProps,
 }: PageIntroProps) {
   return (
     <Stack
@@ -29,7 +34,7 @@ export function PageIntro({
             {eyebrow}
           </Typography>
         ) : null}
-        <Typography component="h1" variant="h2">
+        <Typography {...titleProps} component="h1" variant="h2" ref={titleRef}>
           {title}
         </Typography>
         {description ? (
