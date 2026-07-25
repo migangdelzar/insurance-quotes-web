@@ -8,10 +8,10 @@
 - [x] Review Task 3 and resolve all Important/Critical findings, including the scoped accessibility and responsive follow-ups.
 - [x] Implement Task 4: quotes dashboard redesign.
 - [x] Review Task 4 and resolve all Important/Critical findings (dashboard responsive coverage added with isolated mocked-auth/API fixture).
-- [ ] Implement Task 5: wizard frame and premium estimate treatment.
-- [ ] Review Task 5 and resolve all Important/Critical findings.
-- [ ] Implement Task 6: localization and not-found copy.
-- [ ] Review Task 6 and resolve all Important/Critical findings.
+- [x] Implement Task 5: wizard frame and premium estimate treatment (`4531c60`, `0b21e42`).
+- [x] Review Task 5 and resolve all Important/Critical findings (step selectors preserved on focusable headings; re-review clean).
+- [x] Implement Task 6: localization and not-found copy (`aee046d`).
+- [x] Review Task 6 and resolve all Important/Critical findings.
 - [ ] Implement Task 7: browser/accessibility verification.
 - [ ] Review Task 7 and resolve all Important/Critical findings.
 - [ ] Run Task 8 final quality gate and whole-branch review.
@@ -73,3 +73,20 @@
 - [x] Run dashboard tests, full web tests, i18n validation, lint, build, and fresh-bundle responsive checks.
 - [x] Record RED/GREEN evidence, the local CORS limitation, and the responsive review fix in `.superpowers/sdd/task-4-report.md`.
 - [x] Commit Task 4 implementation and responsive review fix.
+
+## Task 5 checklist
+
+- [x] Write and run the `WizardFrame` RED contract test.
+- [x] Implement the shared frame, desktop reassurance surface, semantic progress navigation, and premium estimate treatment.
+- [x] Migrate personal, coverage, and summary steps without changing reducer, route, API, mutation, or existing selector behavior.
+- [x] Run focused wizard tests, full web tests, i18n validation, lint, and build.
+- [x] Address review finding by keeping each step selector on the focusable `<h1>`.
+- [x] Record the browser auth/CORS environment limitation in `.superpowers/sdd/task-5-report.md`.
+
+## Task 6 checklist
+
+- [x] Write and run the `NotFoundPage` RED test.
+- [x] Implement localized premium recovery copy and responsive not-found surface.
+- [x] Preserve existing not-found selectors and `/quotes` route.
+- [x] Run not-found/i18n tests, validation, lint, and build.
+- [x] Record RED/GREEN evidence in `.superpowers/sdd/task-6-report.md`.

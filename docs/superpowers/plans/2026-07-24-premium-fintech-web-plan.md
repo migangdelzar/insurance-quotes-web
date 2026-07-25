@@ -288,6 +288,8 @@ git commit -m "feat(web): redesign quotes dashboard"
 
 ## Task 5: Add a shared wizard frame and premium estimate treatment
 
+**Status:** ✅ Done — commits `4531c60` and `0b21e42`; focused wizard tests, full web verification, i18n validation, lint, and build pass.
+
 **Files:**
 
 - Create: `apps/web/src/features/quote-wizard/components/WizardFrame.tsx`
@@ -346,6 +348,8 @@ git commit -m "feat(web): frame quote wizard as a premium journey"
 ```
 
 ## Task 6: Complete localization, not-found, and shell copy
+
+**Status:** ✅ Done — commit `aee046d`; not-found RED/GREEN test, locale validation, lint, and build pass.
 
 **Files:**
 
