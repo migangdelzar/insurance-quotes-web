@@ -65,7 +65,7 @@ e2e/tests/journey-standard.spec.ts                          # preserved happy pa
 - `Surface` accepts `{ children: ReactNode; tone?: 'default' | 'dark' | 'gold'; ...PaperProps }` and composes a MUI `Paper` without hiding children.
 - `StatusBadge` accepts `{ status: 'DRAFT' | 'SUBMITTED' | 'SUBMISSION_FAILED' | 'EXPIRED'; label: string }` and renders text plus a semantic `span` label.
 
-- [ ] **Step 1: Write failing primitive tests**
+- [x] **Step 1: Write failing primitive tests**
 
 ```tsx
 it('renders a page intro with an accessible level-one heading', () => {
@@ -91,13 +91,13 @@ it('keeps status meaning in text instead of color alone', () => {
 });
 ```
 
-- [ ] **Step 2: Run the focused test and confirm Red**
+- [x] **Step 2: Run the focused test and confirm Red**
 
 Run: `bun run --filter web test -- src/shared/components/visuals.test.tsx`
 
 Expected: FAIL because the primitives and luxury theme tokens do not exist.
 
-- [ ] **Step 3: Implement the minimum primitives and tokens**
+- [x] **Step 3: Implement the minimum primitives and tokens**
 
 Use explicit theme tokens rather than page-local colors:
 
@@ -112,13 +112,13 @@ palette: {
 
 Add `prefers-reduced-motion` handling through theme transitions and make focus outlines visible on both cream and charcoal surfaces.
 
-- [ ] **Step 4: Run focused tests and lint**
+- [x] **Step 4: Run focused tests and lint**
 
 Run: `bun run --filter web test -- src/shared/components/visuals.test.tsx && bun run --filter web lint`
 
 Expected: PASS with no new lint errors.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/shared/theme/theme.ts apps/web/src/shared/components
@@ -144,7 +144,7 @@ git commit -m "feat(web): add luxury fintech theme primitives"
 - `AppShell` receives `{ children: ReactNode }` and reads `useAuth`, `useTranslation`, and `useLocation` internally.
 - It renders `header`, `main#main-content`, and `footer`, preserving the existing skip-link selector `tid('common.skipToContent')` and main selector `tid('layout.main')`.
 
-- [ ] **Step 1: Add shell behavior tests**
+- [x] **Step 1: Add shell behavior tests**
 
 ```tsx
 it('renders product chrome and preserves the main landmark', () => {
@@ -169,23 +169,23 @@ it('renders sign out only for an authenticated session', () => {
 });
 ```
 
-- [ ] **Step 2: Run the focused tests and confirm Red**
+- [x] **Step 2: Run the focused tests and confirm Red**
 
 Run: `bun run --filter web test -- src/shared/components/AppShell.test.tsx`
 
 Expected: FAIL because the shared shell does not exist.
 
-- [ ] **Step 3: Implement the shell**
+- [x] **Step 3: Implement the shell**
 
 The header must contain the Clara wordmark, a product label, a secure-session indicator, language control, and authenticated sign-out action. Use real `button`/`a` elements, not clickable `div`s. The footer must include support, privacy/security, and a non-sensitive build label.
 
-- [ ] **Step 4: Run tests and the existing auth/list tests**
+- [x] **Step 4: Run tests and the existing auth/list tests**
 
 Run: `bun run --filter web test -- src/shared/components/AppShell.test.tsx src/features/auth/pages/LoginPage.test.tsx src/pages/QuotesListPage.test.tsx`
 
 Expected: PASS with existing selectors unchanged.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/shared/components/AppShell* apps/web/src/app/App.tsx packages/app-i18n/src/data
@@ -205,7 +205,7 @@ git commit -m "feat(web): add responsive application shell"
 - Modify: `packages/app-i18n/src/data/translations/en-US.json`
 - Modify: `packages/app-i18n/src/data/translations/es-MX.json`
 
-- [ ] **Step 1: Extend tests for the two-column/mobile-safe composition**
+- [x] **Step 1: Extend tests for the two-column/mobile-safe composition**
 
 ```tsx
 it('keeps password and passkey actions available in the premium auth layout', () => {
@@ -217,23 +217,23 @@ it('keeps password and passkey actions available in the premium auth layout', ()
 });
 ```
 
-- [ ] **Step 2: Run the focused test and confirm Red**
+- [x] **Step 2: Run the focused test and confirm Red**
 
 Run: `bun run --filter web test -- src/features/auth/pages/LoginPage.test.tsx`
 
 Expected: the compatibility assertions pass, while any new brand/trust assertions fail before the redesign.
 
-- [ ] **Step 3: Implement the layout**
+- [x] **Step 3: Implement the layout**
 
 Use a responsive grid: brand panel plus authentication surface at `md` and above; a compact brand intro above the form below `md`. Keep `PasskeyPrompt`, enrollment dialog, invalid-credentials alert, and existing submit handlers intact.
 
-- [ ] **Step 4: Run auth tests, lint, and build**
+- [x] **Step 4: Run auth tests, lint, and build**
 
 Run: `bun run --filter web test -- src/features/auth && bun run --filter web lint && bun run --filter web build`
 
 Expected: PASS with no TypeScript or lint errors.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/features/auth apps/web/src/pages apps/web/src/shared packages/app-i18n/src/data
@@ -253,7 +253,7 @@ git commit -m "feat(web): redesign authentication experience"
 - Modify: `packages/app-i18n/src/data/translations/es-MX.json`
 - Modify: `packages/app-i18n/src/data/elements.json` only for new dashboard controls
 
-- [ ] **Step 1: Write dashboard state tests**
+- [x] **Step 1: Write dashboard state tests**
 
 ```tsx
 it('renders an actionable empty state', () => {
@@ -273,21 +273,21 @@ it('renders quote status and premium as readable data', () => {
 });
 ```
 
-- [ ] **Step 2: Run the focused tests and confirm Red for new presentation assertions**
+- [x] **Step 2: Run the focused tests and confirm Red for new presentation assertions**
 
 Run: `bun run --filter web test -- src/pages/QuotesListPage.test.tsx`
 
-- [ ] **Step 3: Implement the dashboard**
+- [x] **Step 3: Implement the dashboard**
 
 Render the intro, summary strip, quote cards, status badges, localized premium values, and distinct pending/error/empty states. Keep `listQuotes`, navigation to `/quote/personal`, and all existing selectors.
 
-- [ ] **Step 4: Run dashboard tests and responsive checks**
+- [x] **Step 4: Run dashboard tests and responsive checks**
 
 Run: `bun run --filter web test -- src/pages/QuotesListPage.test.tsx && bun run --filter e2e test tests/responsive-layout.spec.ts --project=desktop-chromium`
 
 Expected: PASS at all configured viewport sizes with no horizontal overflow.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/pages/QuotesListPage.tsx apps/web/src/pages/QuotesListPage.test.tsx packages/app-i18n/src/data
@@ -313,7 +313,7 @@ git commit -m "feat(web): redesign quotes dashboard"
 - `WizardFrame` accepts `{ activeStep: 0 | 1 | 2; title: ReactNode; description?: ReactNode; children: ReactNode; aside?: ReactNode }`.
 - It renders the existing `WizardProgress` once, a focusable `h1`, main content surface, and desktop-only reassurance aside.
 
-- [ ] **Step 1: Write the frame contract test**
+- [x] **Step 1: Write the frame contract test**
 
 ```tsx
 it('renders one heading, progress, content, and reassurance region', () => {
@@ -334,21 +334,21 @@ it('renders one heading, progress, content, and reassurance region', () => {
 });
 ```
 
-- [ ] **Step 2: Run the focused test and confirm Red**
+- [x] **Step 2: Run the focused test and confirm Red**
 
 Run: `bun run --filter web test -- src/features/quote-wizard/components/WizardFrame.test.tsx`
 
-- [ ] **Step 3: Implement the frame and migrate all three steps**
+- [x] **Step 3: Implement the frame and migrate all three steps**
 
 Move page-level spacing and heading treatment into `WizardFrame`; keep form controls, mutations, route guards, and step-specific `data-testid` values in their existing components. Make actions stack at mobile widths.
 
-- [ ] **Step 4: Run all wizard unit tests and build**
+- [x] **Step 4: Run all wizard unit tests and build**
 
 Run: `bun run --filter web test -- src/features/quote-wizard && bun run --filter web build`
 
 Expected: PASS with personal, senior-health, summary, retry, and premium display behavior unchanged.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/features/quote-wizard
@@ -367,7 +367,7 @@ git commit -m "feat(web): frame quote wizard as a premium journey"
 - Modify: `apps/web/src/pages/NotFoundPage.tsx`
 - Modify: `packages/app-i18n/src/index.test.ts` if translation shape coverage needs extension
 
-- [ ] **Step 1: Add translation-shape tests for new keys**
+- [x] **Step 1: Add translation-shape tests for new keys**
 
 ```ts
 it('exposes shell and premium dashboard keys in both locales', () => {
@@ -377,21 +377,21 @@ it('exposes shell and premium dashboard keys in both locales', () => {
 });
 ```
 
-- [ ] **Step 2: Run i18n tests and confirm Red for missing keys**
+- [x] **Step 2: Run i18n tests and confirm Red for missing keys**
 
 Run: `bun run --filter @clara/app-i18n test`
 
-- [ ] **Step 3: Add complete English and Spanish copy**
+- [x] **Step 3: Add complete English and Spanish copy**
 
 Add matching keys for header, footer, secure session, support, privacy, portfolio summary, reassurance aside, and not-found presentation. Keep `elements.json` values stable for existing keys.
 
-- [ ] **Step 4: Validate locale data and run frontend tests**
+- [x] **Step 4: Validate locale data and run frontend tests**
 
 Run: `bun run --filter @clara/app-i18n test && bun run --filter @clara/app-i18n validate && bun run --filter web test`
 
 Expected: PASS with no missing locale keys or selector drift.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/app-i18n apps/web/src/pages/NotFoundPage.tsx
@@ -409,7 +409,7 @@ git commit -m "feat(i18n): add premium shell and dashboard copy"
 - Modify: `e2e/tests/journey-z-passkey.spec.ts` only for additive authentication-shell assertions
 - Create: `e2e/tests/premium-shell.spec.ts`
 
-- [ ] **Step 1: Add browser assertions before implementation is considered complete**
+- [x] **Step 1: Add browser assertions before implementation is considered complete**
 
 ```ts
 test('premium shell has landmarks, visible focus, and no horizontal overflow', async ({
@@ -428,13 +428,13 @@ test('premium shell has landmarks, visible focus, and no horizontal overflow', a
 });
 ```
 
-- [ ] **Step 2: Run browser checks against the running app**
+- [x] **Step 2: Run browser checks against the running app**
 
 Run: `E2E_BASE_URL=http://localhost:3100 bun run --filter e2e test tests/premium-shell.spec.ts tests/responsive-layout.spec.ts --project=desktop-chromium --retries=0`
 
 Expected: PASS at 320, 375, 768, 1024, and 1280px.
 
-- [ ] **Step 3: Run all journeys in mutation-safe order**
+- [x] **Step 3: Run all journeys in mutation-safe order**
 
 Run standard, senior, failure/retry, then passkey last:
 
@@ -447,11 +447,11 @@ E2E_BASE_URL=http://localhost:3100 bun run --filter e2e test tests/journey-z-pas
 
 Expected: all journey tests pass; reset only demo passkeys/refresh tokens afterward if the local manual login should return to password-only state.
 
-- [ ] **Step 4: Perform accessibility and console review**
+- [x] **Step 4: Perform accessibility and console review**
 
 Check the login, quotes, personal, coverage, and summary routes for semantic landmarks, heading hierarchy, accessible names, visible focus, zero console errors, and no horizontal overflow.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add e2e/tests
@@ -462,7 +462,7 @@ git commit -m "test(web): verify premium shell journeys and accessibility"
 
 **Status:** ✅ Done — formatting, lint, 54 web tests, package/E2E checks, and production build pass; known warnings are documented below.
 
-- [ ] **Step 1: Run formatting, lint, unit tests, and build**
+- [x] **Step 1: Run formatting, lint, unit tests, and build**
 
 ```bash
 bunx prettier --check apps/web/src e2e/tests packages/app-i18n/src
@@ -471,21 +471,21 @@ bun run test
 bun run build
 ```
 
-- [ ] **Step 2: Run final Playwright journeys and responsive audit**
+- [x] **Step 2: Run final Playwright journeys and responsive audit**
 
 Use Task 7’s commands against `http://localhost:3100`, with passkey last.
 
-- [ ] **Step 3: Review the diff for selector, copy, and contract regressions**
+- [x] **Step 3: Review the diff for selector, copy, and contract regressions**
 
 Run: `git diff main...HEAD -- apps/web/src packages/app-i18n/src e2e/tests`
 
 Confirm no API files, auth state transitions, or existing stable selectors were changed unintentionally.
 
-- [ ] **Step 4: Update this plan and working notes**
+- [x] **Step 4: Update this plan and working notes**
 
 Mark each task `✅ Done`, record the verification commands and results, and add any discovered lessons to `tasks/lessons.md`.
 
-- [ ] **Step 5: Push the completed branch**
+- [x] **Step 5: Push the completed branch**
 
 ```bash
 git status --short
