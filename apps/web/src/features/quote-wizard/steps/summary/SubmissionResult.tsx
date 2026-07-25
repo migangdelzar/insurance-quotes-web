@@ -8,16 +8,46 @@ type Props = {
   submission: SubmissionState;
   error: unknown;
   onRetry: () => void;
+  onViewQuotes: () => void;
+  onStartNewQuote: () => void;
 };
 
-export function SubmissionResult({ submission, error, onRetry }: Props) {
+export function SubmissionResult({
+  submission,
+  error,
+  onRetry,
+  onViewQuotes,
+  onStartNewQuote,
+}: Props) {
   const { t } = useTranslation();
 
   if (submission === 'succeeded') {
     return (
-      <Alert severity="success" data-testid={tid('wizard.summary.success')}>
-        {t('wizard.summary.success')}
-      </Alert>
+      <Stack spacing={2}>
+        <Alert severity="success" data-testid={tid('wizard.summary.success')}>
+          {t('wizard.summary.success')}
+        </Alert>
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={2}
+          sx={{ '& > *': { width: { xs: '100%', sm: 'auto' } } }}
+        >
+          <Button
+            variant="outlined"
+            onClick={onViewQuotes}
+            data-testid={tid('wizard.summary.allQuotes')}
+          >
+            {t('wizard.summary.allQuotes')}
+          </Button>
+          <Button
+            variant="contained"
+            onClick={onStartNewQuote}
+            data-testid={tid('wizard.summary.newQuote')}
+          >
+            {t('wizard.summary.newQuote')}
+          </Button>
+        </Stack>
+      </Stack>
     );
   }
   if (submission === 'checking') {

@@ -125,6 +125,10 @@ test('premium shell preserves the standard quote journey on mobile @mobile', asy
   await page.getByTestId(tid('common.next')).click();
   await page.getByTestId(tid('wizard.summary.submit')).click();
   await expect(page.getByTestId(tid('wizard.summary.success'))).toBeVisible();
+  await expect(page.getByTestId(tid('wizard.summary.allQuotes'))).toBeVisible();
+  await expect(page.getByTestId(tid('wizard.summary.newQuote'))).toBeVisible();
+  await page.getByTestId(tid('wizard.summary.newQuote')).click();
+  await expect(page.getByTestId(tid('wizard.personal.title'))).toBeVisible();
   await expect(page.getByRole('contentinfo')).toBeVisible();
   expect(sameOriginApiRequests.length).toBeGreaterThan(0);
   expect(

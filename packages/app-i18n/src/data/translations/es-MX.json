@@ -104,6 +104,8 @@
       "title": "Revisar y enviar",
       "description": "Revisa tus datos una última vez antes de enviar tu cotización.",
       "submit": "Enviar cotización",
+      "allQuotes": "Ver todas las cotizaciones",
+      "newQuote": "Iniciar nueva cotización",
       "success": "Tu cotización se envió con éxito.",
       "failure": "El envío falló. Tu cotización quedó guardada y puedes reintentar.",
       "checking": "Confirmando el estado del envío…"

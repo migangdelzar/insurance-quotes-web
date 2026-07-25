@@ -74,6 +74,8 @@
     "summary": {
       "title": "wizard-summary-title",
       "submit": "summary-submit",
+      "allQuotes": "summary-all-quotes",
+      "newQuote": "summary-new-quote",
       "success": "submission-success",
       "failure": "submission-failure",
       "checking": "submission-checking"

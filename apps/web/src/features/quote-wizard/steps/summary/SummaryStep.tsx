@@ -72,6 +72,11 @@ export function SummaryStep() {
           submission={submission}
           error={error}
           onRetry={submit}
+          onViewQuotes={() => void navigate('/quotes')}
+          onStartNewQuote={() => {
+            dispatch({ type: 'RESET' });
+            void navigate('/quote/personal');
+          }}
         />
         {submission === 'idle' ? (
           <Stack

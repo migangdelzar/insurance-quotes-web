@@ -32,6 +32,15 @@
 - [x] Verify mocked browser journeys, responsive dashboard coverage, lint, typecheck, and build.
 - [x] Rebuild the full Docker stack and verify the production Nginx proxy end to end.
 
+## Completed quote actions and CI
+
+- [x] Add localized actions after successful submission to view all quotes or start a new quote.
+- [x] Reset the wizard state before navigating to a new quote.
+- [x] Add component and browser coverage for the successful-submission actions.
+- [x] Validate locale references, web tests, lint, production build, and mocked browser journeys.
+- [x] Extend frontend GitHub Actions with locale validation, production image build, and mocked browser journeys.
+- [x] Preserve push/PR concurrency cancellation with `cancel-in-progress: true`.
+
 ## Vite debugging server
 
 - [x] Keep Vite HMR enabled with a predictable port and host binding.

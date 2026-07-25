@@ -104,6 +104,8 @@
       "title": "Review and submit",
       "description": "Take one final look at your details before you send your quote.",
       "submit": "Submit quote",
+      "allQuotes": "View all quotes",
+      "newQuote": "Start a new quote",
       "success": "Your quote was submitted successfully.",
       "failure": "Submission failed. Your quote was saved and you can retry.",
       "checking": "Confirming submission status…"
