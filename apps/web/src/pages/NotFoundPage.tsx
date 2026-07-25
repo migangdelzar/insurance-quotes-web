@@ -17,7 +17,10 @@ export function NotFoundPage() {
         eyebrow={t('notFound.eyebrow')}
         title={t('notFound.title')}
         description={t('notFound.description')}
-        titleProps={{ 'data-testid': tid('notFound.title') }}
+        titleProps={{
+          id: tid('notFound.title'),
+          'data-testid': tid('notFound.title'),
+        }}
       />
       <Stack spacing={2} alignItems="flex-start">
         <Typography variant="overline" color="text.secondary">

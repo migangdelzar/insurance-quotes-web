@@ -2,7 +2,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import { I18nextProvider } from 'react-i18next';
 import { MemoryRouter } from 'react-router';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import { tid } from '@clara/app-i18n';
 import i18n from '@app/i18n';
 import { theme } from '@shared/theme/theme';
@@ -22,6 +22,10 @@ function renderPage() {
 }
 
 describe('NotFoundPage', () => {
+  afterEach(async () => {
+    await i18n.changeLanguage('en-US');
+  });
+
   it('renders a premium recovery state with a return link', async () => {
     await i18n.changeLanguage('en-US');
     renderPage();
