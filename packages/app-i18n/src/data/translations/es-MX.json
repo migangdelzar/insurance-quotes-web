@@ -107,7 +107,22 @@
   },
   "quotesList": {
     "title": "Mis cotizaciones",
+    "eyebrow": "Espacio de cotizaciones",
+    "description": "Mantén una vista clara de cada plan de protección, desde el primer borrador hasta una cotización enviada.",
+    "summary": {
+      "title": "Resumen de cotizaciones",
+      "totalLabel": "Portafolio",
+      "total": "{{count}} cotizaciones",
+      "submittedLabel": "Progreso",
+      "submitted": "{{count}} enviadas",
+      "monthlyValueLabel": "Valor mensual"
+    },
+    "yourQuotes": "Historial de cotizaciones",
+    "historyDescription": "Revisa los planes que has comenzado y la cobertura asociada con cada uno.",
+    "monthlyPremium": "Prima mensual estimada",
     "empty": "Aún no hay cotizaciones. ¡Comienza la primera!",
+    "emptyTitle": "Tu plan de cobertura comienza aquí",
+    "emptyDescription": "Crea un plan pensado en unos cuantos pasos guiados y vuelve cuando quieras revisarlo.",
     "startQuote": "Iniciar cotización",
     "statusDraft": "Borrador",
     "statusSubmitted": "Enviada",

@@ -63,3 +63,13 @@
 - [x] Verify fresh runtime layout at 1280px (two columns) and 375px (single column) with no horizontal overflow.
 - [x] Address review findings: semantic MFA heading, credential autocomplete metadata, and 1024px responsive coverage.
 - [x] Record the RED/GREEN cycle and verification evidence in `.superpowers/sdd/task-3-report.md`.
+
+## Task 4 checklist
+
+- [x] Inspect the quote API contract, existing page, query behavior, and approved dashboard primitives.
+- [x] Write focused dashboard state and presentation tests.
+- [x] Run the focused dashboard tests in RED state.
+- [x] Implement the premium dashboard, summary metrics, quote cards, empty state, retry action, and localized currency.
+- [x] Run dashboard tests, full web tests, i18n validation, lint, build, and fresh-bundle responsive checks.
+- [x] Record RED/GREEN evidence and the local CORS limitation in `.superpowers/sdd/task-4-report.md`.
+- [x] Commit Task 4 implementation (pending review).
