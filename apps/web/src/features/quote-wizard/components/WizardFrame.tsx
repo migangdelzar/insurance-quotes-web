@@ -10,7 +10,7 @@ import { WizardProgress } from './WizardProgress';
 type WizardFrameProps = {
   activeStep: 0 | 1 | 2;
   title: ReactNode;
-  titleProps?: TypographyProps;
+  titleProps?: TypographyProps & { 'data-testid'?: string };
   description?: ReactNode;
   children: ReactNode;
   aside?: ReactNode;

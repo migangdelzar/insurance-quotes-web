@@ -137,7 +137,12 @@
     "statusFailed": "Envío fallido",
     "statusExpired": "Expirada"
   },
-  "notFound": { "title": "Página no encontrada", "home": "Ir a cotizaciones" },
+  "notFound": {
+    "eyebrow": "Espacio de cotizaciones Clara",
+    "title": "Página no encontrada",
+    "description": "Esta ruta no forma parte de tu recorrido de cotización, pero tu espacio de trabajo sigue cerca.",
+    "home": "Ir a cotizaciones"
+  },
   "errors": {
     "QUOTE_NOT_FOUND": "Cotización no encontrada",
     "QUOTE_INVALID_STATE_TRANSITION": "Esta cotización ya no permite esa acción",

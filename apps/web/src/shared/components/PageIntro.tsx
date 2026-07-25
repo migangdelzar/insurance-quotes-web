@@ -8,7 +8,7 @@ type PageIntroProps = {
   description?: ReactNode;
   actions?: ReactNode;
   titleRef?: Ref<HTMLHeadingElement>;
-  titleProps?: TypographyProps;
+  titleProps?: TypographyProps & { 'data-testid'?: string };
 };
 
 export function PageIntro({

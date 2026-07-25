@@ -137,7 +137,12 @@
     "statusFailed": "Submission failed",
     "statusExpired": "Expired"
   },
-  "notFound": { "title": "Page not found", "home": "Go to quotes" },
+  "notFound": {
+    "eyebrow": "Clara quote workspace",
+    "title": "Page not found",
+    "description": "This route is not part of your quote journey, but your workspace is still close by.",
+    "home": "Go to quotes"
+  },
   "errors": {
     "QUOTE_NOT_FOUND": "Quote not found",
     "QUOTE_INVALID_STATE_TRANSITION": "This quote no longer allows that action",
