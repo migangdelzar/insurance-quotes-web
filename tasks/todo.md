@@ -6,8 +6,8 @@
 - [x] Review Task 2 and resolve all Important/Critical findings (placeholder support copy removed; approved).
 - [x] Implement Task 3: authentication redesign.
 - [x] Review Task 3 and resolve all Important/Critical findings, including the scoped accessibility and responsive follow-ups.
-- [ ] Implement Task 4: quotes dashboard redesign.
-- [ ] Review Task 4 and resolve all Important/Critical findings.
+- [x] Implement Task 4: quotes dashboard redesign.
+- [x] Review Task 4 and resolve all Important/Critical findings (dashboard responsive coverage added with isolated mocked-auth/API fixture).
 - [ ] Implement Task 5: wizard frame and premium estimate treatment.
 - [ ] Review Task 5 and resolve all Important/Critical findings.
 - [ ] Implement Task 6: localization and not-found copy.
@@ -71,5 +71,5 @@
 - [x] Run the focused dashboard tests in RED state.
 - [x] Implement the premium dashboard, summary metrics, quote cards, empty state, retry action, and localized currency.
 - [x] Run dashboard tests, full web tests, i18n validation, lint, build, and fresh-bundle responsive checks.
-- [x] Record RED/GREEN evidence and the local CORS limitation in `.superpowers/sdd/task-4-report.md`.
-- [x] Commit Task 4 implementation (pending review).
+- [x] Record RED/GREEN evidence, the local CORS limitation, and the responsive review fix in `.superpowers/sdd/task-4-report.md`.
+- [x] Commit Task 4 implementation and responsive review fix.

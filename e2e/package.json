@@ -9,6 +9,7 @@
     "build": "tsc --noEmit"
   },
   "devDependencies": {
+    "@clara/api-contract": "workspace:*",
     "@clara/app-i18n": "workspace:*",
     "@clara/build-config": "workspace:*",
     "@playwright/test": "^1.49.0",
