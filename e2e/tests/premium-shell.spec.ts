@@ -110,6 +110,13 @@ test('premium shell preserves the standard quote journey on mobile @mobile', asy
   await page.getByTestId(tid('common.next')).click();
 
   await expect(page.getByTestId(tid('wizard.coverage.title'))).toBeVisible();
+  const actionDock = page.getByTestId(tid('wizard.actions'));
+  await expect(actionDock).toBeVisible();
+  await expect
+    .poll(() =>
+      actionDock.evaluate((element) => getComputedStyle(element).position)
+    )
+    .toBe('fixed');
   await expect(page.getByTestId(tid('wizard.coverage.title'))).toHaveAttribute(
     'tabindex',
     '-1'

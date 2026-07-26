@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { PremiumDisplay } from '@features/quote-wizard/components/PremiumDisplay';
 import { WizardFrame } from '@features/quote-wizard/components/WizardFrame';
+import { WizardActionDock } from '@features/quote-wizard/components/WizardActionDock';
 import { useQuoteWizard } from '@features/quote-wizard/context/QuoteWizardProvider';
 import { SubmissionResult } from './SubmissionResult';
 import { useSubmitQuote } from './useSubmitQuote';
@@ -49,6 +50,7 @@ export function SummaryStep() {
       title={t('wizard.summary.title')}
       titleProps={{ 'data-testid': tid('wizard.summary.title') }}
       description={t('wizard.summary.description')}
+      stickyActions={submission === 'idle'}
     >
       <Stack spacing={3}>
         <List
@@ -79,11 +81,7 @@ export function SummaryStep() {
           }}
         />
         {submission === 'idle' ? (
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={2}
-            sx={{ '& > *': { width: { xs: '100%', sm: 'auto' } } }}
-          >
+          <WizardActionDock>
             <Button
               onClick={() => void navigate('/quote/coverage')}
               data-testid={tid('common.back')}
@@ -97,7 +95,7 @@ export function SummaryStep() {
             >
               {t('wizard.summary.submit')}
             </Button>
-          </Stack>
+          </WizardActionDock>
         ) : null}
       </Stack>
     </WizardFrame>

@@ -9,6 +9,7 @@ import { ApiErrorAlert } from '@shared/components/ApiErrorAlert';
 import { createQuote } from '@features/quote-wizard/api/quoteApi';
 import { useQuoteWizard } from '@features/quote-wizard/context/QuoteWizardProvider';
 import { WizardFrame } from '@features/quote-wizard/components/WizardFrame';
+import { WizardActionDock } from '@features/quote-wizard/components/WizardActionDock';
 import { personalSchema } from './personalSchema';
 import type { PersonalFormValues } from './personalSchema';
 
@@ -57,6 +58,7 @@ export function PersonalInfoStep() {
       title={t('wizard.personal.title')}
       titleProps={{ 'data-testid': tid('wizard.personal.title') }}
       description={t('wizard.personal.description')}
+      stickyActions
     >
       <form onSubmit={onNext} noValidate>
         {creation.error ? <ApiErrorAlert error={creation.error} /> : null}
@@ -96,14 +98,16 @@ export function PersonalInfoStep() {
             }
             {...form.register('zipCode')}
           />
-          <Button
-            type="submit"
-            variant="contained"
-            disabled={creation.isPending}
-            data-testid={tid('common.next')}
-          >
-            {t('common.next')}
-          </Button>
+          <WizardActionDock>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={creation.isPending}
+              data-testid={tid('common.next')}
+            >
+              {t('common.next')}
+            </Button>
+          </WizardActionDock>
         </Stack>
       </form>
     </WizardFrame>

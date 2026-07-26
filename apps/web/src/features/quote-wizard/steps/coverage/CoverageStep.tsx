@@ -8,6 +8,7 @@ import type { InputHTMLAttributes } from 'react';
 import { ApiErrorAlert } from '@shared/components/ApiErrorAlert';
 import { PremiumDisplay } from '@features/quote-wizard/components/PremiumDisplay';
 import { WizardFrame } from '@features/quote-wizard/components/WizardFrame';
+import { WizardActionDock } from '@features/quote-wizard/components/WizardActionDock';
 import { useQuoteWizard } from '@features/quote-wizard/context/QuoteWizardProvider';
 import { HealthQuestionsSection } from './HealthQuestionsSection';
 import { useDebouncedCoverageSync } from './useDebouncedCoverageSync';
@@ -36,6 +37,7 @@ export function CoverageStep() {
       title={t('wizard.coverage.title')}
       titleProps={{ 'data-testid': tid('wizard.coverage.title') }}
       description={t('wizard.coverage.description')}
+      stickyActions
     >
       {error ? <ApiErrorAlert error={error} /> : null}
       <Stack spacing={3}>
@@ -49,10 +51,10 @@ export function CoverageStep() {
         </div>
         {isSenior ? <HealthQuestionsSection coverage={state.coverage} onChange={(coverage) => dispatch({ type: 'COVERAGE_CHANGED', coverage })} /> : null}
         <PremiumDisplay premium={state.premium} updating={updating} />
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ '& > *': { width: { xs: '100%', sm: 'auto' } } }}>
+        <WizardActionDock>
           <Button onClick={() => void navigate('/quote/personal')} data-testid={tid('common.back')}>{t('common.back')}</Button>
           <Button variant="contained" disabled={!state.coverage.coverageType || updating} onClick={() => void navigate('/quote/summary')} data-testid={tid('common.next')}>{t('common.next')}</Button>
-        </Stack>
+        </WizardActionDock>
       </Stack>
     </WizardFrame>
   );

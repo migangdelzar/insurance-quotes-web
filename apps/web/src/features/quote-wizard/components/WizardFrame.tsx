@@ -16,6 +16,7 @@ type WizardFrameProps = {
   description?: ReactNode;
   children: ReactNode;
   aside?: ReactNode;
+  stickyActions?: boolean;
 };
 
 export function WizardFrame({
@@ -25,6 +26,7 @@ export function WizardFrame({
   description,
   children,
   aside,
+  stickyActions = false,
 }: WizardFrameProps) {
   const { t } = useTranslation();
   const headingRef = useFocusHeading<HTMLHeadingElement>();
@@ -69,7 +71,10 @@ export function WizardFrame({
           minWidth: 0,
         }}
       >
-        <Surface component="section" sx={{ minWidth: 0 }}>
+        <Surface
+          component="section"
+          sx={{ minWidth: 0, pb: { xs: stickyActions ? 12 : 0, sm: 0 } }}
+        >
           <PageIntro
             title={title}
             description={description}
