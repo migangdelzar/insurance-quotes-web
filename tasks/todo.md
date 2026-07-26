@@ -1,5 +1,23 @@
 # Premium fintech web redesign
 
+## Submit flow, mobile visual polish, and pricing verification
+
+- [x] Reproduce all standard, senior-health, and insurer retry Playwright journeys against the running stack.
+- [x] Confirm the submit failure boundary and make the local full-stack insurer dependency deterministic for browser verification.
+- [x] Add regression coverage for the successful submit path and retry path if the client behavior is implicated.
+- [x] Improve the mobile wizard color hierarchy and contrast without changing stable selectors or route behavior.
+- [x] Verify the pricing contract: diabetes and hypertension are represented in health data and contribute through the pre-existing-condition pricing rule.
+- [x] Run frontend tests, lint, build, backend pricing tests, and the full Playwright journey set.
+- [x] Update this checklist with evidence, commit all intended changes, and push both feature branches.
+
+### Verification evidence
+
+- Full Playwright suite: 18 passed across desktop and mobile projects, including passkey lifecycle.
+- Backend pricing and quote-service tests: 11 passed.
+- Web tests: 59 passed; lint: 0 errors and 3 pre-existing Fast Refresh warnings; production build passed with the expected chunk-size warning.
+- Local full-stack Compose validation passed with WireMock as the deterministic insurer stand-in.
+- The local demo passkey rows were cleared after the mutating passkey journey so password login remains available for the three seeded users.
+
 - [x] Implement Task 1: luxury-fintech theme and primitives (`04ccd34`, `168d26e`).
 - [x] Review Task 1 and resolve all Important/Critical findings (approved).
 - [x] Implement Task 2: shared application shell.

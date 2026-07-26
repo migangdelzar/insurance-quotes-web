@@ -27,6 +27,7 @@ test('senior journey: health questions and worked-example premium 327.60', async
     .getByLabel(/yes|sí/i)
     .check();
   await page.getByTestId(tid('wizard.coverage.health.diabetes')).check();
+  await page.getByTestId(tid('wizard.coverage.health.hypertension')).check();
   await page
     .getByTestId(tid('wizard.coverage.health.tobacco'))
     .getByLabel(/yes|sí/i)

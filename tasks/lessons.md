@@ -6,3 +6,6 @@
 - Keep asynchronous result content mounted while showing progress beside it; replacing the result with a Skeleton creates avoidable visual flicker and layout instability.
 - Keep post-submit navigation callbacks in the wizard container so a new quote can reset reducer state before routing.
 - CI should validate both the static production image and mocked same-origin browser requests; a Vite-only check cannot prove the Nginx image builds.
+- Local full-stack browser verification should use the deterministic WireMock insurer; an external `httpstat.us` dependency can make a healthy submit flow look broken.
+- When copying a host-built bundle into the Nginx demo container, set `VITE_API_BASE_URL=/api`; otherwise `.env.production` can bake a direct API origin and bypass same-origin route interception.
+- Passkey E2E is intentionally stateful: clear only the local demo credentials after the final passkey test so password-based demo login remains usable.

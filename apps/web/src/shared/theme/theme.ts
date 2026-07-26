@@ -21,23 +21,23 @@ declare module '@mui/material/styles' {
 }
 
 const palette = {
-  ink: '#1b1d21',
-  charcoal: '#23262d',
-  cream: '#f4f0e8',
-  surface: '#fffdf8',
-  slate: '#62656b',
-  gold: '#c8a66a',
-  success: '#2f6b50',
-  warning: '#8b6b28',
-  error: '#8f3d36',
+  ink: '#1D1D1F',
+  charcoal: '#1D1D1F',
+  cream: '#FBFBFD',
+  surface: '#FFFFFF',
+  slate: '#5F6368',
+  gold: '#F5F5F7',
+  success: '#248A3D',
+  warning: '#A15C00',
+  error: '#B42318',
 } as const;
 
 let theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: palette.ink,
-      contrastText: '#f8f4ec',
+      main: '#0071E3',
+      contrastText: '#FFFFFF',
     },
     secondary: {
       main: palette.gold,
@@ -63,14 +63,14 @@ let theme = createTheme({
       main: palette.error,
       contrastText: '#fff7f6',
     },
-    divider: 'rgba(27, 29, 33, 0.12)',
+    divider: 'rgba(29, 29, 31, 0.12)',
     ink: {
       main: palette.ink,
-      contrastText: '#f8f4ec',
+      contrastText: '#FFFFFF',
     },
     charcoal: {
       main: palette.charcoal,
-      contrastText: '#f8f4ec',
+      contrastText: '#F5F5F7',
     },
     cream: {
       main: palette.cream,
@@ -82,7 +82,7 @@ let theme = createTheme({
     },
     slate: {
       main: palette.slate,
-      contrastText: '#f8f4ec',
+      contrastText: '#FFFFFF',
     },
     gold: {
       main: palette.gold,

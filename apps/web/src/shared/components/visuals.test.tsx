@@ -74,6 +74,14 @@ function getContrastRatio(colorA: string, colorB: string) {
 }
 
 describe('shared visual primitives', () => {
+  it('uses the Emme light palette for the quote workspace', () => {
+    expect(theme.palette.background.default).toBe('#FBFBFD');
+    expect(theme.palette.background.paper).toBe('#FFFFFF');
+    expect(theme.palette.primary.main).toBe('#0071E3');
+    expect(theme.palette.text.primary).toBe('#1D1D1F');
+    expect(theme.palette.text.secondary).toBe('#5F6368');
+  });
+
   it('renders keyboard focus with an observable accessible ring on light and dark surfaces', () => {
     renderWithTheme(
       <>
