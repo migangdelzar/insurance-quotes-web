@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { I18nextProvider } from 'react-i18next';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { tid } from '@clara/app-i18n';
 import i18n from '@app/i18n';
 import { emptyCoverage } from '@features/quote-wizard/context/wizardReducer';
@@ -15,6 +15,10 @@ const renderSection = (coverage = emptyCoverage, onChange = vi.fn()) =>
   );
 
 describe('HealthQuestionsSection', () => {
+  afterEach(async () => {
+    await i18n.changeLanguage('en-US');
+  });
+
   it('renders all four question groups', () => {
     renderSection();
 
@@ -37,5 +41,34 @@ describe('HealthQuestionsSection', () => {
     renderSection({ ...emptyCoverage, hasPreexistingConditions: false });
 
     expect(screen.queryByTestId(tid('wizard.coverage.health.conditions'))).not.toBeInTheDocument();
+  });
+
+  it.each([
+    {
+      locale: 'en-US',
+      names: [
+        'Pre-existing conditions?',
+        'Prescription medication?',
+        'Tobacco use?',
+        'Spouse coverage?',
+      ],
+    },
+    {
+      locale: 'es-MX',
+      names: [
+        '¿Condiciones preexistentes?',
+        '¿Medicamento con receta?',
+        '¿Consumo de tabaco?',
+        '¿Cobertura para cónyuge?',
+      ],
+    },
+  ])('gives every health question a localized group name ($locale)', async ({ locale, names }) => {
+    await i18n.changeLanguage(locale);
+    renderSection({ ...emptyCoverage, hasPreexistingConditions: true });
+
+    for (const name of names) {
+      expect(screen.getByRole('radiogroup', { name })).toBeInTheDocument();
+    }
+    expect(screen.getByRole('group', { name: locale === 'en-US' ? 'Which conditions?' : '¿Cuáles condiciones?' })).toBeInTheDocument();
   });
 });

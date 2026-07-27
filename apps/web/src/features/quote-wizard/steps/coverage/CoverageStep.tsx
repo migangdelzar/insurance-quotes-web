@@ -1,4 +1,4 @@
-import { Button, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from '@mui/material';
+import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from '@mui/material';
 import { COVERAGE_TYPES } from '@clara/api-contract';
 import type { CoverageType } from '@clara/api-contract';
 import { tid } from '@clara/app-i18n';
@@ -50,14 +50,20 @@ export function CoverageStep() {
     >
       {error ? <ApiErrorAlert error={error} /> : null}
       <Stack spacing={3}>
-        <div>
-          <FormLabel>{t('wizard.coverage.title')}</FormLabel>
-          <RadioGroup value={state.coverage.coverageType ?? ''} onChange={(event) => selectCoverage(event.target.value)}>
+        <FormControl component="fieldset">
+          <FormLabel component="legend" id={`${tid('wizard.coverage.title')}-group-label`}>
+            {t('wizard.coverage.title')}
+          </FormLabel>
+          <RadioGroup
+            aria-labelledby={`${tid('wizard.coverage.title')}-group-label`}
+            value={state.coverage.coverageType ?? ''}
+            onChange={(event) => selectCoverage(event.target.value)}
+          >
             {COVERAGE_TYPES.map((type) => (
               <FormControlLabel key={type} value={type} control={<Radio inputProps={{ 'data-testid': coverageTestIds[type] } as InputHTMLAttributes<HTMLInputElement>} />} label={t(`wizard.coverage.${type.toLowerCase()}`)} />
             ))}
           </RadioGroup>
-        </div>
+        </FormControl>
         {isSenior ? <HealthQuestionsSection coverage={state.coverage} onChange={(coverage) => dispatch({ type: 'COVERAGE_CHANGED', coverage })} /> : null}
         <PremiumDisplay premium={state.premium} updating={updating} />
         <WizardActionDock>

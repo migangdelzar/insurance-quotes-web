@@ -103,4 +103,12 @@ describe('CoverageStep', () => {
     );
     expect(screen.queryByTestId('summary')).not.toBeInTheDocument();
   });
+
+  it('gives the coverage choices an accessible group name', async () => {
+    renderStep();
+
+    expect(
+      await screen.findByRole('radiogroup', { name: 'Coverage selection' })
+    ).toBeInTheDocument();
+  });
 });
