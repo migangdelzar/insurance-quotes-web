@@ -127,6 +127,7 @@
       "newQuote": "Start a new quote",
       "success": "Your quote was submitted successfully.",
       "failure": "Submission failed. Your quote was saved and you can retry.",
+      "submitting": "Submitting quote…",
       "checking": "Confirming submission status…"
     },
     "reassurance": {

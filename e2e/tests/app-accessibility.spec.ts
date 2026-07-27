@@ -26,9 +26,11 @@ test('authenticated app routes retain landmarks, headings, and keyboard focus', 
   await page.keyboard.press('Enter');
 
   await expect(page).toHaveURL(/\/quotes\/history$/);
-  await expect(quotes).toBeFocused();
   await expect(quotes).toHaveAttribute('aria-current', 'page');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
+  const destinationHeading = page.getByRole('heading', { level: 1 });
+  await expect(destinationHeading).toHaveCount(1);
+  await expect(destinationHeading).toHaveAttribute('tabindex', '-1');
+  await expect(destinationHeading).toBeFocused();
 });
 
 test('account menu closes with Escape and restores focus to its trigger', async ({

@@ -66,6 +66,32 @@ test('mobile navigation reaches every primary destination @mobile', async ({
 });
 
 for (const width of [320, 375]) {
+  test(`authenticated footer clears the fixed navigation at ${width}px @mobile`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 812 });
+    await stubAuthenticatedQuoteSession(page);
+    await loginAndReachQuotes(page);
+
+    const navigation = page.getByRole('navigation', {
+      name: /primary navigation/i,
+    });
+    const footer = page.getByRole('contentinfo');
+
+    await footer.scrollIntoViewIfNeeded();
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+
+    const [footerBox, navigationBox] = await Promise.all([
+      footer.boundingBox(),
+      navigation.boundingBox(),
+    ]);
+    expect(footerBox).not.toBeNull();
+    expect(navigationBox).not.toBeNull();
+    expect(
+      (footerBox?.y ?? Infinity) + (footerBox?.height ?? 0)
+    ).toBeLessThanOrEqual((navigationBox?.y ?? -Infinity) + 2);
+  });
+
   test(`mobile wizard actions clear the fixed navigation at ${width}px @mobile`, async ({
     page,
   }) => {

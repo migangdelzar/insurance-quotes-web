@@ -127,6 +127,7 @@
       "newQuote": "Iniciar nueva cotización",
       "success": "Tu cotización se envió con éxito.",
       "failure": "El envío falló. Tu cotización quedó guardada y puedes reintentar.",
+      "submitting": "Enviando cotización…",
       "checking": "Confirmando el estado del envío…"
     },
     "reassurance": {

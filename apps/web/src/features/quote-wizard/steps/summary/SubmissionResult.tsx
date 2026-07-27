@@ -59,6 +59,14 @@ export function SubmissionResult({
       />
     );
   }
+  if (submission === 'submitting') {
+    return (
+      <LoadingState
+        label={t('wizard.summary.submitting')}
+        testId={tid('wizard.summary.submitting')}
+      />
+    );
+  }
   if (submission === 'failed') {
     return (
       <Stack spacing={1}>

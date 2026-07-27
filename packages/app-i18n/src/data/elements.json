@@ -98,6 +98,7 @@
       "newQuote": "summary-new-quote",
       "success": "submission-success",
       "failure": "submission-failure",
+      "submitting": "submission-submitting",
       "checking": "submission-checking"
     }
   },

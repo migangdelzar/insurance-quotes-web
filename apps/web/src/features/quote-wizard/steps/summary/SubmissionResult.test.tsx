@@ -89,4 +89,25 @@ describe('SubmissionResult', () => {
       screen.getByRole('status', { name: /confirming submission status/i })
     ).toHaveAttribute('data-testid', tid('wizard.summary.checking'));
   });
+
+  it('keeps an accessible loading state visible while submitting the quote', () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <SubmissionResult
+            submission="submitting"
+            error={null}
+            onRetry={vi.fn()}
+            onViewQuotes={vi.fn()}
+            onStartNewQuote={vi.fn()}
+          />
+        </ThemeProvider>
+      </I18nextProvider>
+    );
+
+    expect(
+      screen.getByRole('status', { name: /submitting quote/i })
+    ).toHaveAttribute('data-testid', tid('wizard.summary.submitting'));
+  });
 });

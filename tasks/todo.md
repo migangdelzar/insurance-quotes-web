@@ -162,6 +162,33 @@
 - [x] Verify senior diabetes/hypertension payloads persist before Summary navigation.
 - [x] Run focused and full web checks, record evidence, commit, and push.
 
+## App-first post-review hardening B — accessible transition states
+
+- [x] Add a failing focused test for the quote submission loading state, then render the existing localized `LoadingState`.
+- [x] Add a failing focused test for authenticated route heading focus, then focus the destination `main h1` without disturbing skip-link behavior.
+- [x] Add failing locale tests for initial and changed document language, then synchronize `<html lang>`.
+- [x] Add failing responsive coverage for footer clearance at 320px and 375px, then reserve fixed-navigation space.
+- [x] Run focused tests, full web tests, lint, build, and relevant Playwright checks.
+- [x] Write the Hardening B report, commit all intended changes, push, and verify the remote SHA.
+
+### Hardening B acceptance criteria
+
+- Submission remains visibly and accessibly busy until the mutation resolves.
+- Authenticated route transitions focus the destination page's first `h1`.
+- `<html lang>` is `en` for `en-US` and `es-MX` for `es-MX`, including initial load.
+- The authenticated footer is fully visible above fixed mobile navigation at 320px and 375px.
+- Existing API, authentication, pricing, coverage debounce, navigation, i18n, and selector contracts remain unchanged.
+
+### Hardening B verification evidence
+
+- Focused web tests: 3 files / 10 tests passed.
+- App i18n package tests: 1 file / 5 tests passed.
+- Full web tests: 28 files / 97 tests passed.
+- Web lint: 0 errors; 3 existing Fast Refresh warnings.
+- E2E typecheck and lint: passed.
+- Production web build: passed with the existing chunk-size advisory.
+- Focused Playwright accessibility/navigation/responsive checks: 8 passed, including footer geometry at 320px and 375px.
+
 - [x] Run the complete current-source web unit suite: 25 files / 87 tests passed.
 - [x] Run web lint (0 errors; 3 existing Fast Refresh warnings) and E2E typecheck/lint (both passed).
 - [x] Build the production bundle and run the PWA artifact-policy checker (passed; manifest, service worker, icons, and no API runtime caching verified).

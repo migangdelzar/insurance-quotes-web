@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +21,7 @@ export function AppShell({ children }: AppShellProps) {
   const { t } = useTranslation();
   const location = useLocation();
   const { isAuthenticated } = useAuth();
+  const mainRef = useRef<HTMLElement>(null);
   const activeDestination = getActiveDestination(
     location.pathname,
     location.search
@@ -29,6 +30,16 @@ export function AppShell({ children }: AppShellProps) {
     primaryDestinations.find((item) => item.id === activeDestination)
       ?.labelKey ?? 'navigation.home'
   );
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const heading = mainRef.current?.querySelector<HTMLHeadingElement>('h1');
+    if (!heading) return;
+
+    heading.tabIndex = -1;
+    heading.focus();
+  }, [isAuthenticated, location.pathname, location.search]);
 
   return (
     <Box
@@ -122,6 +133,7 @@ export function AppShell({ children }: AppShellProps) {
         {isAuthenticated ? <AppNavigation /> : null}
         <Box
           component="main"
+          ref={mainRef}
           id={tid('layout.main')}
           data-testid={tid('layout.main')}
           sx={{
@@ -149,6 +161,10 @@ export function AppShell({ children }: AppShellProps) {
           sx={(theme) => ({
             borderTop: `1px solid ${theme.palette.divider}`,
             bgcolor: 'background.paper',
+            mb: {
+              xs: 'calc(56px + env(safe-area-inset-bottom))',
+              md: 0,
+            },
           })}
         >
           <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 2.5 } }}>
