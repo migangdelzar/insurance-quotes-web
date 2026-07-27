@@ -11,6 +11,7 @@ import {
 import { AppNavigation } from './AppNavigation';
 import { AccountMenu } from './AccountMenu';
 import { BrandMark } from './BrandMark';
+import { OfflineNotice } from './OfflineNotice';
 
 type AppShellProps = {
   children: ReactNode;
@@ -135,6 +136,7 @@ export function AppShell({ children }: AppShellProps) {
             maxWidth="lg"
             sx={{ py: { xs: 3, md: 5 }, px: { xs: 1.5, sm: 2.5, md: 3 } }}
           >
+            {isAuthenticated ? <OfflineNotice /> : null}
             {children}
           </Container>
         </Box>

@@ -8,6 +8,9 @@ import i18n from '@app/i18n';
 import { queryClient } from '@app/queryClient';
 import { router } from '@app/routes';
 import { theme } from '@shared/theme/theme';
+import { registerPwa } from './pwa/register';
+
+registerPwa();
 
 const root = document.getElementById('root');
 

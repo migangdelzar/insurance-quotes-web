@@ -1,9 +1,48 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
+  plugins: [
+    react(),
+    tsconfigPaths(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      injectRegister: false,
+      devOptions: { enabled: false },
+      includeAssets: ['icons/clara-192.svg', 'icons/clara-512.svg'],
+      manifest: {
+        name: 'Clara Insurance Quotes',
+        short_name: 'Clara Quotes',
+        start_url: '/quotes',
+        display: 'standalone',
+        theme_color: '#1D1D1F',
+        background_color: '#FBFBFD',
+        icons: [
+          {
+            src: '/icons/clara-192.svg',
+            sizes: '192x192',
+            type: 'image/svg+xml',
+            purpose: 'any maskable',
+          },
+          {
+            src: '/icons/clara-512.svg',
+            sizes: '512x512',
+            type: 'image/svg+xml',
+            purpose: 'any maskable',
+          },
+        ],
+      },
+      workbox: {
+        clientsClaim: true,
+        skipWaiting: true,
+        globPatterns: ['**/*.{js,css,html,svg,woff2}'],
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/api/],
+      },
+    }),
+  ],
   server: {
     host: true,
     port: 5173,
