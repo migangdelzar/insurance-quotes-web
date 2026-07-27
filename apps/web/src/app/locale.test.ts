@@ -1,5 +1,11 @@
-import { describe, expect, it } from 'vitest';
-import { detectLocale, normalizeLocale } from './locale';
+import { describe, expect, it, vi } from 'vitest';
+import {
+  detectLocale,
+  getInitialLocale,
+  LOCALE_PREFERENCE_STORAGE_KEY,
+  normalizeLocale,
+  persistLocale,
+} from './locale';
 
 describe('locale detection', () => {
   it.each([
@@ -17,5 +23,23 @@ describe('locale detection', () => {
 
   it('falls back to en-US when no browser preference is supported', () => {
     expect(detectLocale(['fr-FR', 'de-DE'])).toBe('en-US');
+  });
+
+  it('uses an explicitly persisted locale before browser preferences', () => {
+    const storage = { getItem: vi.fn().mockReturnValue('es-MX') };
+
+    expect(getInitialLocale(storage, ['en-US'])).toBe('es-MX');
+    expect(storage.getItem).toHaveBeenCalledWith(LOCALE_PREFERENCE_STORAGE_KEY);
+  });
+
+  it('persists an explicit locale choice through an injected storage boundary', () => {
+    const storage = { setItem: vi.fn() };
+
+    persistLocale('es-MX', storage);
+
+    expect(storage.setItem).toHaveBeenCalledWith(
+      LOCALE_PREFERENCE_STORAGE_KEY,
+      'es-MX'
+    );
   });
 });

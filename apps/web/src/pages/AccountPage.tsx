@@ -10,6 +10,7 @@ import {
 import type { SvgIconProps } from '@mui/material';
 import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
+import { setApplicationLocale } from '@app/i18n';
 import { useAuth } from '@features/auth/context/AuthProvider';
 import { PageIntro } from '@shared/components/PageIntro';
 
@@ -54,7 +55,7 @@ export function AccountPage() {
                 key={locale}
                 aria-pressed={activeLocale === locale}
                 variant={activeLocale === locale ? 'contained' : 'outlined'}
-                onClick={() => void i18n.changeLanguage(locale)}
+                onClick={() => void setApplicationLocale(locale)}
               >
                 {t(`layout.languages.${locale}`)}
               </Button>

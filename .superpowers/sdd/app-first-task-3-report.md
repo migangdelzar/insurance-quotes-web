@@ -25,3 +25,16 @@ Implemented the single authenticated account boundary:
 
 - `/quotes/history` continues to use the present list while Task 4 separates Home and history.
 - Wizard-specific responsive framing remains Task 5.
+
+## Review follow-up
+
+- Explicit locale choices now persist through the injectable `LocaleStorage` boundary and override browser preferences during i18n initialization. The HTTP client resolves locale through that same preference so request headers remain aligned with visible copy.
+- The account menu and account page now share `navigation.accountSignOut` for the session-ending action.
+- Account-menu coverage now verifies Escape closes the MUI menu and restores focus to its trigger.
+
+### Follow-up verification
+
+- Focused: `bun run --filter web test --run src/app/locale.test.ts src/shared/components/AccountMenu.test.tsx src/pages/AccountPage.test.tsx` — 12 passed.
+- Full unit suite: `bun run --filter web test --run` — 71 passed across 21 files.
+- Lint: `bun run --filter web lint` — 0 errors; 3 pre-existing Fast Refresh warnings.
+- Production build/typecheck: `bun run --filter web build` — passed; existing chunk-size advisory remains.

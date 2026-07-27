@@ -1,5 +1,5 @@
 import { ApiRequestError, type FieldError } from './ApiRequestError';
-import { detectLocale, normalizeLocale } from '@app/locale';
+import { getInitialLocale, normalizeLocale } from '@app/locale';
 
 type HttpClientConfig = {
   baseUrl: string;
@@ -22,7 +22,7 @@ let config: HttpClientConfig = {
   getAccessToken: () => null,
   refreshSession: () => Promise.resolve(),
   onSessionExpired: () => undefined,
-  getLocale: detectLocale,
+  getLocale: getInitialLocale,
 };
 
 export function configureHttpClient(next: HttpClientConfig): void {

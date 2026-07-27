@@ -52,4 +52,16 @@ describe('AccountMenu', () => {
     expect(screen.getByRole('menuitem', { name: /español/i })).toBeVisible();
     expect(screen.getByRole('menuitem', { name: /sign out/i })).toBeVisible();
   });
+
+  it('closes on Escape and returns focus to the account trigger', async () => {
+    const user = userEvent.setup();
+    renderAccountMenu();
+
+    const trigger = screen.getByRole('button', { name: /account/i });
+    await user.click(trigger);
+    await user.keyboard('{Escape}');
+
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    expect(trigger).toHaveFocus();
+  });
 });

@@ -11,6 +11,7 @@ import type { SvgIconProps } from '@mui/material';
 import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router';
+import { setApplicationLocale } from '@app/i18n';
 import { useAuth } from '@features/auth/context/AuthProvider';
 
 function AccountIcon(props: SvgIconProps) {
@@ -30,7 +31,7 @@ function SignOutIcon(props: SvgIconProps) {
 }
 
 export function AccountMenu() {
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   const { logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -42,7 +43,7 @@ export function AccountMenu() {
   }
 
   async function changeLanguage(locale: 'en-US' | 'es-MX') {
-    await i18n.changeLanguage(locale);
+    await setApplicationLocale(locale);
     closeMenu();
   }
 
@@ -93,7 +94,7 @@ export function AccountMenu() {
           <ListItemIcon>
             <SignOutIcon fontSize="small" />
           </ListItemIcon>
-          {t('layout.signOut')}
+          {t('navigation.accountSignOut')}
         </MenuItem>
       </Menu>
     </>
