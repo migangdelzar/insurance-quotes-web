@@ -141,6 +141,38 @@ export function AppShell({ children }: AppShellProps) {
           </Container>
         </Box>
       </Box>
+
+      {isAuthenticated ? (
+        <Box
+          component="footer"
+          data-testid={tid('layout.footer')}
+          sx={(theme) => ({
+            borderTop: `1px solid ${theme.palette.divider}`,
+            bgcolor: 'background.paper',
+          })}
+        >
+          <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 2.5 } }}>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={1}
+              alignItems={{ sm: 'center' }}
+              justifyContent="space-between"
+            >
+              <Typography variant="caption" color="text.secondary">
+                {t('layout.footer.trustStatement')}
+              </Typography>
+              <Stack direction="row" spacing={2} flexShrink={0}>
+                <Typography variant="caption" color="text.secondary">
+                  {t('layout.footer.support')}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {t('layout.footer.privacySecurity')}
+                </Typography>
+              </Stack>
+            </Stack>
+          </Container>
+        </Box>
+      ) : null}
     </Box>
   );
 }

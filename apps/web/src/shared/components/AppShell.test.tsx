@@ -89,6 +89,10 @@ describe('AppShell', () => {
     expect(
       screen.getAllByRole('navigation', { name: /primary navigation/i })
     ).not.toHaveLength(0);
+    expect(screen.getByRole('contentinfo')).toHaveAttribute(
+      'data-testid',
+      tid('layout.footer')
+    );
     expect(
       screen.queryByRole('button', { name: /sign out/i })
     ).not.toBeInTheDocument();

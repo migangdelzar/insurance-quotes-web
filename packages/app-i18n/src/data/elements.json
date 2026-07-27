@@ -14,7 +14,8 @@
     "skipToContent": "skip-to-content"
   },
   "layout": {
-    "main": "main-content"
+    "main": "main-content",
+    "footer": "app-footer"
   },
   "navigation": {
     "primary": "navigation-primary",
