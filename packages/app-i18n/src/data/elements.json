@@ -16,6 +16,24 @@
   "layout": {
     "main": "main-content"
   },
+  "navigation": {
+    "primary": "navigation-primary",
+    "home": "navigation-home",
+    "quotes": "navigation-quotes",
+    "newQuote": "navigation-new-quote",
+    "account": "navigation-account",
+    "shellTitle": "navigation-shell-title",
+    "accountTitle": "account-title",
+    "accountLanguage": "account-language",
+    "accountSession": "account-session",
+    "accountSecurity": "account-security",
+    "accountSupport": "account-support",
+    "accountPrivacy": "account-privacy",
+    "accountSignOut": "account-sign-out",
+    "offlineNotice": "offline-notice",
+    "offlineTitle": "offline-title",
+    "offlineDescription": "offline-description"
+  },
   "auth": {
     "login": {
       "title": "login-title",

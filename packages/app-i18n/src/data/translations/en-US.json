@@ -32,6 +32,24 @@
       "buildLabel": "Build · {{label}}"
     }
   },
+  "navigation": {
+    "primary": "Primary navigation",
+    "home": "Home",
+    "quotes": "Quotes",
+    "newQuote": "New quote",
+    "account": "Account",
+    "shellTitle": "Quote workspace",
+    "accountTitle": "Account",
+    "accountLanguage": "Language",
+    "accountSession": "Session and security",
+    "accountSecurity": "Your account is protected with secure session controls.",
+    "accountSupport": "Support",
+    "accountPrivacy": "Privacy and security",
+    "accountSignOut": "Sign out",
+    "offlineNotice": "Offline mode",
+    "offlineTitle": "You are offline",
+    "offlineDescription": "Reconnect to continue account and quote actions."
+  },
   "auth": {
     "login": {
       "title": "Sign in",

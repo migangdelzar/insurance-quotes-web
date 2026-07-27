@@ -32,6 +32,24 @@
       "buildLabel": "Compilación · {{label}}"
     }
   },
+  "navigation": {
+    "primary": "Navegación principal",
+    "home": "Inicio",
+    "quotes": "Cotizaciones",
+    "newQuote": "Nueva cotización",
+    "account": "Cuenta",
+    "shellTitle": "Espacio de cotizaciones",
+    "accountTitle": "Cuenta",
+    "accountLanguage": "Idioma",
+    "accountSession": "Sesión y seguridad",
+    "accountSecurity": "Tu cuenta está protegida con controles de sesión segura.",
+    "accountSupport": "Soporte",
+    "accountPrivacy": "Privacidad y seguridad",
+    "accountSignOut": "Cerrar sesión",
+    "offlineNotice": "Modo sin conexión",
+    "offlineTitle": "Estás sin conexión",
+    "offlineDescription": "Vuelve a conectarte para continuar con las acciones de cuenta y cotización."
+  },
   "auth": {
     "login": {
       "title": "Iniciar sesión",
