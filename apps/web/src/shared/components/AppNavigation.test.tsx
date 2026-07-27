@@ -25,21 +25,21 @@ describe('AppNavigation', () => {
     await i18n.changeLanguage('en-US');
   });
 
-  it('renders primary destinations with accessible names and active state', () => {
+  it('keeps every destination accessible and marks the active destination visually', () => {
     renderNavigation('/quotes/history');
 
-    expect(screen.getByRole('link', { name: /home/i })).toHaveAttribute(
-      'href',
-      '/quotes'
-    );
-    expect(screen.getByRole('link', { name: /quotes/i })).toHaveAttribute(
-      'aria-current',
-      'page'
-    );
-    expect(screen.getByRole('link', { name: /new quote/i })).toHaveAttribute(
-      'href',
-      '/quote/personal'
-    );
+    for (const [name, href] of [
+      ['Home', '/quotes'],
+      ['Quotes', '/quotes/history'],
+      ['New quote', '/quote/personal'],
+      ['Account', '/account'],
+    ]) {
+      expect(screen.getByRole('link', { name })).toHaveAttribute('href', href);
+    }
+
+    const activeDestination = screen.getByRole('link', { name: 'Quotes' });
+    expect(activeDestination).toHaveAttribute('aria-current', 'page');
+    expect(activeDestination).toHaveClass('navigation-action--active');
   });
 
   it('renders bottom navigation as a labeled navigation landmark', () => {

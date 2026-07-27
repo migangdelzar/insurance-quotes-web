@@ -11,6 +11,7 @@ import {
   useTheme,
 } from '@mui/material';
 import type { SvgIconProps } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useLocation } from 'react-router';
@@ -55,14 +56,16 @@ export function AppNavigation() {
         <Box
           component="nav"
           aria-label={navigationLabel}
-          sx={{
+          data-shell-tone="charcoal"
+          sx={(theme) => ({
             display: 'flex',
             width: 224,
             flexShrink: 0,
             borderRight: 1,
-            borderColor: 'divider',
-            bgcolor: 'background.paper',
-          }}
+            borderColor: alpha(theme.palette.shell.contrastText, 0.16),
+            bgcolor: 'shell.main',
+            color: 'shell.contrastText',
+          })}
         >
           <List disablePadding sx={{ width: '100%', p: 1 }}>
             {primaryDestinations.map((destination) => {
@@ -76,7 +79,25 @@ export function AppNavigation() {
                     aria-current={active ? 'page' : undefined}
                     data-testid={tid(destination.testIdKey)}
                     selected={active}
-                    sx={{ borderRadius: 2, mb: 0.5 }}
+                    className={active ? 'navigation-action--active' : undefined}
+                    sx={(theme) => ({
+                      mb: 0.5,
+                      borderRadius: 2,
+                      color: theme.palette.shell.contrastText,
+                      '&:hover': {
+                        bgcolor: alpha(theme.palette.shell.contrastText, 0.08),
+                      },
+                      '&.Mui-selected, &.navigation-action--active': {
+                        bgcolor: alpha(theme.palette.shell.contrastText, 0.14),
+                      },
+                      '&.Mui-selected:hover, &.navigation-action--active:hover':
+                        {
+                          bgcolor: alpha(theme.palette.shell.contrastText, 0.2),
+                        },
+                      '& .MuiListItemText-primary': {
+                        fontWeight: active ? 700 : 500,
+                      },
+                    })}
                   >
                     <ListItemText primary={t(destination.labelKey)} />
                   </ListItemButton>
@@ -91,6 +112,7 @@ export function AppNavigation() {
         <Box
           component="nav"
           aria-label={navigationLabel}
+          data-shell-tone="charcoal"
           sx={(theme) => ({
             display: 'block',
             position: 'fixed',
@@ -100,8 +122,12 @@ export function AppNavigation() {
             left: 0,
             pb: 'env(safe-area-inset-bottom)',
             borderTop: 1,
-            borderColor: 'divider',
-            bgcolor: 'background.paper',
+            borderColor: alpha(theme.palette.shell.contrastText, 0.16),
+            bgcolor: 'shell.main',
+            color: 'shell.contrastText',
+            '& .MuiBottomNavigation-root': {
+              bgcolor: 'transparent',
+            },
           })}
         >
           <BottomNavigation showLabels value={activeDestination}>
@@ -119,16 +145,18 @@ export function AppNavigation() {
                   aria-current={active ? 'page' : undefined}
                   data-testid={tid(destination.testIdKey)}
                   className={active ? 'navigation-action--active' : undefined}
-                  sx={{
+                  sx={(theme) => ({
                     borderTop: '3px solid transparent',
+                    color: alpha(theme.palette.shell.contrastText, 0.72),
                     '&.Mui-selected': {
-                      borderTopColor: 'primary.main',
+                      borderTopColor: theme.palette.primary.main,
+                      color: theme.palette.shell.contrastText,
                       fontWeight: 700,
                     },
                     '&.Mui-selected .MuiBottomNavigationAction-label': {
                       fontWeight: 700,
                     },
-                  }}
+                  })}
                 />
               );
             })}

@@ -110,6 +110,30 @@ describe('AppShell', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('marks the authenticated header and footer as charcoal shell surfaces', () => {
+    mockedUseAuth.mockReturnValue({
+      sessionState: 'authenticated',
+      authenticationMethod: 'password',
+      isAuthenticated: true,
+      login: vi.fn(),
+      completeMfa: vi.fn(),
+      loginWithPasskey: vi.fn(),
+      enrollPasskey: vi.fn(),
+      logout: vi.fn(),
+    });
+
+    renderWithProviders('/quotes');
+
+    expect(screen.getByRole('banner')).toHaveAttribute(
+      'data-shell-tone',
+      'charcoal'
+    );
+    expect(screen.getByRole('contentinfo')).toHaveAttribute(
+      'data-shell-tone',
+      'charcoal'
+    );
+  });
+
   it('focuses the destination heading after an authenticated route transition', () => {
     mockedUseAuth.mockReturnValue({
       sessionState: 'authenticated',

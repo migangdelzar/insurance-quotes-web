@@ -1,5 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { Box, Container, Stack, Typography } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
@@ -71,10 +72,18 @@ export function AppShell({ children }: AppShellProps) {
 
       <Box
         component="header"
-        sx={(theme) => ({
-          borderBottom: `1px solid ${theme.palette.divider}`,
-          bgcolor: 'background.paper',
-        })}
+        data-shell-tone={isAuthenticated ? 'charcoal' : undefined}
+        sx={(theme) => {
+          const shellDivider = alpha(theme.palette.shell.contrastText, 0.16);
+
+          return {
+            borderBottom: `1px solid ${
+              isAuthenticated ? shellDivider : theme.palette.divider
+            }`,
+            bgcolor: isAuthenticated ? 'shell.main' : 'background.paper',
+            color: isAuthenticated ? 'shell.contrastText' : 'text.primary',
+          };
+        }}
       >
         <Container maxWidth="xl" sx={{ py: 1.5 }}>
           <Stack
@@ -82,28 +91,49 @@ export function AppShell({ children }: AppShellProps) {
             alignItems="center"
             justifyContent="space-between"
           >
-            <BrandMark productLabel={t('common.appName')} />
+            <BrandMark
+              productLabel={t('common.appName')}
+              sx={
+                isAuthenticated
+                  ? {
+                      '& .MuiTypography-root': {
+                        color: 'shell.contrastText',
+                      },
+                      '& .MuiTypography-root:last-child': {
+                        opacity: 0.72,
+                      },
+                    }
+                  : undefined
+              }
+            />
 
             {isAuthenticated ? (
               <Stack direction="row" spacing={1.5} alignItems="center">
                 <Typography
                   variant="body2"
-                  color="text.secondary"
-                  sx={{ display: { xs: 'none', sm: 'block' } }}
+                  sx={{
+                    display: { xs: 'none', sm: 'block' },
+                    color: 'shell.contrastText',
+                    opacity: 0.72,
+                  }}
                 >
                   {activeLabel}
                 </Typography>
                 <Box
-                  sx={{
+                  sx={(theme) => ({
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: 0.75,
                     px: 1,
                     py: 0.625,
                     borderRadius: 99,
-                    bgcolor: 'success.light',
-                    color: 'success.dark',
-                  }}
+                    border: `1px solid ${alpha(
+                      theme.palette.shell.contrastText,
+                      0.2
+                    )}`,
+                    bgcolor: alpha(theme.palette.shell.contrastText, 0.1),
+                    color: 'shell.contrastText',
+                  })}
                 >
                   <Box
                     aria-hidden="true"
@@ -118,7 +148,18 @@ export function AppShell({ children }: AppShellProps) {
                     {t('layout.secureSessionAuthenticated')}
                   </Typography>
                 </Box>
-                <AccountMenu />
+                <Box
+                  sx={(theme) => ({
+                    '& .MuiButton-root': {
+                      color: theme.palette.shell.contrastText,
+                    },
+                    '& .MuiButton-root:hover': {
+                      bgcolor: alpha(theme.palette.shell.contrastText, 0.1),
+                    },
+                  })}
+                >
+                  <AccountMenu />
+                </Box>
               </Stack>
             ) : (
               <Typography variant="body2" color="text.secondary">
@@ -158,12 +199,21 @@ export function AppShell({ children }: AppShellProps) {
         <Box
           component="footer"
           data-testid={tid('layout.footer')}
+          data-shell-tone="charcoal"
           sx={(theme) => ({
-            borderTop: `1px solid ${theme.palette.divider}`,
-            bgcolor: 'background.paper',
+            borderTop: `1px solid ${alpha(
+              theme.palette.shell.contrastText,
+              0.16
+            )}`,
+            bgcolor: 'shell.main',
+            color: 'shell.contrastText',
             mb: {
               xs: 'calc(56px + env(safe-area-inset-bottom))',
               md: 0,
+            },
+            '& .MuiTypography-root': {
+              color: theme.palette.shell.contrastText,
+              opacity: 0.72,
             },
           })}
         >
