@@ -1,4 +1,5 @@
-import type { Page } from '@playwright/test';
+import type { Page, Route } from '@playwright/test';
+import type { QuoteView } from '@clara/api-contract';
 import { tid } from '@clara/app-i18n';
 
 export const DEMO_USER = { username: 'demo', password: 'demo-password' };
@@ -21,4 +22,41 @@ export async function skipEnrollmentIfShown(page: Page): Promise<void> {
     await skip.click();
   }
   await page.getByTestId(tid('quotesList.title')).waitFor({ state: 'visible' });
+}
+
+export async function loginAndReachQuotes(page: Page): Promise<void> {
+  await loginWithPassword(page);
+  await skipEnrollmentIfShown(page);
+}
+
+export async function stubAuthenticatedQuoteSession(
+  page: Page,
+  quotes: QuoteView[] = []
+): Promise<void> {
+  await page.route('**/auth/login', async (route: Route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        status: 'AUTHENTICATED',
+        tokens: {
+          accessToken: 'app-shell-access-token',
+          refreshToken: 'app-shell-refresh-token',
+          expiresInSeconds: 900,
+        },
+      }),
+    });
+  });
+  await page.route('**/quotes', async (route: Route) => {
+    if (route.request().method() !== 'GET') {
+      await route.fallback();
+      return;
+    }
+
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(quotes),
+    });
+  });
 }
