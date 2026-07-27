@@ -110,7 +110,7 @@ git commit -m "feat(web): define charcoal premium visual tokens"
 - Consumes: Task 1 `theme.palette.shell` token, existing `primaryDestinations`, `tid()`, i18n labels, `useAuth()`, and route focus behavior.
 - Produces: the same shell landmarks and navigation selectors with charcoal surfaces, high-contrast text, visible active treatment, and unchanged responsive geometry.
 
-- [ ] **Step 1: Write failing shell-style assertions**
+- [x] **Step 1: Write failing shell-style assertions**
 
 Extend component tests to assert semantic style hooks rather than brittle generated CSS:
 
@@ -131,7 +131,7 @@ it('marks the authenticated header and footer as charcoal shell surfaces', () =>
 
 Add a navigation assertion that every destination retains its accessible label and the active destination exposes `aria-current="page"` plus the active visual class.
 
-- [ ] **Step 2: Run focused tests and verify the new assertions fail**
+- [x] **Step 2: Run focused tests and verify the new assertions fail**
 
 Run:
 
@@ -141,11 +141,11 @@ bun run --filter web test --run src/shared/components/AppShell.test.tsx src/shar
 
 Expected: the new shell-tone assertions fail before the implementation adds the stable attributes/treatment.
 
-- [ ] **Step 3: Implement shell styling without changing behavior**
+- [x] **Step 3: Implement shell styling without changing behavior**
 
 Apply `bgcolor: 'shell.main'`, `color: 'shell.contrastText'`, and theme-derived divider colors to authenticated header/footer and desktop/mobile navigation. Add `data-shell-tone="charcoal"` only as a stable test/style boundary. Ensure nested `Typography`, buttons, menu triggers, navigation labels, and icons inherit or explicitly use high-contrast shell colors. Keep the existing fixed mobile nav safe-area padding, footer margin clearance, route focus effect, skip link, and account menu unchanged.
 
-- [ ] **Step 4: Run focused tests and responsive browser checks**
+- [x] **Step 4: Run focused tests and responsive browser checks**
 
 Run:
 
@@ -156,7 +156,7 @@ E2E_BASE_URL=http://localhost:3100 bun run --filter e2e test tests/app-navigatio
 
 Expected: all focused tests and shell browser checks pass with no horizontal overflow or fixed-navigation overlap.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/shared/components/AppShell.tsx apps/web/src/shared/components/AppNavigation.tsx apps/web/src/shared/components/AppShell.test.tsx apps/web/src/shared/components/AppNavigation.test.tsx
