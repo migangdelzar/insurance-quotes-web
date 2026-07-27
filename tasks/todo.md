@@ -171,6 +171,12 @@
 - [x] Run focused tests, full web tests, lint, build, and relevant Playwright checks.
 - [x] Write the Hardening B report, commit all intended changes, push, and verify the remote SHA.
 
+## App-first post-review hardening C — CI and PWA enforcement
+
+- [x] Add app navigation, accessibility, dashboard responsive, production PWA preview, and static artifact checks to GitHub Actions.
+- [x] Enforce manifest description and Apple install metadata in the production artifact checker.
+- [x] Align README responsive verification and CI documentation with the supported viewport matrix.
+
 ### Hardening B acceptance criteria
 
 - Submission remains visibly and accessibly busy until the mutation resolves.

@@ -801,10 +801,18 @@ git log --oneline origin/feat-frontend -1
 ## Definition of Done
 
 - [ ] All tasks completed with focused tests written before implementation.
-- [ ] App shell is minimal, responsive, and navigable from desktop and mobile.
-- [ ] Home, Quotes, New quote, and Account destinations are reachable and visibly active.
-- [ ] Loading, empty, error, retry, success, and offline states are stable and accessible.
-- [ ] PWA manifest, service worker, icons, and production artifact checks pass.
-- [ ] Existing quote pricing, health-condition behavior, authentication, API contracts, and Playwright journeys remain green.
-- [ ] No application console errors occur in critical browser flows.
-- [ ] Changes are committed in logical units and pushed to `origin/feat-frontend`.
+- [x] App shell is minimal, responsive, and navigable from desktop and mobile.
+- [x] Home, Quotes, New quote, and Account destinations are reachable and visibly active.
+- [x] Loading, empty, error, retry, success, and offline states are stable and accessible.
+- [x] PWA manifest, service worker, icons, and production artifact checks pass.
+- [x] Existing quote pricing, health-condition behavior, authentication, API contracts, and Playwright journeys remain green.
+- [x] No application console errors occur in critical browser flows.
+- [x] Changes are committed in logical units and pushed to `origin/feat-frontend`.
+
+## Post-review hardening
+
+The final whole-branch review identified follow-up correctness and operability work before this plan can be considered complete:
+
+- [x] **Hardening A: guarantee coverage synchronization before advancing.** The coverage step awaits or flushes the latest debounced update before navigation; fake-timer and browser regressions cover the fast-selection/Next race. Server-owned premium calculation remains authoritative, including diabetes and hypertension factors.
+- [x] **Hardening B: complete accessibility and feedback boundaries.** The app renders an accessible submitting state, focuses new route headings after navigation, synchronizes `<html lang>` with the selected locale, and keeps the authenticated footer clear of fixed mobile navigation with geometry coverage.
+- [x] **Hardening C: enforce guarantees in CI and docs.** GitHub Actions now runs app navigation/accessibility/dashboard/PWA preview/artifact checks; PWA description/Apple metadata are enforced; README documents 320/375/768/1024/1440.
