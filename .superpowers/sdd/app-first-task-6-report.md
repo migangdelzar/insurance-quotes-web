@@ -30,3 +30,16 @@ Added installable PWA output and an authenticated-shell offline status boundary.
 ## Commit
 
 `feat(web): add safe installable PWA shell`
+
+## Review remediation
+
+- Added valid 192×192 and 512×512 PNG `any` icon fallbacks plus a 512×512 `maskable` PNG icon. The manifest retains the vector icons and now references every PNG asset with explicit size, type, and purpose metadata.
+- Strengthened `check-build.mjs` to validate required assets, manifest icon metadata, the generated worker's `/api` navigation denylist, and the absence of a second `/api` reference that would indicate an API runtime-cache route.
+- Added deterministic fixture tests for the missing maskable asset, missing navigation denylist, and API runtime-cache route cases.
+
+### Remediation verification
+
+- Focused PWA checker tests: 4 passing.
+- Full web suite: 85 passing.
+- Lint: 0 errors; 3 pre-existing Fast Refresh warnings.
+- Production build and `node src/pwa/check-build.mjs`: passed.
