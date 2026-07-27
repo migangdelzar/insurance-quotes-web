@@ -177,6 +177,15 @@
 - [x] Enforce manifest description and Apple install metadata in the production artifact checker.
 - [x] Align README responsive verification and CI documentation with the supported viewport matrix.
 
+## App-first post-review hardening D — final review findings
+
+- [x] Add RED/GREEN regression coverage for workspace-pinned Playwright CI installation and same-origin Vite defaults.
+- [x] Add RED/GREEN production-artifact coverage rejecting an absolute localhost API base.
+- [x] Pin Playwright to the workspace lockfile version and install browsers through that binary in both CI jobs.
+- [x] Set committed Vite API defaults to `/api` while preserving the localhost Vite proxy target.
+- [x] Label coverage, health-question, and health-condition groups with localized programmatic names and regression tests.
+- [x] Run focused/full web checks, lint, build, PWA checker/preview, and integrated browser journeys; commit and push the fixes.
+
 ### Hardening B acceptance criteria
 
 - Submission remains visibly and accessibly busy until the mutation resolves.
