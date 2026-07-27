@@ -74,6 +74,24 @@ function getContrastRatio(colorA: string, colorB: string) {
 }
 
 describe('shared visual primitives', () => {
+  it('defines the charcoal premium shell tokens', () => {
+    expect(theme.palette).toMatchObject({
+      shell: {
+        main: '#1D1D1F',
+        contrastText: '#F5F5F7',
+      },
+    });
+    expect(theme.palette.background.default).toBe('#FBFBFD');
+    expect(theme.palette.primary.main).toBe('#0071E3');
+  });
+
+  it('keeps interactive surfaces visually restrained', () => {
+    expect(theme.components?.MuiButton?.defaultProps?.disableElevation).toBe(
+      true
+    );
+    expect(theme.components?.MuiPaper?.defaultProps?.elevation).toBe(0);
+  });
+
   it('uses the Emme light palette for the quote workspace', () => {
     expect(theme.palette.background.default).toBe('#FBFBFD');
     expect(theme.palette.background.paper).toBe('#FFFFFF');

@@ -3,6 +3,7 @@ import { alpha, createTheme } from '@mui/material/styles';
 declare module '@mui/material/styles' {
   interface Palette {
     ink: Palette['primary'];
+    shell: Palette['primary'];
     charcoal: Palette['primary'];
     cream: Palette['primary'];
     surface: Palette['primary'];
@@ -12,6 +13,7 @@ declare module '@mui/material/styles' {
 
   interface PaletteOptions {
     ink?: PaletteOptions['primary'];
+    shell?: PaletteOptions['primary'];
     charcoal?: PaletteOptions['primary'];
     cream?: PaletteOptions['primary'];
     surface?: PaletteOptions['primary'];
@@ -19,6 +21,8 @@ declare module '@mui/material/styles' {
     gold?: PaletteOptions['primary'];
   }
 }
+
+const shellText = '#F5F5F7';
 
 const palette = {
   ink: '#1D1D1F',
@@ -68,9 +72,13 @@ let theme = createTheme({
       main: palette.ink,
       contrastText: '#FFFFFF',
     },
+    shell: {
+      main: palette.charcoal,
+      contrastText: shellText,
+    },
     charcoal: {
       main: palette.charcoal,
-      contrastText: '#F5F5F7',
+      contrastText: shellText,
     },
     cream: {
       main: palette.cream,
@@ -222,6 +230,29 @@ theme = createTheme(theme, {
     },
     MuiTextField: {
       defaultProps: { fullWidth: true, size: 'small' },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: theme.shape.borderRadius,
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: alpha(theme.palette.ink.main, 0.18),
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette.primary.main,
+            borderWidth: 2,
+          },
+        },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: theme.spacing(1),
+          borderColor: alpha(theme.palette.ink.main, 0.14),
+          fontWeight: theme.typography.fontWeightMedium,
+        },
+      },
     },
     MuiListItemText: {
       styleOverrides: {
