@@ -6,3 +6,7 @@ Task 5: complete (commits 4531c60, 0b21e42; review clean)
 Task 6: complete (commit aee046d plus review fixes; review clean)
 Task 7: complete (commit a68a715; fresh responsive/premium-shell and ordered integrated journeys pass)
 Task 8: complete (formatting, lint, tests, E2E build, and production build pass)
+
+## Plan: docs/superpowers/plans/2026-07-26-app-first-pwa-ux-plan.md
+
+Task 1: complete (commits 7c1ec4e..3e03e03, review clean)
