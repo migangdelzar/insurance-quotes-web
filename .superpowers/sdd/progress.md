@@ -21,3 +21,4 @@ Task 7: complete (commits 2331c4f..b894f53, review clean)
 
 Task 1: complete (commit 6518e17, review clean; review bde9cfc)
 Task 2: complete (commits 3e65b14..d997383, review clean; review 1c5b722)
+Task 3: complete (commit c7363cc, review clean; review 2adebff)
