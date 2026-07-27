@@ -4,7 +4,7 @@ The web app uses the browser's preferred languages to select `en-US` or `es-MX` 
 
 ## Responsive verification
 
-Run unit/build checks with `bun run test`, `bun run build`, and `bun run lint`. With the service stack running, run the browser layout audit at 320, 375, 768, and 1280 pixels:
+Run unit/build checks with `bun run test`, `bun run build`, and `bun run lint`. With the service stack running, run the browser layout audit at 320, 375, 768, 1024, and 1440 pixels:
 
 ```bash
 E2E_BASE_URL=http://localhost:3100 bunx playwright test tests/responsive-layout.spec.ts --project=desktop-chromium
@@ -68,7 +68,7 @@ The production image is built from this repository’s `Dockerfile` and served b
 
 ## GitHub Actions
 
-Frontend CI runs on every push and pull request. Runs are grouped by source branch and cancel older in-progress runs when a newer commit arrives. It installs the locked Bun dependencies, runs web tests, lint, formatting checks, the production build, and the four-viewport responsive browser audit.
+Frontend CI runs on every push and pull request. Runs are grouped by source branch and cancel older in-progress runs when a newer commit arrives. It installs the locked Bun dependencies, runs web and E2E quality checks, builds the production bundle and container image, validates static PWA artifacts, and runs browser audits for the five responsive viewports, authenticated navigation, accessibility, dashboard layout, mocked quote journeys, and the isolated production PWA preview.
 
 ## Tests and quality checks
 

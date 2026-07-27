@@ -32,6 +32,7 @@ function createBuildFixture(workerSource: string): string {
   writeFileSync(
     join(directory, 'manifest.webmanifest'),
     JSON.stringify({
+      description: 'A secure, guided workspace for Clara insurance quotes.',
       icons: [
         {
           src: '/icons/clara-192.png',
@@ -53,6 +54,15 @@ function createBuildFixture(workerSource: string): string {
         },
       ],
     })
+  );
+  writeFileSync(
+    join(directory, 'index.html'),
+    [
+      '<meta name="apple-mobile-web-app-capable" content="yes" />',
+      '<meta name="apple-mobile-web-app-status-bar-style" content="default" />',
+      '<meta name="apple-mobile-web-app-title" content="Clara Quotes" />',
+      '<link rel="apple-touch-icon" sizes="192x192" href="/icons/clara-192.png" />',
+    ].join('\n')
   );
   writeFileSync(join(directory, 'sw.js'), workerSource);
 
@@ -78,6 +88,24 @@ afterEach(() => {
 });
 
 describe('PWA build checker', () => {
+  it('keeps app-first browser and PWA guarantees enforced in CI', () => {
+    const workflow = readFileSync(
+      resolve(process.cwd(), '../../.github/workflows/ci.yml'),
+      'utf8'
+    );
+
+    for (const requiredCheck of [
+      'tests/app-navigation.spec.ts',
+      'tests/app-accessibility.spec.ts',
+      'tests/dashboard-responsive.spec.ts',
+      'node src/pwa/check-build.mjs',
+      'test:pwa-preview',
+      'E2E_PWA_PREVIEW_PORT: 43102',
+    ]) {
+      expect(workflow).toContain(requiredCheck);
+    }
+  });
+
   it('declares raster any and maskable icon fallbacks in the PWA manifest', () => {
     const viteConfig = readFileSync(
       resolve(process.cwd(), 'vite.config.ts'),
@@ -100,6 +128,35 @@ describe('PWA build checker', () => {
 
     expect(result.status).toBe(1);
     expect(result.output).toContain('icons/clara-512-maskable.png');
+  });
+
+  it('fails when the generated manifest has no description', () => {
+    const fixture = createBuildFixture(
+      'registerRoute(new NavigationRoute(createHandlerBoundToURL("/index.html"), { denylist: [/^\\/api/] }));'
+    );
+    const manifestPath = join(fixture, 'manifest.webmanifest');
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as {
+      description?: string;
+    };
+    delete manifest.description;
+    writeFileSync(manifestPath, JSON.stringify(manifest));
+
+    const result = runChecker(fixture);
+
+    expect(result.status).toBe(1);
+    expect(result.output).toContain('Manifest is missing a description');
+  });
+
+  it('fails when the generated page lacks Apple install metadata', () => {
+    const fixture = createBuildFixture(
+      'registerRoute(new NavigationRoute(createHandlerBoundToURL("/index.html"), { denylist: [/^\\/api/] }));'
+    );
+    writeFileSync(join(fixture, 'index.html'), '<main>Clara Quotes</main>');
+
+    const result = runChecker(fixture);
+
+    expect(result.status).toBe(1);
+    expect(result.output).toContain('Missing Apple PWA metadata');
   });
 
   it('fails when the generated worker lacks the API navigation denylist', () => {

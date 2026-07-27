@@ -21,6 +21,7 @@ export default defineConfig({
       manifest: {
         name: 'Clara Insurance Quotes',
         short_name: 'Clara Quotes',
+        description: 'A secure, guided workspace for Clara insurance quotes.',
         start_url: '/quotes',
         display: 'standalone',
         theme_color: '#1D1D1F',
