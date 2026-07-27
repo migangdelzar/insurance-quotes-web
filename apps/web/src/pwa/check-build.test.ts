@@ -125,4 +125,17 @@ describe('PWA build checker', () => {
       'must not define an API runtime-cache route'
     );
   });
+
+  it('fails when a runtime-cache matcher avoids the literal API path', () => {
+    const fixture = createBuildFixture(
+      'new NavigationRoute(createHandlerBoundToURL("/index.html"), { denylist: [/^\\/api/] }); registerRoute(({ url }) => url.pathname.startsWith("/" + "api"), new CacheFirst());'
+    );
+
+    const result = runChecker(fixture);
+
+    expect(result.status).toBe(1);
+    expect(result.output).toContain(
+      'must not define an API runtime-cache route'
+    );
+  });
 });

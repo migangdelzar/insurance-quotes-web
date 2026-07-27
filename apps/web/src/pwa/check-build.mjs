@@ -48,14 +48,22 @@ if (!requiredManifestIcons.every(hasManifestIcon)) {
 }
 
 const workerSource = readFileSync(resolve(dist, 'sw.js'), 'utf8');
-const apiPathOccurrences = workerSource.match(/\\?\/api/g)?.length ?? 0;
+const registeredRoutes = workerSource.match(
+  /\b(?:[\w$]+\.)?registerRoute\s*\(/gu
+) ?? [];
+const navigationRouteRegistrations = workerSource.match(
+  /\b(?:[\w$]+\.)?registerRoute\s*\(\s*new\s+(?:[\w$]+\.)?NavigationRoute\s*\(/gu
+) ?? [];
 
 if (!/denylist\s*:\s*\[\s*\/\^\\\/api\//u.test(workerSource)) {
   console.error('Service worker is missing the /api navigation denylist.');
   process.exit(1);
 }
 
-if (apiPathOccurrences !== 1) {
+if (
+  registeredRoutes.length !== 1 ||
+  navigationRouteRegistrations.length !== 1
+) {
   console.error('Service worker must not define an API runtime-cache route.');
   process.exit(1);
 }

@@ -43,3 +43,16 @@ Added installable PWA output and an authenticated-shell offline status boundary.
 - Full web suite: 85 passing.
 - Lint: 0 errors; 3 pre-existing Fast Refresh warnings.
 - Production build and `node src/pwa/check-build.mjs`: passed.
+
+## Follow-up review remediation
+
+- Replaced the fragile `/api` occurrence count with a structural worker invariant: the generated worker must contain exactly one `registerRoute` call, and that call must register the expected `NavigationRoute`. This rejects any added runtime-cache route regardless of how its matcher spells the API path.
+- Added a regression fixture whose API matcher constructs `"/" + "api"`, proving that a runtime-cache route without a literal `/api` is rejected.
+
+### Follow-up verification
+
+- Red: the new obfuscated-matcher fixture passed the previous checker (exit status 0), demonstrating the review finding.
+- Focused PWA checker tests: 5 passing.
+- Full web suite: 86 passing.
+- Lint: 0 errors; 3 pre-existing Fast Refresh warnings.
+- Production build and `cd apps/web && node src/pwa/check-build.mjs`: passed.
