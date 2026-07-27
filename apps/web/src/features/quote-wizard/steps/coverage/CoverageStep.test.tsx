@@ -1,6 +1,6 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { I18nextProvider } from 'react-i18next';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { useEffect } from 'react';
@@ -55,12 +55,11 @@ function renderStep() {
 describe('CoverageStep', () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it('persists a new coverage choice before immediate Next navigation unmounts the step', async () => {
-    vi.mocked(quoteApi.updateCoverage).mockResolvedValue({
-      id: 'quote-1',
-      status: 'DRAFT',
-      monthlyPremium: 450,
-    });
+  it('waits for a new coverage choice to persist before immediate Next navigation', async () => {
+    let resolveUpdate: (quote: Awaited<ReturnType<typeof quoteApi.updateCoverage>>) => void;
+    vi.mocked(quoteApi.updateCoverage).mockImplementation(
+      () => new Promise((resolve) => { resolveUpdate = resolve; })
+    );
     renderStep();
 
     await waitFor(() =>
@@ -74,8 +73,34 @@ describe('CoverageStep', () => {
         coverageType: 'PREMIUM',
       }))
     );
+    expect(screen.queryByTestId('summary')).not.toBeInTheDocument();
+
+    await act(async () => {
+      resolveUpdate!({
+        id: 'quote-1',
+        status: 'DRAFT',
+        monthlyPremium: 450,
+      });
+    });
     await waitFor(() =>
       expect(screen.getByTestId('summary')).toBeInTheDocument()
     );
+  });
+
+  it('keeps the user on coverage and shows the mutation error when immediate Next persistence fails', async () => {
+    vi.mocked(quoteApi.updateCoverage).mockRejectedValue(new Error('Coverage update failed'));
+    renderStep();
+
+    await waitFor(() =>
+      expect(screen.getByTestId(tid('wizard.coverage.standard'))).toBeEnabled()
+    );
+    fireEvent.click(screen.getByTestId(tid('wizard.coverage.standard')));
+    fireEvent.click(screen.getByTestId(tid('common.next')));
+
+    await waitFor(() => expect(quoteApi.updateCoverage).toHaveBeenCalledTimes(1));
+    await waitFor(() =>
+      expect(screen.getByTestId(tid('common.apiError'))).toBeVisible()
+    );
+    expect(screen.queryByTestId('summary')).not.toBeInTheDocument();
   });
 });
