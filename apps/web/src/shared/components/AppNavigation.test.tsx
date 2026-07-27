@@ -49,4 +49,20 @@ describe('AppNavigation', () => {
       screen.getAllByRole('navigation', { name: /primary navigation/i })
     ).not.toHaveLength(0);
   });
+
+  it('shows an icon for every mobile destination and a non-color active treatment', () => {
+    renderNavigation('/quotes');
+
+    for (const label of ['Home', 'Quotes', 'New quote', 'Account']) {
+      expect(
+        screen
+          .getByRole('link', { name: new RegExp(`^${label}$`, 'i') })
+          .querySelector('svg')
+      ).not.toBeNull();
+    }
+
+    expect(screen.getByRole('link', { name: /^home$/i })).toHaveClass(
+      'navigation-action--active'
+    );
+  });
 });
