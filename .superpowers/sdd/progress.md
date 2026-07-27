@@ -10,3 +10,4 @@ Task 8: complete (formatting, lint, tests, E2E build, and production build pass)
 ## Plan: docs/superpowers/plans/2026-07-26-app-first-pwa-ux-plan.md
 
 Task 1: complete (commits 7c1ec4e..3e03e03, review clean)
+Task 2: complete (commits eb73d1a..c425d10, review clean)
