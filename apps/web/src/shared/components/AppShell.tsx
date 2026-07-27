@@ -2,13 +2,14 @@ import type { ReactNode } from 'react';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
-import { Link as RouterLink, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { useAuth } from '@features/auth/context/AuthProvider';
 import {
   getActiveDestination,
   primaryDestinations,
 } from '@shared/navigation/navigation';
 import { AppNavigation } from './AppNavigation';
+import { AccountMenu } from './AccountMenu';
 import { BrandMark } from './BrandMark';
 
 type AppShellProps = {
@@ -105,24 +106,7 @@ export function AppShell({ children }: AppShellProps) {
                     {t('layout.secureSessionAuthenticated')}
                   </Typography>
                 </Box>
-                <Box
-                  component={RouterLink}
-                  to="/account"
-                  aria-label={t('navigation.account')}
-                  sx={{
-                    display: 'grid',
-                    placeItems: 'center',
-                    width: 34,
-                    height: 34,
-                    borderRadius: '50%',
-                    bgcolor: 'grey.100',
-                    color: 'text.primary',
-                    fontWeight: 700,
-                    textDecoration: 'none',
-                  }}
-                >
-                  {t('navigation.account').slice(0, 1)}
-                </Box>
+                <AccountMenu />
               </Stack>
             ) : (
               <Typography variant="body2" color="text.secondary">

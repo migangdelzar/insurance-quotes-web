@@ -12,6 +12,7 @@ import { CoverageStep } from '@features/quote-wizard/steps/coverage/CoverageStep
 import { SummaryStep } from '@features/quote-wizard/steps/summary/SummaryStep';
 import { QuotesListPage } from '@pages/QuotesListPage';
 import { NotFoundPage } from '@pages/NotFoundPage';
+import { AccountPage } from '@pages/AccountPage';
 
 function Providers() {
   return (
@@ -49,6 +50,7 @@ export const router = createBrowserRouter([
           { index: true, element: <Navigate to="/quotes" replace /> },
           { path: 'quotes', element: <QuotesListPage /> },
           { path: 'quotes/history', element: <QuotesListPage /> },
+          { path: 'account', element: <AccountPage /> },
           {
             element: <WizardShell />,
             children: [
