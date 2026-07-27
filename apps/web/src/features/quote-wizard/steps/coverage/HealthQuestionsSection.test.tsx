@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { I18nextProvider } from 'react-i18next';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -16,7 +16,9 @@ const renderSection = (coverage = emptyCoverage, onChange = vi.fn()) =>
 
 describe('HealthQuestionsSection', () => {
   afterEach(async () => {
-    await i18n.changeLanguage('en-US');
+    await act(async () => {
+      await i18n.changeLanguage('en-US');
+    });
   });
 
   it('renders all four question groups', () => {
@@ -63,7 +65,9 @@ describe('HealthQuestionsSection', () => {
       ],
     },
   ])('gives every health question a localized group name ($locale)', async ({ locale, names }) => {
-    await i18n.changeLanguage(locale);
+    await act(async () => {
+      await i18n.changeLanguage(locale);
+    });
     renderSection({ ...emptyCoverage, hasPreexistingConditions: true });
 
     for (const name of names) {
