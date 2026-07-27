@@ -4,9 +4,9 @@
 
 - [x] Add browser contracts for semantic charcoal landmarks and rendered contrast.
 - [x] Preserve no-overflow and fixed-navigation checks across 320, 375, 768, 1024, and 1440px.
-- [x] Run focused browser checks and bounded web/E2E verification.
-- [x] Record exact RED/GREEN evidence and the pre-existing PWA metadata limitation.
-- [x] Commit and push only the intended Task 4 files.
+- [x] Run focused browser checks and complete web/E2E verification.
+- [x] Record exact RED/GREEN evidence, the mobile action-dock regression fix, and the pre-existing PWA metadata limitation.
+- [x] Commit and push only the intended Task 4 files and follow-up fix.
 
 ### Results
 
@@ -14,7 +14,8 @@
 - Web suite: 28 files / 106 tests passed; lint: 0 errors and 3 pre-existing Fast Refresh warnings; production build passed with the existing chunk-size advisory.
 - E2E TypeScript build and lint passed after tightening the RGB parser tuple; PWA preview passed 1/1.
 - Static PWA checker remains limited by the pre-existing `apps/web/index.html` metadata change (`Missing Apple PWA metadata`); that file was not touched or staged.
-- The complete Playwright journey suite was intentionally not rerun during this bounded Task 4 handoff.
+- Full Playwright journey suite: 28 passed after rebuilding the web image and restoring the temporary E2E API rate-limit override.
+- Regression fixed: the mobile wizard action dock now has an explicit stacking order above the footer/navigation; 320px and 375px action-dock geometry tests pass.
 
 ## Charcoal premium shell — Task 3
 

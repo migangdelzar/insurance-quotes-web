@@ -235,6 +235,7 @@ git commit -m "feat(web): polish quote workspace widgets"
 - Modify: `e2e/tests/app-accessibility.spec.ts`
 - Modify: `e2e/tests/app-navigation.spec.ts`
 - Modify: `e2e/tests/dashboard-responsive.spec.ts`
+- Modify: `apps/web/src/features/quote-wizard/components/WizardActionDock.tsx` (follow-up regression fix)
 - Modify: `README.md` only if verification commands or visual notes change
 - Test: `e2e/tests/app-accessibility.spec.ts`, `e2e/tests/app-navigation.spec.ts`, `e2e/tests/dashboard-responsive.spec.ts`, existing journey specs
 
@@ -295,10 +296,11 @@ E2E_BASE_URL=http://localhost:3100 bun run e2e -- --retries=0
 Expected: all unit tests, lint/type checks, production/PWA checks, and the complete browser journey suite pass. Existing non-blocking Fast Refresh and Vite chunk-size warnings may remain documented.
 
 Verification note: the focused browser suite, web tests/lint/build, E2E build/lint,
-and PWA preview passed. The static PWA checker still reports `Missing Apple PWA
-metadata` because the pre-existing `apps/web/index.html` working-tree change
-uses `mobile-web-app-capable`; that file remains untouched and unstaged. The
-complete Playwright journey suite was not rerun in this bounded Task 4 handoff.
+PWA preview, and complete Playwright journey suite passed. The static PWA
+checker still reports `Missing Apple PWA metadata` because the pre-existing
+`apps/web/index.html` working-tree change uses `mobile-web-app-capable`; that
+file remains untouched and unstaged. The full journey run passed 28 tests after
+the temporary E2E API rate-limit override was restored.
 
 - [x] **Step 5: Commit verification/docs and request review**
 
@@ -312,10 +314,10 @@ Then request a fresh visual/accessibility review and record the result in `docs/
 
 ## Definition of Done
 
-- [ ] Header, desktop rail, mobile navigation, and footer use the approved charcoal treatment.
-- [ ] Typography, icons, buttons, widgets, cards, loading, error, premium, and account states have clear hierarchy and sufficient contrast.
-- [ ] Existing routes, selectors, translations, auth, pricing, PWA, focus, and safe-area behavior remain compatible.
-- [ ] Responsive checks pass at 320, 375, 768, 1024, and 1440px.
+- [x] Header, desktop rail, mobile navigation, and footer use the approved charcoal treatment.
+- [x] Typography, icons, buttons, widgets, cards, loading, error, premium, and account states have clear hierarchy and sufficient contrast.
+- [x] Existing routes, selectors, translations, auth, pricing, PWA, focus, and safe-area behavior remain compatible.
+- [x] Responsive checks pass at 320, 375, 768, 1024, and 1440px.
 - [x] Unit, lint, build, focused Playwright, and PWA preview verification passes;
       the static PWA checker limitation is documented above.
-- [ ] Changes are committed and pushed to `origin/feat-frontend`.
+- [x] Changes are committed and pushed to `origin/feat-frontend`.

@@ -139,6 +139,14 @@ for (const width of [320, 375]) {
       )
       .toBe('fixed');
 
+    const [actionDockZIndex, footerZIndex] = await Promise.all([
+      actionDock.evaluate((element) => getComputedStyle(element).zIndex),
+      page
+        .getByRole('contentinfo')
+        .evaluate((element) => getComputedStyle(element).zIndex),
+    ]);
+    expect(Number(actionDockZIndex)).toBeGreaterThan(Number(footerZIndex) || 0);
+
     const [dockBox, navigationBox] = await Promise.all([
       actionDock.boundingBox(),
       navigation.boundingBox(),

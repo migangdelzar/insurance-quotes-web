@@ -8,6 +8,8 @@ import { test } from '../support/criticalFlow';
 
 type Rgb = readonly [number, number, number];
 
+const CHARCOAL_SHELL_RGB = 'rgb(29, 29, 31)';
+
 function parseCssRgb(value: string): Rgb {
   const channels = value
     .match(/\d+(?:\.\d+)?/g)
@@ -78,6 +80,7 @@ test('authenticated app routes retain landmarks, headings, and keyboard focus', 
   );
 
   for (const { backgroundColor, color } of shellStyles) {
+    expect(backgroundColor).toBe(CHARCOAL_SHELL_RGB);
     expect(contrastRatio(color, backgroundColor)).toBeGreaterThanOrEqual(4.5);
   }
 

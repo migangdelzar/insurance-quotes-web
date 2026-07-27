@@ -4,7 +4,7 @@
 |---|---|
 | Plan | `docs/superpowers/plans/2026-07-27-charcoal-premium-shell-plan.md` |
 | Scope | Browser verification for shell semantics, contrast, responsive geometry, and navigation stability |
-| Status | Complete with a pre-existing PWA metadata limitation |
+| Status | Complete with a pre-existing PWA metadata limitation and one follow-up regression fix |
 
 ## Changed files
 
@@ -16,6 +16,8 @@
   - Preserved route, active-link, footer-clearance, fixed-action-dock, and no-overflow assertions.
 - `e2e/tests/dashboard-responsive.spec.ts`
   - Added shell-tone assertions while retaining no-horizontal-overflow checks at 320, 375, 768, 1024, and 1440 pixels.
+- `apps/web/src/features/quote-wizard/components/WizardActionDock.tsx`
+  - Fixed the responsive action dock z-index so it remains above the charcoal footer and mobile navigation at narrow widths.
 - `docs/superpowers/plans/2026-07-27-charcoal-premium-shell-plan.md`
   - Marked Task 4 complete and documented bounded verification plus the PWA limitation.
 - `tasks/todo.md`
@@ -40,6 +42,11 @@ with the prior implementation RED evidence:
 
 The Task 4 assertions are verification contracts for those completed changes,
 not a reason to regress the already-finished application source.
+
+The full journey run then exposed a genuine 320px interaction regression: the
+mobile wizard action dock had a computed `z-index` of `auto`, allowing the
+footer to intercept clicks on the Next button. The new navigation assertion
+failed with `Expected: > 0; Received: NaN` before the source fix.
 
 ### Tooling RED
 
@@ -73,6 +80,7 @@ geometry at all five planned widths.
 | Command | Result |
 |---|---|
 | Focused Playwright suite | 13 passed, retries 0 |
+| Full Playwright journey suite (`E2E_BASE_URL=http://localhost:3100 bun run e2e -- --retries=0`) | 28 passed, retries 0; E2E API rate limiting disabled via the temporary override |
 | `bun run --filter web test --run` | 28 files / 106 tests passed |
 | `bun run --filter web lint` | 0 errors; 3 pre-existing Fast Refresh warnings |
 | `bun run --filter web build` | Passed; existing Vite chunk-size advisory |
@@ -84,8 +92,11 @@ geometry at all five planned widths.
 The static PWA failure is caused by the pre-existing `apps/web/index.html`
 working-tree replacement of `apple-mobile-web-app-capable` with
 `mobile-web-app-capable`. Per the Task 4 brief, it was preserved rather than
-reverted or fixed. The complete Playwright journey suite was not rerun in this
-bounded handoff; the targeted visual-contract suite completed in 11.1 seconds.
+reverted or fixed. The complete Playwright journey suite was rerun after
+rebuilding the web image, restoring the E2E API rate-limit override, and fixing
+the mobile action-dock stacking context. It passed all 28 tests, including
+failed submission/retry, senior-health pricing, standard submission, passkey
+lifecycle, and 320/375px recording journeys.
 
 ## Scope review
 
