@@ -195,6 +195,33 @@
 - Production web build: passed with the existing chunk-size advisory.
 - Focused Playwright accessibility/navigation/responsive checks: 8 passed, including footer geometry at 320px and 375px.
 
+## App-first post-review hardening D — CI and same-origin defaults
+
+- [x] Add RED regression coverage for workspace-pinned Playwright CI installation.
+- [x] Add RED regression coverage for same-origin committed Vite defaults.
+- [x] Add RED production-artifact coverage rejecting an absolute localhost API base.
+- [x] Pin Playwright to the workspace lockfile version and install browsers through that binary in both CI jobs.
+- [x] Set committed Vite API defaults to `/api` while preserving the localhost Vite proxy target.
+- [x] Run web tests, lint, build, PWA checker, E2E typecheck/lint, and PWA preview.
+- [x] Write the Hardening D report, commit intended files only, push, and verify the remote SHA.
+
+### Hardening D acceptance criteria
+
+- Both browser CI jobs verify and use the exact Playwright version declared by the E2E workspace.
+- Frozen dependency installation resolves that exact version from `bun.lock`.
+- Development, production, and example Vite API defaults use `/api`.
+- A generated JavaScript artifact containing `http://localhost:8080` fails the production artifact checker.
+- Coverage and health components remain untouched by Hardening D.
+
+### Hardening D verification evidence
+
+- Focused PWA checker tests: 10/10 passed after three expected RED failures.
+- Full web tests: 28 files / 102 tests passed.
+- Web lint: 0 errors; 3 existing Fast Refresh warnings.
+- E2E typecheck and lint: passed.
+- Plain production build and PWA artifact checker: passed with no localhost API URL in generated JavaScript.
+- Isolated production PWA preview: 1/1 passed on port 43104.
+
 - [x] Run the complete current-source web unit suite: 25 files / 87 tests passed.
 - [x] Run web lint (0 errors; 3 existing Fast Refresh warnings) and E2E typecheck/lint (both passed).
 - [x] Build the production bundle and run the PWA artifact-policy checker (passed; manifest, service worker, icons, and no API runtime caching verified).

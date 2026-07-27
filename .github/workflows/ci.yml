@@ -108,8 +108,13 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Install Chromium
-        run: bunx playwright install --with-deps chromium
+      - name: Install workspace-pinned Chromium
+        working-directory: e2e
+        run: |
+          declared_version="$(bun -p 'require("./package.json").devDependencies["@playwright/test"]')"
+          installed_version="$(bun run --silent playwright --version)"
+          test "$installed_version" = "Version $declared_version"
+          bun run playwright install --with-deps chromium
 
       - name: Start Vite server
         env:
@@ -185,8 +190,13 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Install Chromium
-        run: bunx playwright install --with-deps chromium
+      - name: Install workspace-pinned Chromium
+        working-directory: e2e
+        run: |
+          declared_version="$(bun -p 'require("./package.json").devDependencies["@playwright/test"]')"
+          installed_version="$(bun run --silent playwright --version)"
+          test "$installed_version" = "Version $declared_version"
+          bun run playwright install --with-deps chromium
 
       - name: Run production PWA preview
         env:

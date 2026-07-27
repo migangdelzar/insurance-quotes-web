@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "playwright": "playwright",
     "test": "playwright test",
     "test:pwa-preview": "E2E_PWA_PREVIEW=1 E2E_PWA_PREVIEW_SERVER=1 playwright test --project=pwa-preview",
     "test:headed": "playwright test --headed",
@@ -13,7 +14,7 @@
     "@clara/api-contract": "workspace:*",
     "@clara/app-i18n": "workspace:*",
     "@clara/build-config": "workspace:*",
-    "@playwright/test": "^1.49.0",
+    "@playwright/test": "1.61.1",
     "@types/node": "^22.10.5",
     "eslint": "^9.17.0",
     "typescript": "~5.7.2"

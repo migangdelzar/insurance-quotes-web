@@ -93,6 +93,15 @@ describe('PWA build checker', () => {
       resolve(process.cwd(), '../../.github/workflows/ci.yml'),
       'utf8'
     );
+    const e2ePackage = JSON.parse(
+      readFileSync(resolve(process.cwd(), '../../e2e/package.json'), 'utf8')
+    ) as {
+      devDependencies: Record<string, string>;
+    };
+    const lockfile = readFileSync(
+      resolve(process.cwd(), '../../bun.lock'),
+      'utf8'
+    );
 
     for (const requiredCheck of [
       'tests/app-navigation.spec.ts',
@@ -103,6 +112,32 @@ describe('PWA build checker', () => {
       'E2E_PWA_PREVIEW_PORT: 43102',
     ]) {
       expect(workflow).toContain(requiredCheck);
+    }
+
+    expect(e2ePackage.devDependencies['@playwright/test']).toBe('1.61.1');
+    expect(lockfile).toContain('"@playwright/test": "1.61.1"');
+    expect(workflow).not.toContain('bunx playwright install');
+    expect(
+      workflow.match(/bun run --silent playwright --version/gu)
+    ).toHaveLength(2);
+    expect(
+      workflow.match(/bun run playwright install --with-deps chromium/gu)
+    ).toHaveLength(2);
+  });
+
+  it('keeps committed Vite API defaults on the same origin', () => {
+    for (const environmentFile of [
+      '.env.development',
+      '.env.production',
+      '.env.example',
+    ]) {
+      const source = readFileSync(
+        resolve(process.cwd(), environmentFile),
+        'utf8'
+      );
+
+      expect(source).toContain('VITE_API_BASE_URL=/api');
+      expect(source).not.toContain('VITE_API_BASE_URL=http://localhost:8080');
     }
   });
 
@@ -157,6 +192,25 @@ describe('PWA build checker', () => {
 
     expect(result.status).toBe(1);
     expect(result.output).toContain('Missing Apple PWA metadata');
+  });
+
+  it('fails when generated JavaScript embeds the localhost API base', () => {
+    const fixture = createBuildFixture(
+      'registerRoute(new NavigationRoute(createHandlerBoundToURL("/index.html"), { denylist: [/^\\/api/] }));'
+    );
+    const assetDirectory = join(fixture, 'assets');
+    mkdirSync(assetDirectory);
+    writeFileSync(
+      join(assetDirectory, 'application.js'),
+      'const apiBase = "http://localhost:8080";'
+    );
+
+    const result = runChecker(fixture);
+
+    expect(result.status).toBe(1);
+    expect(result.output).toContain(
+      'Generated JavaScript embeds the localhost API base'
+    );
   });
 
   it('fails when the generated worker lacks the API navigation denylist', () => {

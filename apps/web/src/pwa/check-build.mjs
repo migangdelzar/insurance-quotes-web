@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -78,6 +78,16 @@ const hasTagWithAttributes = (tagName, attributes) => {
     )
   );
 };
+const findGeneratedJavaScript = (directory) =>
+  readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const path = resolve(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      return findGeneratedJavaScript(path);
+    }
+
+    return entry.isFile() && entry.name.endsWith('.js') ? [path] : [];
+  });
 const hasAppleMetadata =
   hasTagWithAttributes('meta', {
     name: 'apple-mobile-web-app-capable',
@@ -98,6 +108,16 @@ const hasAppleMetadata =
 
 if (!hasAppleMetadata) {
   console.error('Missing Apple PWA metadata.');
+  process.exit(1);
+}
+
+const generatedJavaScript = findGeneratedJavaScript(dist);
+const embedsLocalhostApiBase = generatedJavaScript.some((file) =>
+  readFileSync(file, 'utf8').includes('http://localhost:8080')
+);
+
+if (embedsLocalhostApiBase) {
+  console.error('Generated JavaScript embeds the localhost API base.');
   process.exit(1);
 }
 
