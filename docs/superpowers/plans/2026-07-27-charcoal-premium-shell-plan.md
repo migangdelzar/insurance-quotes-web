@@ -33,7 +33,7 @@
 - Consumes: the existing exported `theme` object and MUI palette augmentation.
 - Produces: stable `theme.palette.shell`, `theme.palette.charcoal`, `theme.palette.ink`, `theme.palette.slate`, `theme.palette.primary`, and component defaults consumed by later shell/widget tasks.
 
-- [ ] **Step 1: Write failing visual-token tests**
+- [x] **Step 1: Write failing visual-token tests**
 
 Add focused assertions to the existing visual test suite:
 
@@ -53,7 +53,7 @@ it('keeps interactive surfaces visually restrained', () => {
 });
 ```
 
-- [ ] **Step 2: Run the focused tests and verify the baseline failure**
+- [x] **Step 2: Run the focused tests and verify the baseline failure**
 
 Run:
 
@@ -63,7 +63,7 @@ bun run --filter web test --run src/shared/components/visuals.test.tsx
 
 Expected: the new charcoal/component-default assertions fail if the current token values or defaults do not satisfy the design contract.
 
-- [ ] **Step 3: Implement the minimum theme update**
+- [x] **Step 3: Implement the minimum theme update**
 
 Keep the existing palette names and add only the visual behavior needed by the shell:
 
@@ -78,7 +78,7 @@ shell: {
 
 Update component defaults/overrides so buttons, papers, inputs, chips, and focus states use the existing spacing scale, subtle borders, and accessible contrast. Do not introduce raw color values outside the theme file.
 
-- [ ] **Step 4: Run focused tests and lint**
+- [x] **Step 4: Run focused tests and lint**
 
 Run:
 
@@ -89,7 +89,7 @@ bun run --filter web lint
 
 Expected: focused tests pass; lint has zero errors. Existing Fast Refresh warnings may remain.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/shared/theme/theme.ts apps/web/src/shared/components/visuals.test.tsx
