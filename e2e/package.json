@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "test": "playwright test",
+    "test:pwa-preview": "E2E_PWA_PREVIEW=1 E2E_PWA_PREVIEW_SERVER=1 playwright test --project=pwa-preview",
     "test:headed": "playwright test --headed",
     "lint": "eslint .",
     "build": "tsc --noEmit"

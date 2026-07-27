@@ -1,14 +1,15 @@
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
 import {
   loginAndReachQuotes,
   stubAuthenticatedQuoteSession,
 } from '../support/session';
+import { test } from '../support/criticalFlow';
 
 test('authenticated app routes retain landmarks, headings, and keyboard focus', async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.setViewportSize({ width: 1440, height: 900 });
   await stubAuthenticatedQuoteSession(page);
   await loginAndReachQuotes(page);
 
@@ -45,7 +46,9 @@ test('account menu closes with Escape and restores focus to its trigger', async 
   await expect(accountTrigger).toBeFocused();
 });
 
-test('app shell exposes PWA manifest and theme metadata', async ({ page }) => {
+test('app shell exposes PWA manifest and theme metadata @pwa', async ({
+  page,
+}) => {
   await page.goto('/login');
 
   const manifest = page.locator('link[rel="manifest"]');

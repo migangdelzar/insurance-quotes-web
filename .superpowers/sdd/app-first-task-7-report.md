@@ -2,28 +2,29 @@
 
 ## Outcome
 
-Added deterministic Playwright coverage for the authenticated application shell, desktop and mobile destination navigation, keyboard accessibility, account-menu focus recovery, production PWA metadata, and responsive layouts.
+Closed the Task 7 review findings with deterministic Playwright coverage for the authenticated application shell, desktop and mobile destination navigation, keyboard accessibility, account-menu focus recovery, production-only PWA metadata, responsive layouts, action-dock geometry, and clean browser-console enforcement.
 
 ## Changes
 
-- Added `app-navigation.spec.ts` for authenticated Home, Quotes history, New quote, and Account navigation plus the mobile bottom navigation/action-dock boundary.
-- Added `app-accessibility.spec.ts` for primary/main landmarks, one page heading, `aria-current`, keyboard route focus, account-menu Escape focus restoration, and generated manifest/theme metadata.
+- Updated the approved responsive target to 1440px in the login and dashboard suites.
+- Extended `app-navigation.spec.ts` to exercise every authenticated destination through mobile navigation and assert the fixed wizard action dock clears the fixed bottom navigation at both 320px and 375px using bounding rectangles.
+- Added the reusable `criticalFlow` fixture, which fails critical shell tests on `pageerror` or any application `console.error`.
+- Marked PWA metadata with `@pwa`, excluded it from ordinary dev projects, and added the `pwa-preview` project plus `bun run --filter e2e test:pwa-preview` command. That command builds the web app and verifies metadata through Vite preview at port 3101.
+- Updated PWA registration to be production-only so Vite development runs do not attempt to load a non-existent generated worker.
 - Added shared E2E login and quote-session stubs so shell tests do not depend on mutable passkey state in the shared backend.
-- Reused the shared session stub in dashboard responsive coverage and retained no-horizontal-overflow assertions at 320, 375, 768, 1024, and 1280 pixels.
+- Reused the shared session stub in dashboard responsive coverage and retained no-horizontal-overflow assertions at 320, 375, 768, 1024, and 1440 pixels.
 
 ## TDD evidence
 
-- Red: the initial PWA metadata assertion failed against Vite development mode because `vite-plugin-pwa` intentionally does not emit a manifest or service worker in development.
-- Red: the initial authenticated shell scenarios failed when the shared backend rejected the mutable demo account after earlier passkey journeys.
-- Green: narrow request interception was added only to the new shell/responsive test boundary; it uses the same app login flow, selectors, and routes. The navigation, keyboard, menu, and mobile-action tests then passed against the current Vite source.
-- Green: after a fresh production build and Vite preview, the PWA metadata browser assertion passed together with the existing PWA artifact checker.
+- Red: the new critical-flow fixture initially failed every shell test because development registered `/sw.js` while Vite intentionally served no generated worker, producing an unsupported-MIME console error and service-worker `pageerror`.
+- Green: `registerPwa(false)` now leaves service-worker registration disabled, while production registration remains covered by the existing unit test.
+- Green: the mobile route matrix, 320/375 rectangle non-overlap checks, 1440px coverage, production-only PWA project, and error collector pass against fresh source/preview builds.
 
 ## Verification
 
-- Focused source browser coverage: 4 passing — app destinations, keyboard landmarks/focus, account-menu Escape restoration, and mobile navigation/action dock.
-- Responsive browser coverage: 12 passing — app navigation, login, and dashboard at 320, 375, 768, 1024, and 1280 pixels, plus the mobile action-dock scenario.
-- Production PWA metadata browser coverage: 1 passing against a fresh local preview build.
-- Web unit suite: 86 passing.
+- Focused source browser coverage: 16 passing — desktop destinations/accessibility, mobile destination navigation, 320/375 action-dock geometry, and login/dashboard responsiveness at 320, 375, 768, 1024, and 1440 pixels.
+- Production PWA metadata browser coverage: 1 passing through the `pwa-preview` project against a fresh local preview build.
+- Web unit suite: 87 passing.
 - E2E TypeScript build: passed.
 - E2E lint: passed.
 - Web production build: passed; Vite emitted its existing chunk-size advisory.
@@ -35,4 +36,4 @@ The pre-existing `http://localhost:3100` Compose web container serves an older i
 
 ## Commit
 
-`test(web): verify app navigation and accessibility`
+Task 7 remediation pending commit.

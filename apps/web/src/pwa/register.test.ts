@@ -22,8 +22,16 @@ describe('registerPwa', () => {
   it('registers the generated worker for automatic updates', async () => {
     const { registerPwa } = await import('./register');
 
-    registerPwa();
+    registerPwa(true);
 
     expect(serviceWorkerRegister).toHaveBeenCalledWith('/sw.js');
+  });
+
+  it('does not register a generated worker in development', async () => {
+    const { registerPwa } = await import('./register');
+
+    registerPwa(false);
+
+    expect(serviceWorkerRegister).not.toHaveBeenCalled();
   });
 });

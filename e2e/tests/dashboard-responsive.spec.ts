@@ -6,7 +6,7 @@ import {
   stubAuthenticatedQuoteSession,
 } from '../support/session';
 
-const viewports = [320, 375, 768, 1024, 1280];
+const viewports = [320, 375, 768, 1024, 1440];
 
 const quotes: QuoteView[] = [
   {

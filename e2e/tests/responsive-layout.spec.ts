@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
 
-const viewports = [320, 375, 768, 1024, 1280];
+const viewports = [320, 375, 768, 1024, 1440];
 
 for (const width of viewports) {
   test(`login remains usable at ${width}px`, async ({ page }) => {

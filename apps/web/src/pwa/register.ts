@@ -1,5 +1,5 @@
-export function registerPwa(): void {
-  if (!('serviceWorker' in navigator)) {
+export function registerPwa(isProduction = import.meta.env.PROD): void {
+  if (!isProduction || !('serviceWorker' in navigator)) {
     return;
   }
 
