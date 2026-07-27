@@ -63,6 +63,11 @@ describe('QuotesListPage', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: /my quotes/i })
     ).toBeVisible();
+    expect(screen.getByTestId(tid('quotesList.title'))).toBeVisible();
+    expect(screen.getByTestId(tid('quotesList.empty'))).toHaveAttribute(
+      'data-widget-tone',
+      'charcoal'
+    );
     expect(screen.getByTestId(tid('quotesList.startQuote'))).toBeVisible();
   });
 
@@ -151,6 +156,9 @@ describe('QuotesListPage', () => {
     expect(
       screen.getByRole('status', { name: /loading quotes/i })
     ).toBeVisible();
+    expect(
+      screen.getByRole('status', { name: /loading quotes/i })
+    ).toHaveAttribute('data-widget-tone', 'loading');
   });
 
   it('keeps the API error state actionable with a retry control', async () => {
@@ -162,6 +170,10 @@ describe('QuotesListPage', () => {
       expect(screen.getByTestId(tid('common.apiError'))).toBeVisible();
     });
 
+    expect(screen.getByTestId(tid('common.apiError'))).toHaveAttribute(
+      'data-widget-tone',
+      'critical'
+    );
     expect(screen.getByRole('button', { name: /retry/i })).toBeVisible();
   });
 

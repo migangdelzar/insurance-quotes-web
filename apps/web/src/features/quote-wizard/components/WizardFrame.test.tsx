@@ -41,6 +41,11 @@ describe('WizardFrame', () => {
     expect(screen.getByRole('complementary')).toHaveTextContent(
       'Private and secure'
     );
+    expect(
+      screen
+        .getByRole('heading', { level: 1, name: 'Coverage selection' })
+        .closest('[data-widget-tone]')
+    ).toHaveAttribute('data-widget-tone', 'workspace');
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
   });
 

@@ -1,5 +1,18 @@
 # Premium fintech web redesign
 
+## Charcoal premium shell — Task 3
+
+- [x] Polish quote, account, wizard, premium, loading, and API-error widgets without changing behavior or accessibility contracts.
+- [x] Add focused RED assertions for stable widget-tone boundaries and visible semantic states.
+- [x] Verify affected tests, full web tests, lint, and production build.
+- [x] Write the Task 3 report, update the plan/checklist, commit, and push intended files only.
+
+### Results
+
+- RED: the six focused suites failed on the absent `data-widget-tone` contract boundaries after test assertions were added.
+- GREEN: the focused suite passed 21/21 tests; the complete web suite passed 28 files / 106 tests.
+- Lint completed with 0 errors and 3 pre-existing Fast Refresh warnings; the production build completed successfully with the existing Vite chunk-size advisory.
+
 ## Submit flow, mobile visual polish, and pricing verification
 
 - [x] Reproduce all standard, senior-health, and insurer retry Playwright journeys against the running stack.

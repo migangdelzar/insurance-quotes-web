@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Stack } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
 
@@ -13,6 +14,7 @@ export function WizardActionDock({ children }: Props) {
       component="nav"
       aria-label={t('wizard.actions')}
       data-testid={tid('wizard.actions')}
+      data-widget-tone="actions"
       spacing={1.5}
       sx={{
         flexDirection: { xs: 'column', sm: 'row' },
@@ -31,9 +33,19 @@ export function WizardActionDock({ children }: Props) {
           xs: 1.5,
           sm: 0,
         },
-        backgroundColor: { xs: 'rgba(251, 251, 253, 0.94)', sm: 'transparent' },
+        backgroundColor: {
+          xs: (theme) => alpha(theme.palette.background.default, 0.94),
+          sm: 'transparent',
+        },
         borderTop: { xs: '1px solid', sm: 0 },
-        borderColor: { xs: 'divider', sm: 'transparent' },
+        borderColor: {
+          xs: (theme) => alpha(theme.palette.ink.main, 0.14),
+          sm: 'transparent',
+        },
+        boxShadow: {
+          xs: (theme) => `0 -8px 24px ${alpha(theme.palette.ink.main, 0.08)}`,
+          sm: 'none',
+        },
         backdropFilter: { xs: 'blur(14px)', sm: 'none' },
       }}
     >

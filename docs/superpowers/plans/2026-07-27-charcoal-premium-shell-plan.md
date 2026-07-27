@@ -181,7 +181,7 @@ git commit -m "feat(web): apply charcoal app shell"
 - Consumes: Task 1 theme tokens, existing translated copy, existing `tid()` selectors, and current component props.
 - Produces: higher-contrast cards, clearer premium/status hierarchy, consistent icon sizing, and no API/state contract changes.
 
-- [ ] **Step 1: Write focused failing assertions for representative widget states**
+- [x] **Step 1: Write focused failing assertions for representative widget states**
 
 Add tests to existing colocated suites for:
 
@@ -196,7 +196,7 @@ expect(screen.getByTestId(tid('quotesList.title'))).toBeVisible();
 
 Verify the empty, loading, error, success, premium, and account security surfaces retain their accessible names and visible state text while gaining stable widget tone boundaries.
 
-- [ ] **Step 2: Run focused tests and verify the new assertions fail**
+- [x] **Step 2: Run focused tests and verify the new assertions fail**
 
 Run the exact affected test files with:
 
@@ -206,11 +206,11 @@ bun run --filter web test --run src/pages/QuotesListPage.test.tsx src/pages/Acco
 
 Expected: only the new style-boundary assertions fail.
 
-- [ ] **Step 3: Implement presentational polish**
+- [x] **Step 3: Implement presentational polish**
 
 Use theme-derived borders, surfaces, typography, and spacing. Add existing inline `SvgIcon` visuals where a widget currently has no visual cue, keeping adjacent text as the accessible name. Use a consistent icon size (`20px` for compact controls and `24px` for primary widget markers), preserve icon-only `aria-label`s, and keep all loading/error/status semantics intact. Do not change query keys, mutation handlers, route paths, translations, or test IDs.
 
-- [ ] **Step 4: Run affected tests and lint**
+- [x] **Step 4: Run affected tests and lint**
 
 Run:
 
@@ -221,7 +221,7 @@ bun run --filter web lint
 
 Expected: all affected tests pass with zero lint errors.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/web/src/pages/QuotesListPage.tsx apps/web/src/pages/AccountPage.tsx apps/web/src/features/quote-wizard/components/WizardFrame.tsx apps/web/src/features/quote-wizard/components/WizardActionDock.tsx apps/web/src/features/quote-wizard/components/PremiumDisplay.tsx apps/web/src/shared/components/LoadingState.tsx apps/web/src/shared/components/ApiErrorAlert.tsx

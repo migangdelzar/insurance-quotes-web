@@ -23,6 +23,9 @@ describe('PremiumDisplay', () => {
     expect(
       screen.getByTestId(tid('wizard.coverage.premiumLabel'))
     ).toHaveTextContent('$327.60');
+    expect(
+      screen.getByTestId(tid('wizard.coverage.premiumLabel'))
+    ).toHaveAttribute('data-widget-tone', 'accent');
   });
 
   it('shows a loading state while updating', () => {

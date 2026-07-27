@@ -16,5 +16,8 @@ describe('LoadingState', () => {
     expect(
       screen.getByRole('status', { name: /loading quotes/i })
     ).toBeVisible();
+    expect(
+      screen.getByRole('status', { name: /loading quotes/i })
+    ).toHaveAttribute('data-widget-tone', 'loading');
   });
 });

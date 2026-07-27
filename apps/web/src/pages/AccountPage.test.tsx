@@ -69,4 +69,20 @@ describe('AccountPage', () => {
 
     expect(logout).toHaveBeenCalledOnce();
   });
+
+  it('keeps the named security status in a dedicated secure widget surface', () => {
+    renderAccountPage();
+
+    const securityHeading = screen.getByRole('heading', {
+      level: 2,
+      name: /session and security/i,
+    });
+
+    expect(securityHeading).toBeVisible();
+    expect(securityHeading.closest('[data-widget-tone]')).toHaveAttribute(
+      'data-widget-tone',
+      'secure'
+    );
+    expect(screen.getByText(/protected.*passkey/i)).toBeVisible();
+  });
 });

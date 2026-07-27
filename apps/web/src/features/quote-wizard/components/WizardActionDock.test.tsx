@@ -23,6 +23,9 @@ describe('WizardActionDock', () => {
     expect(
       screen.getByRole('navigation', { name: /quote actions/i })
     ).toHaveAttribute('data-testid', tid('wizard.actions'));
+    expect(
+      screen.getByRole('navigation', { name: /quote actions/i })
+    ).toHaveAttribute('data-widget-tone', 'actions');
     expect(screen.getByRole('button', { name: 'Continue' })).toBeVisible();
   });
 });
