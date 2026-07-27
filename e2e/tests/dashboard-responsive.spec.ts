@@ -34,6 +34,17 @@ for (const width of viewports) {
     await expect(
       page.getByRole('navigation', { name: /primary navigation/i })
     ).toBeVisible();
+    await expect(page.getByRole('banner')).toHaveAttribute(
+      'data-shell-tone',
+      'charcoal'
+    );
+    await expect(
+      page.getByRole('navigation', { name: /primary navigation/i })
+    ).toHaveAttribute('data-shell-tone', 'charcoal');
+    await expect(page.getByRole('contentinfo')).toHaveAttribute(
+      'data-shell-tone',
+      'charcoal'
+    );
 
     const dimensions = await page.evaluate(() => ({
       documentWidth: document.documentElement.scrollWidth,

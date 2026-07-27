@@ -1,5 +1,21 @@
 # Premium fintech web redesign
 
+## Charcoal premium shell — Task 4
+
+- [x] Add browser contracts for semantic charcoal landmarks and rendered contrast.
+- [x] Preserve no-overflow and fixed-navigation checks across 320, 375, 768, 1024, and 1440px.
+- [x] Run focused browser checks and bounded web/E2E verification.
+- [x] Record exact RED/GREEN evidence and the pre-existing PWA metadata limitation.
+- [x] Commit and push only the intended Task 4 files.
+
+### Results
+
+- Focused browser suite: 13 passed across desktop and mobile Chromium with retries disabled.
+- Web suite: 28 files / 106 tests passed; lint: 0 errors and 3 pre-existing Fast Refresh warnings; production build passed with the existing chunk-size advisory.
+- E2E TypeScript build and lint passed after tightening the RGB parser tuple; PWA preview passed 1/1.
+- Static PWA checker remains limited by the pre-existing `apps/web/index.html` metadata change (`Missing Apple PWA metadata`); that file was not touched or staged.
+- The complete Playwright journey suite was intentionally not rerun during this bounded Task 4 handoff.
+
 ## Charcoal premium shell — Task 3
 
 - [x] Polish quote, account, wizard, premium, loading, and API-error widgets without changing behavior or accessibility contracts.

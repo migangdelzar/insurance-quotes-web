@@ -17,6 +17,16 @@ test('authenticated user can navigate the app destinations', async ({
     name: /primary navigation/i,
   });
 
+  await expect(page.getByRole('banner')).toHaveAttribute(
+    'data-shell-tone',
+    'charcoal'
+  );
+  await expect(navigation).toHaveAttribute('data-shell-tone', 'charcoal');
+  await expect(page.getByRole('contentinfo')).toHaveAttribute(
+    'data-shell-tone',
+    'charcoal'
+  );
+
   await expect(navigation.getByTestId(tid('navigation.home'))).toHaveAttribute(
     'aria-current',
     'page'
@@ -78,6 +88,13 @@ for (const width of [320, 375]) {
     });
     const footer = page.getByRole('contentinfo');
 
+    await expect(page.getByRole('banner')).toHaveAttribute(
+      'data-shell-tone',
+      'charcoal'
+    );
+    await expect(navigation).toHaveAttribute('data-shell-tone', 'charcoal');
+    await expect(footer).toHaveAttribute('data-shell-tone', 'charcoal');
+
     await footer.scrollIntoViewIfNeeded();
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
 
@@ -106,6 +123,7 @@ for (const width of [320, 375]) {
     await expect(page).toHaveURL(/\/quote\/personal$/);
 
     await expect(navigation).toBeVisible();
+    await expect(navigation).toHaveAttribute('data-shell-tone', 'charcoal');
     await expect(page.getByTestId(tid('wizard.actions'))).toBeVisible();
 
     expect(
