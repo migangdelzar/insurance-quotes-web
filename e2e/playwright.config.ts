@@ -1,7 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
+import { getPwaPreviewBaseUrl, getPwaPreviewPort } from './support/pwaPreview';
 
 const usePwaPreview = process.env.E2E_PWA_PREVIEW === '1';
 const startPwaPreview = process.env.E2E_PWA_PREVIEW_SERVER === '1';
+const pwaPreviewPort = getPwaPreviewPort(process.env.E2E_PWA_PREVIEW_PORT);
+const pwaPreviewBaseUrl = getPwaPreviewBaseUrl(pwaPreviewPort);
 
 export default defineConfig({
   testDir: './tests',
@@ -32,7 +35,7 @@ export default defineConfig({
             grep: /@pwa/,
             use: {
               ...devices['Desktop Chrome'],
-              baseURL: 'http://127.0.0.1:3101',
+              baseURL: pwaPreviewBaseUrl,
             },
           },
         ]
@@ -40,9 +43,8 @@ export default defineConfig({
   ],
   webServer: startPwaPreview
     ? {
-        command:
-          'cd ../apps/web && bun run build && bunx vite preview --host 127.0.0.1 --port 3101',
-        url: 'http://127.0.0.1:3101',
+        command: `cd ../apps/web && bun run build && bunx vite preview --host 127.0.0.1 --port ${pwaPreviewPort}`,
+        url: pwaPreviewBaseUrl,
         reuseExistingServer: false,
         timeout: 120_000,
       }
