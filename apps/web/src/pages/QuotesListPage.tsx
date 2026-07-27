@@ -30,7 +30,13 @@ const coverageKeys = {
   PREMIUM: 'wizard.coverage.premium',
 } as const;
 
-export function QuotesListPage() {
+type QuotesListView = 'overview' | 'history';
+
+type QuotesListPageProps = {
+  view?: QuotesListView;
+};
+
+export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const quotes = useQuery({ queryKey: ['quotes'], queryFn: listQuotes });
@@ -44,6 +50,8 @@ export function QuotesListPage() {
     }).format(value);
 
   const quoteData = quotes.data ?? [];
+  const isOverview = view === 'overview';
+  const hasQuotes = quoteData.length > 0;
   const submittedCount = quoteData.filter(
     (quote) => quote.status === 'SUBMITTED'
   ).length;
@@ -65,24 +73,32 @@ export function QuotesListPage() {
         }
         description={t('quotesList.description')}
         actions={
-          <Button
-            variant="contained"
-            onClick={startQuote}
-            data-testid={tid('quotesList.startQuote')}
-          >
-            {t('quotesList.startQuote')}
-          </Button>
+          isOverview && quotes.isSuccess && hasQuotes ? (
+            <Button
+              variant="contained"
+              onClick={startQuote}
+              data-testid={tid('quotesList.startQuote')}
+            >
+              {t('quotesList.startQuote')}
+            </Button>
+          ) : null
         }
       />
 
       {quotes.isPending ? (
-        <Surface component="section" aria-busy="true">
+        <Surface
+          component="section"
+          role="status"
+          aria-live="polite"
+          aria-busy="true"
+          aria-label={t('quotesList.loading')}
+        >
           <Stack spacing={2}>
             <Skeleton
               variant="text"
               width="30%"
               height={28}
-              data-testid={tid('common.loading')}
+              data-testid={tid('quotesList.loading')}
             />
             <Skeleton variant="rounded" height={160} />
           </Stack>
@@ -103,41 +119,48 @@ export function QuotesListPage() {
         </Stack>
       ) : null}
 
-      {quotes.isSuccess ? (
+      {quotes.isSuccess && isOverview ? (
         <Surface
           tone="gold"
           component="section"
           aria-label={t('quotesList.summary.title')}
         >
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: {
-                xs: '1fr',
-                sm: 'repeat(3, minmax(0, 1fr))',
-              },
-              gap: { xs: 2, sm: 3 },
-            }}
-          >
-            <SummaryMetric
-              label={t('quotesList.summary.totalLabel')}
-              value={t('quotesList.summary.total', { count: quoteData.length })}
-            />
-            <SummaryMetric
-              label={t('quotesList.summary.submittedLabel')}
-              value={t('quotesList.summary.submitted', {
-                count: submittedCount,
-              })}
-            />
-            <SummaryMetric
-              label={t('quotesList.summary.monthlyValueLabel')}
-              value={formatCurrency(monthlyValue)}
-            />
-          </Box>
+          <Stack spacing={2}>
+            <Typography variant="overline" color="text.secondary">
+              {t('quotesList.summary.title')}
+            </Typography>
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: {
+                  xs: '1fr',
+                  sm: 'repeat(3, minmax(0, 1fr))',
+                },
+                gap: { xs: 2, sm: 3 },
+              }}
+            >
+              <SummaryMetric
+                label={t('quotesList.summary.totalLabel')}
+                value={t('quotesList.summary.total', {
+                  count: quoteData.length,
+                })}
+              />
+              <SummaryMetric
+                label={t('quotesList.summary.submittedLabel')}
+                value={t('quotesList.summary.submitted', {
+                  count: submittedCount,
+                })}
+              />
+              <SummaryMetric
+                label={t('quotesList.summary.monthlyValueLabel')}
+                value={formatCurrency(monthlyValue)}
+              />
+            </Box>
+          </Stack>
         </Surface>
       ) : null}
 
-      {quotes.isSuccess && quotes.data.length === 0 ? (
+      {quotes.isSuccess && !hasQuotes ? (
         <Surface
           component="section"
           tone="dark"
@@ -156,11 +179,20 @@ export function QuotesListPage() {
             <Typography variant="body2" color="inherit" sx={{ opacity: 0.68 }}>
               {t('quotesList.empty')}
             </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={startQuote}
+              data-testid={tid('quotesList.startQuote')}
+              sx={{ alignSelf: 'flex-start' }}
+            >
+              {t('quotesList.startQuote')}
+            </Button>
           </Stack>
         </Surface>
       ) : null}
 
-      {quotes.isSuccess && quotes.data.length > 0 ? (
+      {quotes.isSuccess && hasQuotes ? (
         <Stack
           component="section"
           spacing={2}

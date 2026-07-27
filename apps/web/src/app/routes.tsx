@@ -48,8 +48,11 @@ export const router = createBrowserRouter([
         element: <RequireAuth />,
         children: [
           { index: true, element: <Navigate to="/quotes" replace /> },
-          { path: 'quotes', element: <QuotesListPage /> },
-          { path: 'quotes/history', element: <QuotesListPage /> },
+          { path: 'quotes', element: <QuotesListPage view="overview" /> },
+          {
+            path: 'quotes/history',
+            element: <QuotesListPage view="history" />,
+          },
           { path: 'account', element: <AccountPage /> },
           {
             element: <WizardShell />,

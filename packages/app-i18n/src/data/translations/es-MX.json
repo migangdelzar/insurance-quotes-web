@@ -136,6 +136,7 @@
   },
   "quotesList": {
     "title": "Mis cotizaciones",
+    "loading": "Cargando cotizaciones",
     "eyebrow": "Espacio de cotizaciones",
     "description": "Mantén una vista clara de cada plan de protección, desde el primer borrador hasta una cotización enviada.",
     "summary": {

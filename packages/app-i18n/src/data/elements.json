@@ -102,6 +102,7 @@
   },
   "quotesList": {
     "title": "quotes-list-title",
+    "loading": "quotes-loading-state",
     "empty": "quotes-empty-state",
     "startQuote": "btn-start-quote",
     "statusDraft": "quote-status-draft",

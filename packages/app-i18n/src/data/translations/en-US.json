@@ -136,6 +136,7 @@
   },
   "quotesList": {
     "title": "My quotes",
+    "loading": "Loading quotes",
     "eyebrow": "Quote workspace",
     "description": "Keep a clear view of every protection plan, from your first draft to a submitted quote.",
     "summary": {

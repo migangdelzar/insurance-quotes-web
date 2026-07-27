@@ -25,7 +25,7 @@ vi.mock('react-router', async () => {
 
 const mockedListQuotes = vi.mocked(listQuotes);
 
-function renderPage() {
+function renderPage(view: 'overview' | 'history' = 'overview') {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
@@ -36,7 +36,7 @@ function renderPage() {
         <CssBaseline />
         <QueryClientProvider client={queryClient}>
           <MemoryRouter initialEntries={['/quotes']}>
-            <QuotesListPage />
+            <QuotesListPage view={view} />
           </MemoryRouter>
         </QueryClientProvider>
       </ThemeProvider>
@@ -95,6 +95,62 @@ describe('QuotesListPage', () => {
     expect(screen.getByText(/\$129\.50/)).toBeVisible();
     expect(screen.getByText(/2 quotes/i)).toBeVisible();
     expect(screen.getByText(/1 submitted/i)).toBeVisible();
+  });
+
+  it('shows the overview action and concise metrics on the Home destination', async () => {
+    mockedListQuotes.mockResolvedValue([
+      {
+        id: 'q-1',
+        name: 'Jane Roe',
+        coverageType: 'PREMIUM',
+        status: 'SUBMITTED',
+        monthlyPremium: 129.5,
+      },
+    ]);
+
+    renderPage('overview');
+
+    await waitFor(() => {
+      expect(screen.getByText('Quote summary')).toBeVisible();
+    });
+
+    expect(
+      screen.getByRole('button', { name: /start a quote/i })
+    ).toBeVisible();
+    expect(screen.getByText('Portfolio')).toBeVisible();
+  });
+
+  it('shows quote history as a focused list on the Quotes destination', async () => {
+    mockedListQuotes.mockResolvedValue([
+      {
+        id: 'q-1',
+        name: 'Jane Roe',
+        coverageType: 'PREMIUM',
+        status: 'SUBMITTED',
+        monthlyPremium: 129.5,
+      },
+    ]);
+
+    renderPage('history');
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', { name: /your quote history/i })
+      ).toBeVisible();
+    });
+
+    expect(screen.queryByText('Portfolio')).not.toBeInTheDocument();
+    expect(screen.queryByText('Quote summary')).not.toBeInTheDocument();
+  });
+
+  it('announces loading with a named status region', () => {
+    mockedListQuotes.mockReturnValue(new Promise(() => {}));
+
+    renderPage('history');
+
+    expect(
+      screen.getByRole('status', { name: /loading quotes/i })
+    ).toBeVisible();
   });
 
   it('keeps the API error state actionable with a retry control', async () => {
