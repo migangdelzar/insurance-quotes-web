@@ -11,3 +11,4 @@ Task 8: complete (formatting, lint, tests, E2E build, and production build pass)
 
 Task 1: complete (commits 7c1ec4e..3e03e03, review clean)
 Task 2: complete (commits eb73d1a..c425d10, review clean)
+Task 3: complete (commits 1192da5..3ffe106, review clean)
