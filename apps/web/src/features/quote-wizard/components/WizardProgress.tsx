@@ -20,6 +20,8 @@ export function WizardProgress({ activeStep }: Props) {
       sx={{ mb: { xs: 2, sm: 3 } }}
     >
       <Typography
+        component="p"
+        aria-current="step"
         variant="subtitle2"
         color="text.secondary"
         sx={{ display: { xs: 'block', sm: 'none' } }}

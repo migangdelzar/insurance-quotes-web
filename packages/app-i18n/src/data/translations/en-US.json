@@ -82,6 +82,7 @@
   },
   "wizard": {
     "progress": "Quote progress",
+    "actions": "Quote actions",
     "backToQuotes": "Back to quotes",
     "personal": {
       "title": "Personal information",

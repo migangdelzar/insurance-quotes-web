@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { I18nextProvider } from 'react-i18next';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it } from 'vitest';
@@ -50,6 +50,22 @@ describe('WizardFrame', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: 'Coverage selection' })
     ).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('announces the active wizard stage and leaves the heading focusable', () => {
+    renderFrame();
+
+    const progress = screen.getByTestId(tid('wizard.progress'));
+
+    expect(
+      within(progress)
+        .getByText('Coverage selection', { selector: '.MuiStepLabel-label' })
+        .closest('[aria-current="step"]')
+    ).not.toBeNull();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveAttribute(
+      'tabindex',
+      '-1'
+    );
   });
 
   it('keeps the step selector on the focusable heading', () => {

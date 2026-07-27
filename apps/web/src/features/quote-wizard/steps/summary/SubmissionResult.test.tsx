@@ -45,4 +45,48 @@ describe('SubmissionResult', () => {
 
     expect(onStartNewQuote).toHaveBeenCalledOnce();
   });
+
+  it('keeps retry visible after an insurer submission failure', () => {
+    const onRetry = vi.fn();
+
+    render(
+      <I18nextProvider i18n={i18n}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <SubmissionResult
+            submission="failed"
+            error={null}
+            onRetry={onRetry}
+            onViewQuotes={vi.fn()}
+            onStartNewQuote={vi.fn()}
+          />
+        </ThemeProvider>
+      </I18nextProvider>
+    );
+
+    fireEvent.click(screen.getByTestId(tid('common.retry')));
+
+    expect(onRetry).toHaveBeenCalledOnce();
+  });
+
+  it('keeps the summary heading in place while checking a timed-out submission', () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <SubmissionResult
+            submission="checking"
+            error={null}
+            onRetry={vi.fn()}
+            onViewQuotes={vi.fn()}
+            onStartNewQuote={vi.fn()}
+          />
+        </ThemeProvider>
+      </I18nextProvider>
+    );
+
+    expect(
+      screen.getByRole('status', { name: /confirming submission status/i })
+    ).toHaveAttribute('data-testid', tid('wizard.summary.checking'));
+  });
 });

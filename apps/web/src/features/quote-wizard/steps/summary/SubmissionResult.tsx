@@ -2,6 +2,7 @@ import { Alert, Button, Stack } from '@mui/material';
 import { tid } from '@clara/app-i18n';
 import { useTranslation } from 'react-i18next';
 import { ApiErrorAlert } from '@shared/components/ApiErrorAlert';
+import { LoadingState } from '@shared/components/LoadingState';
 import type { SubmissionState } from '@features/quote-wizard/context/wizardReducer';
 
 type Props = {
@@ -52,9 +53,10 @@ export function SubmissionResult({
   }
   if (submission === 'checking') {
     return (
-      <Alert severity="info" data-testid={tid('wizard.summary.checking')}>
-        {t('wizard.summary.checking')}
-      </Alert>
+      <LoadingState
+        label={t('wizard.summary.checking')}
+        testId={tid('wizard.summary.checking')}
+      />
     );
   }
   if (submission === 'failed') {

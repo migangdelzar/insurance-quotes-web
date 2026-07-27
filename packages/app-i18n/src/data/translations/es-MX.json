@@ -82,6 +82,7 @@
   },
   "wizard": {
     "progress": "Progreso de la cotización",
+    "actions": "Acciones de la cotización",
     "backToQuotes": "Volver a cotizaciones",
     "personal": {
       "title": "Información personal",

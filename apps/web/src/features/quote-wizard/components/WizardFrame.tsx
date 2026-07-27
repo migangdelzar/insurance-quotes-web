@@ -30,6 +30,7 @@ export function WizardFrame({
 }: WizardFrameProps) {
   const { t } = useTranslation();
   const headingRef = useFocusHeading<HTMLHeadingElement>();
+  const headingId = `wizard-stage-${activeStep + 1}`;
 
   const reassurance = aside ?? (
     <Stack spacing={1.25}>
@@ -73,13 +74,22 @@ export function WizardFrame({
       >
         <Surface
           component="section"
-          sx={{ minWidth: 0, pb: { xs: stickyActions ? 12 : 0, sm: 0 } }}
+          aria-labelledby={headingId}
+          sx={{
+            minWidth: 0,
+            pb: {
+              xs: stickyActions
+                ? 'calc(152px + env(safe-area-inset-bottom))'
+                : 0,
+              sm: 0,
+            },
+          }}
         >
           <PageIntro
             title={title}
             description={description}
             titleRef={headingRef}
-            titleProps={{ ...titleProps, tabIndex: -1 }}
+            titleProps={{ ...titleProps, id: headingId, tabIndex: -1 }}
           />
           {children}
         </Surface>
