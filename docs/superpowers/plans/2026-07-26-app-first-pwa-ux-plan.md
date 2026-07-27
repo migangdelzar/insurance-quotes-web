@@ -295,7 +295,7 @@ Expected: FAIL because the account surface and route do not exist.
 
 - [ ] **Step 3: Implement the account boundary**
 
-Use a MUI `Menu` on desktop and a route-level Account page on mobile/large screens rather than maintaining two independent copies of the content. The menu must have `aria-haspopup`, controlled `open`, focus restoration to its trigger, and `MenuItem` controls. Language changes call `i18n.changeLanguage(locale)` and sign-out calls `void logout()`.
+Use one MUI `Menu` from the compact header at supported widths plus the `/account` destination page; both surfaces consume the same i18n keys and auth callbacks rather than duplicating account logic. The menu must have `aria-haspopup`, controlled `open`, focus restoration to its trigger, and `MenuItem` controls. Language changes call `i18n.changeLanguage(locale)` and sign-out calls `void logout()`.
 
 The Account page should show only:
 
@@ -424,8 +424,8 @@ it('announces the active wizard stage and leaves the heading focusable', () => {
   renderWizardFrame({ activeStep: 1 });
 
   expect(
-    screen.getByRole('navigation', { name: /quote progress/i })
-  ).toHaveAttribute('aria-current', 'step');
+    screen.getByText(/coverage selection/i).closest('[aria-current="step"]')
+  ).not.toBeNull();
   expect(screen.getByRole('heading', { level: 1 })).toHaveAttribute(
     'tabindex',
     '-1'
