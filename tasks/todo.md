@@ -152,3 +152,22 @@
 - [x] Run formatting, lint, web tests, package tests, E2E typecheck, and production build.
 - [x] Review changed frontend, i18n, and E2E files for selector, copy, and contract regressions.
 - [x] Update the plan, working notes, and lessons with verification evidence.
+
+## App-first PWA UX — final verification and handoff
+
+- [x] Run the complete current-source web unit suite: 25 files / 87 tests passed.
+- [x] Run web lint (0 errors; 3 existing Fast Refresh warnings) and E2E typecheck/lint (both passed).
+- [x] Build the production bundle and run the PWA artifact-policy checker (passed; manifest, service worker, icons, and no API runtime caching verified).
+- [x] Run the production-only PWA preview check on isolated port `43102` (1 passed; server exited cleanly).
+- [x] Run the complete no-retry Playwright suite against the available `http://localhost:3100` runtime: 15 passed / 11 failed. The failures are limited to new shell/navigation tests because `:3100` is an older forwarded Compose image; its existing pricing, retry, login, and passkey journeys still passed.
+- [x] Smoke-test the freshly built production bundle on isolated port `43103`: login has no authenticated navigation; manifest/theme metadata and a service-worker registration are present; Chromium reported no page or console errors.
+- [x] Document authenticated routes, PWA verification commands, and the development service-worker boundary in the README.
+
+### App-first PWA verification evidence — 2026-07-27
+
+- `bun run --filter web test --run`: 25 test files / 87 tests passed.
+- `bun run --filter web lint`: 0 errors, 3 existing `react-refresh/only-export-components` warnings.
+- `bun run --filter e2e build && bun run --filter e2e lint`: both passed.
+- `bun run --filter web build && cd apps/web && node src/pwa/check-build.mjs`: passed; Vite reported the existing >500 kB chunk-size advisory.
+- `E2E_PWA_PREVIEW_PORT=43102 bun run --filter e2e test:pwa-preview`: 1 passed.
+- `E2E_BASE_URL=http://localhost:3100 bun run e2e -- --retries=0`: 15 passed / 11 failed because port 3100 is an older SSH-forwarded/full-stack deployment, not the current branch bundle. Do not treat it as a current-source app-shell verification until that image is rebuilt and redeployed.

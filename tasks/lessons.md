@@ -9,3 +9,5 @@
 - Local full-stack browser verification should use the deterministic WireMock insurer; an external `httpstat.us` dependency can make a healthy submit flow look broken.
 - When copying a host-built bundle into the Nginx demo container, set `VITE_API_BASE_URL=/api`; otherwise `.env.production` can bake a direct API origin and bypass same-origin route interception.
 - Passkey E2E is intentionally stateful: clear only the local demo credentials after the final passkey test so password-based demo login remains usable.
+- Treat a forwarded or long-running Compose port as a deployment artifact, not proof of the checked-out frontend source. Verify the current bundle on an isolated production preview port, and record stale-runtime E2E failures separately from source regressions.
+- Keep PWA verification split between a production artifact check (manifest, icons, service-worker route policy) and a browser preview check. Development mode intentionally does not register the production service worker, and static-only caching must never become API-response caching.

@@ -26,6 +26,36 @@ bun run build                       # production workspace build
 
 The Vite development server keeps hot-module replacement enabled on port `5173`. It proxies the same-origin `/api/*` requests to `http://localhost:8080`, so local debugging uses the same browser/API boundary as the production Nginx image without requiring browser CORS.
 
+## Authenticated application routes
+
+After sign-in, the app shell exposes four primary destinations:
+
+- `/quotes` — Home / quote overview
+- `/quotes/history` — full quote history
+- `/quote/personal` — start a new quote
+- `/account` — language preference, session/passkey information, support and sign-out
+
+The login route is deliberately outside that authenticated shell. On a phone the same four destinations are available from the fixed bottom navigation; wizard actions reserve space above it and the browser safe area.
+
+## PWA build and local install verification
+
+Production builds generate a manifest, static application shell service worker, and raster install icons. Check those artifacts after a build:
+
+```bash
+bun run --filter web build
+cd apps/web && node src/pwa/check-build.mjs
+```
+
+For a browser-level production check, use the dedicated preview project on an available port (the command starts and stops its own preview server):
+
+```bash
+E2E_PWA_PREVIEW_PORT=43102 bun run --filter e2e test:pwa-preview
+```
+
+Open that preview in Chromium to inspect the manifest and service-worker registration, then use the browser install affordance when it is available. The worker precaches only static build assets. It does **not** cache `/api` traffic, auth tokens, API responses, or mutable quote data; quote/account actions therefore require connectivity.
+
+Vite development mode intentionally does not register this production worker. Use `bun run dev` for HMR and debugging, and use the preview command above for install/PWA verification.
+
 For the integrated reviewer flow, start the backend’s full-stack Compose overlay from the sibling repository:
 
 ```bash
@@ -49,6 +79,14 @@ bun run build
 bun run format:check
 E2E_BASE_URL=http://localhost:3100 bun run e2e
 ```
+
+To run without retries against the integrated full-stack deployment:
+
+```bash
+E2E_BASE_URL=http://localhost:3100 bun run e2e -- --retries=0
+```
+
+That deployment must be rebuilt from the current frontend branch before it can validate new app-shell behavior. A forwarded or older listener can still validate the existing backend journeys, but it is not evidence for the current frontend build.
 
 The Playwright suite requires the backend full-stack E2E overlay. It covers standard adult submission, the senior health-question path and worked-example premium, insurer failure/retry, and WebAuthn enrollment/MFA/passwordless flows. The mobile-tagged journeys run with the Pixel 7 project.
 
