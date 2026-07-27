@@ -20,3 +20,4 @@ Task 7: complete (commits 2331c4f..b894f53, review clean)
 ## Plan: docs/superpowers/plans/2026-07-27-charcoal-premium-shell-plan.md
 
 Task 1: complete (commit 6518e17, review clean; review bde9cfc)
+Task 2: complete (commits 3e65b14..d997383, review clean; review 1c5b722)
