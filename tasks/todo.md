@@ -186,6 +186,13 @@
 - [x] Label coverage, health-question, and health-condition groups with localized programmatic names and regression tests.
 - [x] Run focused/full web checks, lint, build, PWA checker/preview, and integrated browser journeys; commit and push the fixes.
 
+### Final re-review evidence — 2026-07-27
+
+- [x] Independent final review approved the branch with no High, Medium, or Low findings.
+- [x] Current GitHub Actions PR run passed all 4 jobs, including the workspace-pinned Playwright browser installation.
+- [x] Final live browser suite passed 28/28 with standard, senior diabetes/hypertension ($327.60), retry, passkey, responsive, navigation, and accessibility flows.
+- [x] Final web suite passed 28 files / 102 tests; E2E build/lint, production build, same-origin artifact scan, PWA checker, and preview passed.
+
 ### Hardening B acceptance criteria
 
 - Submission remains visibly and accessibly busy until the mutation resolves.
