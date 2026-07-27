@@ -48,6 +48,7 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <Navigate to="/quotes" replace /> },
           { path: 'quotes', element: <QuotesListPage /> },
+          { path: 'quotes/history', element: <QuotesListPage /> },
           {
             element: <WizardShell />,
             children: [

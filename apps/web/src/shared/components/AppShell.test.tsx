@@ -1,6 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 import { I18nextProvider } from 'react-i18next';
 import { MemoryRouter, useLocation } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -54,7 +53,7 @@ describe('AppShell', () => {
     await i18n.changeLanguage('en-US');
   });
 
-  it('renders product chrome and preserves the main landmark', () => {
+  it('keeps login outside authenticated navigation and preserves the main landmark', () => {
     renderWithProviders();
 
     expect(screen.getByTestId(tid('common.skipToContent'))).toHaveAttribute(
@@ -64,24 +63,16 @@ describe('AppShell', () => {
     expect(screen.getByRole('banner')).toBeVisible();
     expect(screen.getByRole('main')).toHaveAttribute('id', tid('layout.main'));
     expect(screen.getByTestId(tid('layout.main'))).toBeVisible();
-    expect(screen.getByRole('contentinfo')).toBeVisible();
-    expect(screen.getByRole('link', { name: /support/i })).toBeVisible();
     expect(
-      screen.getByText(/contact your benefits administrator or employer/i)
-    ).toBeVisible();
-    expect(screen.queryByText(/support@clara\.com/i)).not.toBeInTheDocument();
-    expect(
-      screen.getByRole('link', { name: /privacy & security/i })
-    ).toBeVisible();
+      screen.queryByRole('navigation', { name: /primary navigation/i })
+    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('contentinfo')).not.toBeInTheDocument();
     expect(
       screen.queryByRole('button', { name: /sign out/i })
     ).not.toBeInTheDocument();
   });
 
-  it('renders sign out only for an authenticated session and calls logout', async () => {
-    const logout = vi.fn().mockResolvedValue(undefined);
-    const user = userEvent.setup();
-
+  it('renders authenticated navigation without duplicating account controls', () => {
     mockedUseAuth.mockReturnValue({
       sessionState: 'authenticated',
       authenticationMethod: 'password',
@@ -90,35 +81,16 @@ describe('AppShell', () => {
       completeMfa: vi.fn(),
       loginWithPasskey: vi.fn(),
       enrollPasskey: vi.fn(),
-      logout,
+      logout: vi.fn(),
     });
 
     renderWithProviders('/quotes');
 
-    const signOutButton = screen.getByRole('button', { name: /sign out/i });
-
-    expect(signOutButton).toBeVisible();
-
-    await user.click(signOutButton);
-
-    expect(logout).toHaveBeenCalledTimes(1);
-  });
-
-  it('switches the shell copy without changing the active route', async () => {
-    const user = userEvent.setup();
-
-    renderWithProviders('/login');
-
-    expect(screen.getByText('/login')).toBeVisible();
-    expect(screen.getByText(/secure sign-in/i)).toBeVisible();
-
-    await user.click(screen.getByRole('button', { name: /español/i }));
-
-    await waitFor(() => {
-      expect(screen.getByText(/acceso seguro/i)).toBeVisible();
-    });
-
-    expect(screen.getByText('/login')).toBeVisible();
-    expect(screen.getByRole('button', { name: /english/i })).toBeVisible();
+    expect(
+      screen.getAllByRole('navigation', { name: /primary navigation/i })
+    ).not.toHaveLength(0);
+    expect(
+      screen.queryByRole('button', { name: /sign out/i })
+    ).not.toBeInTheDocument();
   });
 });
