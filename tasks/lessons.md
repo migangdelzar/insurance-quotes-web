@@ -11,3 +11,4 @@
 - Passkey E2E is intentionally stateful: clear only the local demo credentials after the final passkey test so password-based demo login remains usable.
 - Treat a forwarded or long-running Compose port as a deployment artifact, not proof of the checked-out frontend source. Verify the current bundle on an isolated production preview port, and record stale-runtime E2E failures separately from source regressions.
 - Keep PWA verification split between a production artifact check (manifest, icons, service-worker route policy) and a browser preview check. Development mode intentionally does not register the production service worker, and static-only caching must never become API-response caching.
+- A debounced mutation must expose an awaitable flush at route-transition boundaries; unmount cleanup otherwise cancels the timer and can drop user-selected data before the next page reads it.

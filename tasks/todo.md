@@ -155,6 +155,13 @@
 
 ## App-first PWA UX — final verification and handoff
 
+## App-first post-review hardening A — coverage synchronization
+
+- [x] Reproduce the debounced coverage/Next navigation race with focused hook and route tests.
+- [x] Add a flush-and-await contract that preserves the normal 400 ms debounce.
+- [x] Verify senior diabetes/hypertension payloads persist before Summary navigation.
+- [x] Run focused and full web checks, record evidence, commit, and push.
+
 - [x] Run the complete current-source web unit suite: 25 files / 87 tests passed.
 - [x] Run web lint (0 errors; 3 existing Fast Refresh warnings) and E2E typecheck/lint (both passed).
 - [x] Build the production bundle and run the PWA artifact-policy checker (passed; manifest, service worker, icons, and no API runtime caching verified).

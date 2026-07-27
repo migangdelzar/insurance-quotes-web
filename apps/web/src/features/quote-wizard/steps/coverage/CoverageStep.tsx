@@ -23,12 +23,21 @@ export function CoverageStep() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { state, dispatch } = useQuoteWizard();
-  const { updating, error } = useDebouncedCoverageSync(state, dispatch);
+  const { updating, error, flush } = useDebouncedCoverageSync(state, dispatch);
   const isSenior = (state.personal?.age ?? 0) > 65;
 
   const selectCoverage = (value: string) => {
     const coverageType = COVERAGE_TYPES.find((type) => type === value);
     if (coverageType) dispatch({ type: 'COVERAGE_CHANGED', coverage: { ...state.coverage, coverageType } });
+  };
+
+  const continueToSummary = async () => {
+    try {
+      await flush();
+      await navigate('/quote/summary');
+    } catch {
+      // The mutation error remains available through the hook's existing error state.
+    }
   };
 
   return (
@@ -53,7 +62,7 @@ export function CoverageStep() {
         <PremiumDisplay premium={state.premium} updating={updating} />
         <WizardActionDock>
           <Button onClick={() => void navigate('/quote/personal')} data-testid={tid('common.back')}>{t('common.back')}</Button>
-          <Button variant="contained" disabled={!state.coverage.coverageType || updating} onClick={() => void navigate('/quote/summary')} data-testid={tid('common.next')}>{t('common.next')}</Button>
+          <Button variant="contained" disabled={!state.coverage.coverageType || updating} onClick={() => void continueToSummary()} data-testid={tid('common.next')}>{t('common.next')}</Button>
         </WizardActionDock>
       </Stack>
     </WizardFrame>
