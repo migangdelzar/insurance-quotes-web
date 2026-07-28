@@ -5,11 +5,11 @@ on: # yamllint disable-line rule:truthy
   workflow_dispatch:
     inputs:
       frontend_ref:
-        description: Frontend branch, tag, or SHA to record
+        description: Frontend branch, tag, or full commit SHA to record
         required: false
         default: feat-frontend
       backend_ref:
-        description: Backend branch, tag, or SHA to record
+        description: Backend branch, tag, or full commit SHA to record
         required: false
         default: feat-backend-core
 
@@ -103,6 +103,7 @@ jobs:
         working-directory: insurance-quotes-web
         env:
           E2E_BASE_URL: http://localhost:3100
+          RECORD_DEMO: 'true'
         run: bun run --filter e2e test:recordings
 
       - name: Upload demo videos and reports

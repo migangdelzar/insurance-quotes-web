@@ -34,4 +34,14 @@ describe('registerPwa', () => {
 
     expect(serviceWorkerRegister).not.toHaveBeenCalled();
   });
+
+  it('handles registration failures without rejecting startup', async () => {
+    serviceWorkerRegister.mockRejectedValueOnce(
+      new Error('registration failed')
+    );
+    const { registerPwa } = await import('./register');
+
+    expect(() => registerPwa(true)).not.toThrow();
+    await Promise.resolve();
+  });
 });

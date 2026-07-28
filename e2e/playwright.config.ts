@@ -3,6 +3,7 @@ import { getPwaPreviewBaseUrl, getPwaPreviewPort } from './support/pwaPreview';
 
 const usePwaPreview = process.env.E2E_PWA_PREVIEW === '1';
 const startPwaPreview = process.env.E2E_PWA_PREVIEW_SERVER === '1';
+const recordDemo = process.env.RECORD_DEMO === 'true';
 const pwaPreviewPort = getPwaPreviewPort(process.env.E2E_PWA_PREVIEW_PORT);
 const pwaPreviewBaseUrl = getPwaPreviewBaseUrl(pwaPreviewPort);
 
@@ -16,6 +17,7 @@ export default defineConfig({
     baseURL: process.env.E2E_BASE_URL ?? 'http://localhost:3100',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
+    video: recordDemo ? 'on' : 'retain-on-failure',
   },
   projects: [
     {

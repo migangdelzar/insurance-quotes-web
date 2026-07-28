@@ -28,7 +28,10 @@ export async function loginWithPassword(page: Page): Promise<void> {
 export async function skipEnrollmentIfShown(page: Page): Promise<void> {
   const skip = page.getByTestId(tid('auth.enroll.skip'));
   const quotesTitle = page.getByTestId(tid('quotesList.title'));
-  await expect(skip.or(quotesTitle).first()).toBeVisible();
+  await Promise.race([
+    skip.waitFor({ state: 'visible' }),
+    quotesTitle.waitFor({ state: 'visible' }),
+  ]);
   if (await skip.isVisible()) {
     await skip.click();
   }

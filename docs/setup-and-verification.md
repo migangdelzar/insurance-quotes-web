@@ -301,5 +301,5 @@ does not require the native toolchain.
 
 - [Web README](../README.md)
 - [Backend README](../../insurance-quotes-service/README.md)
-- [Flow recordings](demo/flow-hyperframes.md)
+- [Flow recordings](demo-recordings.md)
 - [Backend ADR catalogue](../../insurance-quotes-service/docs/decisions/README.md)

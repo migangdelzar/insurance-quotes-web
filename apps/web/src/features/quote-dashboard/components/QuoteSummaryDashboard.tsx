@@ -316,9 +316,11 @@ function TrendChart({
 }) {
   const { t } = useTranslation();
   const formatDate = (date: string) =>
-    new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric' }).format(
-      new Date(`${date}T00:00:00Z`)
-    );
+    new Intl.DateTimeFormat(locale, {
+      month: 'short',
+      day: 'numeric',
+      timeZone: 'UTC',
+    }).format(new Date(`${date}T00:00:00Z`));
   const width = 640;
   const height = 210;
   const padding = 24;

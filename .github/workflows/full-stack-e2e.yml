@@ -8,7 +8,7 @@ on: # yamllint disable-line rule:truthy
   workflow_dispatch:
     inputs:
       backend_ref:
-        description: Backend branch, tag, or SHA to verify
+        description: Backend branch, tag, or full commit SHA to verify
         required: false
         default: feat-backend-core
       record_demo:
@@ -133,7 +133,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: clara-demo-recordings-${{ github.run_id }}
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 7
           path: |
             insurance-quotes-web/e2e/test-results

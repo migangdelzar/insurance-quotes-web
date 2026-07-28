@@ -109,8 +109,8 @@ jobs:
           docker run --detach --rm --name insurance-quotes-web-ci --publish 8080:8080 insurance-quotes-web:ci
           trap 'docker stop insurance-quotes-web-ci >/dev/null 2>&1 || true' EXIT
           for attempt in $(seq 1 30); do
-            if curl --fail --silent http://127.0.0.1:8080/ >/dev/null &&
-              curl --fail --silent http://127.0.0.1:8080/does-not-exist >/dev/null; then
+            if curl --fail --silent --max-time 5 http://127.0.0.1:8080/ >/dev/null &&
+              curl --fail --silent --max-time 5 http://127.0.0.1:8080/does-not-exist >/dev/null; then
               exit 0
             fi
             sleep 1
