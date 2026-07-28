@@ -21,7 +21,15 @@ function checkTranslationKeys(enNode, esNode, path = '') {
       console.error(`MISSING: es-MX.${fullPath}`);
       exitCode = 1;
     } else if (isObject(enNode[key])) {
+      if (!isObject(esNode[key])) {
+        console.error(`TYPE: es-MX.${fullPath} must be an object`);
+        exitCode = 1;
+        continue;
+      }
       checkTranslationKeys(enNode[key], esNode[key], fullPath);
+    } else if (typeof enNode[key] !== typeof esNode[key]) {
+      console.error(`TYPE: es-MX.${fullPath} must be a ${typeof enNode[key]}`);
+      exitCode = 1;
     }
   }
 

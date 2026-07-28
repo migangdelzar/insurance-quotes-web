@@ -107,7 +107,7 @@ describe('LoginPage', () => {
 
     expect(
       screen.getByRole('heading', {
-        level: 3,
+        level: 2,
         name: i18n.t('auth.mfa.title'),
       })
     ).toBeVisible();

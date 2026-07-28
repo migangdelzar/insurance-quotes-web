@@ -29,12 +29,18 @@ export function PersonalInfoStep() {
   });
 
   const creation = useMutation({
-    mutationFn: (values: PersonalFormValues) => createQuote(values),
+    mutationFn: async (values: PersonalFormValues) => {
+      const quote = await createQuote(values);
+      if (typeof quote.id !== 'string' || quote.id.length === 0) {
+        throw new Error('Quote creation succeeded without an id');
+      }
+      return { ...quote, id: quote.id };
+    },
     onSuccess: (quote, personal) => {
       dispatch({
         type: 'PERSONAL_SUBMITTED',
         personal,
-        quoteId: quote.id ?? '',
+        quoteId: quote.id,
       });
       void navigate('/quote/coverage');
     },

@@ -139,7 +139,7 @@ describe('AppShell', () => {
       'data-shell-position',
       'fixed'
     );
-    expect(screen.getByRole('button', { name: 'Toggle theme' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Light' })).toBeVisible();
   });
 
   it('focuses the destination heading after an authenticated route transition', () => {

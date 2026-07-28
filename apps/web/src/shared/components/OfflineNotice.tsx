@@ -12,6 +12,7 @@ export function OfflineNotice() {
   const [isOnline, setIsOnline] = useState(getOnlineStatus);
 
   useEffect(() => {
+    setIsOnline(navigator.onLine);
     const markOnline = () => setIsOnline(true);
     const markOffline = () => setIsOnline(false);
 

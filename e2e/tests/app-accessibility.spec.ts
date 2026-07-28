@@ -3,6 +3,8 @@ import { tid } from '@clara/app-i18n';
 import { loginAndReachQuotes } from '../support/session';
 import { test } from '../support/criticalFlow';
 
+const APP_THEME_COLOR = '#1D1D1F';
+
 type Rgb = readonly [number, number, number];
 
 const LIGHT_SHELL_RGB = 'rgb(21, 26, 32)';
@@ -189,6 +191,6 @@ test('app shell exposes PWA manifest and theme metadata @pwa', async ({
   await expect(manifest).toHaveAttribute('href', /manifest\.webmanifest$/);
   await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute(
     'content',
-    '#1D1D1F'
+    APP_THEME_COLOR
   );
 });

@@ -227,7 +227,7 @@ export function AppShell({ children }: AppShellProps) {
             color: 'shell.contrastText',
             ml: { xs: 0, md: '224px' },
             mb: {
-              xs: 'calc(56px + env(safe-area-inset-bottom))',
+              xs: 'calc(72px + env(safe-area-inset-bottom))',
               md: 0,
             },
             '& .MuiTypography-root': {

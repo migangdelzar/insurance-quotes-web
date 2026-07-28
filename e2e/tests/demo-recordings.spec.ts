@@ -6,7 +6,7 @@ import {
   loginAndReachQuotes,
   loginWithPasswordAs,
 } from '../support/session';
-import type { loginWithPassword } from '../support/session';
+import type { Page } from '@playwright/test';
 import { stubInsurer } from '../support/insurer';
 import { test } from '../support/consoleClean';
 
@@ -14,7 +14,7 @@ test.describe.configure({ mode: 'serial' });
 test.use({ video: 'on' });
 
 async function fillPersonalDetails(
-  page: Parameters<typeof loginWithPassword>[0],
+  page: Page,
   details: { name: string; email: string; age: string }
 ): Promise<void> {
   await page.getByTestId(tid('wizard.personal.name')).fill(details.name);
@@ -25,7 +25,7 @@ async function fillPersonalDetails(
 }
 
 async function startQuote(
-  page: Parameters<typeof loginWithPassword>[0],
+  page: Page,
   details: { name: string; email: string; age: string }
 ): Promise<void> {
   await page.getByTestId(tid('quotesList.startQuote')).click();

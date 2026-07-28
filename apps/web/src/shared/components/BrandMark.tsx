@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Box, Stack, Typography, type StackProps } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 
 type BrandMarkProps = StackProps & {
   productLabel?: ReactNode;
@@ -22,7 +23,7 @@ export function BrandMark({ productLabel, ...props }: BrandMarkProps) {
           flexShrink: 0,
           borderRadius: '4px',
           backgroundColor: theme.palette.secondary.main,
-          boxShadow: `0 0 0 1px ${theme.palette.primary.main}1f`,
+          boxShadow: `0 0 0 1px ${alpha(theme.palette.primary.main, 0.12)}`,
         })}
       />
       <Stack spacing={0.25} minWidth={0}>

@@ -117,12 +117,7 @@ describe('PWA build checker', () => {
     expect(e2ePackage.devDependencies['@playwright/test']).toBe('1.61.1');
     expect(lockfile).toContain('"@playwright/test": "1.61.1"');
     expect(workflow).not.toContain('bunx playwright install');
-    expect(
-      workflow.match(/bun run --silent playwright --version/gu)
-    ).toHaveLength(2);
-    expect(
-      workflow.match(/bun run playwright install --with-deps chromium/gu)
-    ).toHaveLength(2);
+    expect(workflow.match(/install-chromium\.sh/gu)).toHaveLength(2);
   });
 
   it('keeps committed Vite API defaults on the same origin', () => {

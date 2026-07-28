@@ -21,7 +21,7 @@ type ColorModeContextValue = {
 const ColorModeContext = createContext<ColorModeContextValue | null>(null);
 
 function systemMode(): ColorMode {
-  return window.matchMedia?.('(prefers-color-scheme: dark)').matches
+  return window.matchMedia?.('(prefers-color-scheme: dark)')?.matches
     ? 'dark'
     : 'light';
 }

@@ -37,9 +37,12 @@ export function PasskeyEnrollDialog({ open, onClose }: Props) {
     <Dialog
       open={open}
       onClose={onClose}
-      aria-labelledby={tid('auth.enroll.title')}
+      aria-labelledby="passkey-enroll-title"
     >
-      <DialogTitle data-testid={tid('auth.enroll.title')}>
+      <DialogTitle
+        id="passkey-enroll-title"
+        data-testid={tid('auth.enroll.title')}
+      >
         {t('auth.enroll.title')}
       </DialogTitle>
       <DialogContent>

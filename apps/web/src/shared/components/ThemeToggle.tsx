@@ -2,6 +2,7 @@ import { Button, SvgIcon } from '@mui/material';
 import type { SvgIconProps } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useColorMode } from '@shared/theme/colorMode';
+import { tid } from '@clara/app-i18n';
 
 function ThemeIcon({ dark, ...props }: SvgIconProps & { dark: boolean }) {
   return (
@@ -23,8 +24,8 @@ export function ThemeToggle() {
   return (
     <Button
       type="button"
-      aria-label={t('layout.theme.toggle')}
-      data-testid="theme-toggle"
+      aria-label={undefined}
+      data-testid={tid('layout.themeToggle')}
       startIcon={<ThemeIcon dark={dark} />}
       onClick={toggleMode}
       sx={{ minWidth: 0, whiteSpace: 'nowrap' }}

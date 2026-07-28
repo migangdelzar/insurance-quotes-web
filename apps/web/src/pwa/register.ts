@@ -3,5 +3,7 @@ export function registerPwa(isProduction = import.meta.env.PROD): void {
     return;
   }
 
-  void navigator.serviceWorker.register('/sw.js');
+  void Promise.resolve(navigator.serviceWorker.register('/sw.js')).catch(
+    () => undefined
+  );
 }

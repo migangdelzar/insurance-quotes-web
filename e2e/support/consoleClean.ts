@@ -22,21 +22,24 @@ export const test = base.extend<ConsoleCleanFixtures>({
       page.on('pageerror', capturePageError);
       page.on('console', captureConsoleError);
 
-      await use();
+      try {
+        await use();
+      } finally {
+        page.off('pageerror', capturePageError);
+        page.off('console', captureConsoleError);
+        const expectedErrors = testInfo.annotations
+          .filter((annotation) => annotation.type === 'expected-console-error')
+          .map((annotation) => annotation.description ?? '');
+        const unexpectedErrors = errors.filter(
+          (error) =>
+            !expectedErrors.some((expected) => error.includes(expected))
+        );
 
-      page.off('pageerror', capturePageError);
-      page.off('console', captureConsoleError);
-      const expectedErrors = testInfo.annotations
-        .filter((annotation) => annotation.type === 'expected-console-error')
-        .map((annotation) => annotation.description ?? '');
-      const unexpectedErrors = errors.filter(
-        (error) => !expectedErrors.some((expected) => error.includes(expected))
-      );
-
-      expect(
-        unexpectedErrors,
-        `Unexpected browser errors in ${testInfo.title}`
-      ).toEqual([]);
+        expect(
+          unexpectedErrors,
+          `Unexpected browser errors in ${testInfo.title}`
+        ).toEqual([]);
+      }
     },
     { auto: true },
   ],

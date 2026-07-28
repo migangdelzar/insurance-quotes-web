@@ -51,6 +51,16 @@ async function performFetch(
   path: string,
   init: RequestInitLite
 ): Promise<Response> {
+  if (
+    config.baseUrl.startsWith('http') &&
+    !new URL(config.baseUrl).pathname.replace(/\/$/, '').endsWith('/api')
+  ) {
+    throw new ApiRequestError(
+      0,
+      'INVALID_API_PATH',
+      'API requests must use the /api boundary'
+    );
+  }
   const controller = new AbortController();
   const timeout = setTimeout(
     () => controller.abort(),
@@ -88,7 +98,7 @@ async function performFetch(
 
 async function parseOrThrow<T>(response: Response): Promise<T> {
   if (response.ok) {
-    if (response.status === 204) {
+    if (response.status === 204 || response.status === 205) {
       return undefined as T;
     }
     return (await response.json()) as T;

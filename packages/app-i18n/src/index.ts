@@ -50,5 +50,7 @@ export function getResources() {
 }
 
 export function errorMessageKey(code: string): string {
-  return code in enUS.errors ? `errors.${code}` : 'common.networkError';
+  return Object.prototype.hasOwnProperty.call(enUS.errors, code)
+    ? `errors.${code}`
+    : 'common.networkError';
 }

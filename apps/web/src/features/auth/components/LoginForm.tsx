@@ -19,16 +19,20 @@ export function LoginForm({ labelledBy, describedBy }: LoginFormProps) {
   const [passkeyError, setPasskeyError] = useState(false);
   const [passkeySetupRequired, setPasskeySetupRequired] = useState(false);
   const [passkeyPending, setPasskeyPending] = useState(false);
+  const [loginPending, setLoginPending] = useState(false);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(false);
     setPasskeyError(false);
     setPasskeySetupRequired(false);
+    setLoginPending(true);
     try {
       await login(username, password);
     } catch {
       setError(true);
+    } finally {
+      setLoginPending(false);
     }
   };
 
@@ -86,7 +90,9 @@ export function LoginForm({ labelledBy, describedBy }: LoginFormProps) {
           autoComplete="username"
           value={username}
           onChange={(event) => setUsername(event.target.value)}
-          inputProps={{ 'data-testid': tid('auth.login.username') }}
+          slotProps={{
+            htmlInput: { 'data-testid': tid('auth.login.username') },
+          }}
           required
         />
         <TextField
@@ -96,12 +102,15 @@ export function LoginForm({ labelledBy, describedBy }: LoginFormProps) {
           autoComplete="current-password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          inputProps={{ 'data-testid': tid('auth.login.password') }}
+          slotProps={{
+            htmlInput: { 'data-testid': tid('auth.login.password') },
+          }}
           required
         />
         <Button
           type="submit"
           variant="contained"
+          disabled={loginPending || passkeyPending}
           data-testid={tid('auth.login.submit')}
         >
           {t('auth.login.submit')}
@@ -109,7 +118,7 @@ export function LoginForm({ labelledBy, describedBy }: LoginFormProps) {
         <Button
           type="button"
           onClick={() => void signInWithPasskey()}
-          disabled={passkeyPending}
+          disabled={loginPending || passkeyPending}
           data-testid={tid('auth.login.passwordless')}
         >
           {t('auth.login.passwordless')}

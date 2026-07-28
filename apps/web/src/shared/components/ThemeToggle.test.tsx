@@ -26,7 +26,7 @@ describe('ThemeToggle', () => {
       </I18nextProvider>
     );
 
-    const toggle = screen.getByRole('button', { name: 'Toggle theme' });
+    const toggle = screen.getByRole('button', { name: 'Light' });
     await user.click(toggle);
 
     expect(toggle).toHaveTextContent(/dark/i);

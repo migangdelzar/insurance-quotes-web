@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { VitePWA } from 'vite-plugin-pwa';
+import { APP_THEME_COLOR } from './src/shared/theme/brandTokens';
 
 export default defineConfig({
   plugins: [
@@ -24,7 +25,7 @@ export default defineConfig({
         description: 'A secure, guided workspace for Clara insurance quotes.',
         start_url: '/quotes',
         display: 'standalone',
-        theme_color: '#1D1D1F',
+        theme_color: APP_THEME_COLOR,
         background_color: '#FBFBFD',
         icons: [
           {

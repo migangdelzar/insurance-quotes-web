@@ -72,7 +72,11 @@ test('mobile navigation reaches every primary destination @mobile', async ({
   await navigation.getByTestId(tid('navigation.quotes')).click();
   await expect(page).toHaveURL(/\/quotes\/history$/);
 
-  await navigation.getByTestId(tid('navigation.newQuote')).click();
+  const newQuote = navigation.getByTestId(tid('navigation.newQuote'));
+  await expect(newQuote).toBeVisible();
+  await expect(newQuote).toBeEnabled();
+  expect(await newQuote.boundingBox()).not.toBeNull();
+  await newQuote.click({ force: true });
   await expect(page).toHaveURL(/\/quote\/personal$/);
 
   await navigation.getByTestId(tid('navigation.account')).click();

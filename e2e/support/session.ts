@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
 
 export const DEMO_USER = { username: 'demo', password: 'demo-password' };
@@ -27,15 +27,12 @@ export async function loginWithPassword(page: Page): Promise<void> {
 
 export async function skipEnrollmentIfShown(page: Page): Promise<void> {
   const skip = page.getByTestId(tid('auth.enroll.skip'));
-  if (
-    await skip
-      .waitFor({ state: 'visible', timeout: 5_000 })
-      .then(() => true)
-      .catch(() => false)
-  ) {
+  const quotesTitle = page.getByTestId(tid('quotesList.title'));
+  await expect(skip.or(quotesTitle).first()).toBeVisible();
+  if (await skip.isVisible()) {
     await skip.click();
   }
-  await page.getByTestId(tid('quotesList.title')).waitFor({ state: 'visible' });
+  await expect(quotesTitle).toBeVisible();
 }
 
 export async function loginAndReachQuotes(page: Page): Promise<void> {

@@ -17,9 +17,8 @@ E2E_BASE_URL=http://localhost:3100 bun run --filter e2e test:recordings
 ```
 
 Or dispatch the `Full-stack real E2E` workflow with `record_demo=true`. The
-latest verified artifact is
-[clara-demo-recordings-30386095142](https://github.com/migangdelzar/insurance-quotes-web/actions/runs/30386095142),
-which contains the six videos and the Playwright report. Videos and reports are
+the generated artifact contains the six videos and the Playwright report.
+Videos and reports are
 deliberately generated artifacts rather than large files committed to the
 repository.
 

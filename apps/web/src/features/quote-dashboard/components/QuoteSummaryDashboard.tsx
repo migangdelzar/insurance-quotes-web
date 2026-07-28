@@ -196,7 +196,7 @@ export function QuoteSummaryDashboard({
             />
           </Box>
 
-          <TrendChart summary={summary} formatDate={(date) => date.slice(5)} />
+          <TrendChart summary={summary} locale={locale} />
         </>
       ) : null}
     </Stack>
@@ -265,7 +265,7 @@ function DistributionChart({
         </Typography>
         <Stack
           role="img"
-          aria-label={title}
+          aria-label={`${title}: ${entries.map((entry) => `${labelFor(entry.key)} ${entry.count}`).join(', ')}`}
           data-testid={testId}
           spacing={1.25}
         >
@@ -309,12 +309,16 @@ function DistributionChart({
 
 function TrendChart({
   summary,
-  formatDate,
+  locale,
 }: {
   summary: QuoteSummaryView;
-  formatDate: (date: string) => string;
+  locale: string;
 }) {
   const { t } = useTranslation();
+  const formatDate = (date: string) =>
+    new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric' }).format(
+      new Date(`${date}T00:00:00Z`)
+    );
   const width = 640;
   const height = 210;
   const padding = 24;
@@ -380,7 +384,7 @@ function TrendChart({
             />
             <polyline
               fill="none"
-              stroke="#C38B32"
+              stroke="#B7791F"
               strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -388,7 +392,7 @@ function TrendChart({
             />
             <polyline
               fill="none"
-              stroke="#B94A48"
+              stroke="#B42318"
               strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -402,11 +406,11 @@ function TrendChart({
             label={t('quotesList.analytics.created')}
           />
           <Legend
-            color="#C38B32"
+            color="#B7791F"
             label={t('quotesList.analytics.submittedSeries')}
           />
           <Legend
-            color="#B94A48"
+            color="#B42318"
             label={t('quotesList.analytics.failedSeries')}
           />
         </Stack>

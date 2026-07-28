@@ -1,10 +1,12 @@
 #!/bin/sh
 set -e
 
-cp src/generated/schema.d.ts /tmp/schema.before.d.ts
+temporary_file="$(mktemp)"
+trap 'rm -f "$temporary_file"' EXIT
+cp src/generated/schema.d.ts "$temporary_file"
 bun run generate
 
-if ! diff -q /tmp/schema.before.d.ts src/generated/schema.d.ts > /dev/null; then
+if ! diff -q "$temporary_file" src/generated/schema.d.ts > /dev/null; then
   echo "DRIFT: api-contract is out of date with the backend openapi.yaml. Commit the regenerated schema."
   exit 1
 fi

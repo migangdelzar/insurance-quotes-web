@@ -25,7 +25,7 @@ export function PasskeyPrompt() {
   return (
     <Stack spacing={2} alignItems="flex-start">
       <Typography
-        component="h3"
+        component="h2"
         variant="h6"
         data-testid={tid('auth.mfa.title')}
       >

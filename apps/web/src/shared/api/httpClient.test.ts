@@ -10,7 +10,7 @@ describe('httpClient', () => {
   beforeEach(() => {
     vi.stubGlobal('fetch', fetchMock);
     configureHttpClient({
-      baseUrl: 'http://api.test',
+      baseUrl: 'http://api.test/api',
       getAccessToken: () => 'token-1',
       refreshSession,
       onSessionExpired,
@@ -36,7 +36,7 @@ describe('httpClient', () => {
     const [url, init] = fetchMock.mock.calls.at(0) ?? [];
 
     expect(result.id).toBe('q1');
-    expect(url).toBe('http://api.test/quotes/q1');
+    expect(url).toBe('http://api.test/api/quotes/q1');
     expect(new Headers(init.headers).get('Authorization')).toBe(
       'Bearer token-1'
     );
