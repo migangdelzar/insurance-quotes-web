@@ -123,7 +123,7 @@ git push origin feat-frontend
 - [x] Keep MFA pending after a failed assertion so the user can retry without restarting password login.
 - [x] Prevent generic HTTP `401` refresh handling from remounting a WebAuthn assertion flow.
 - [x] Add localized English and Spanish passkey error copy and private stable test IDs.
-- [x] Add an E2E regression that forces an expired/unknown WebAuthn challenge, verifies the visible error, then retries successfully.
+- [x] Add component/API regression coverage for expired or unregistered WebAuthn errors; keep browser lifecycle coverage real-only.
 - [x] Narrow the authenticated quote mock to `/api/quotes` so it cannot intercept document reloads.
 
 ### Task 3: Explicit passkey setup before passkey sign-in
