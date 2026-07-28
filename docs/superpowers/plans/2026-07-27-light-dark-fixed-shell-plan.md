@@ -37,7 +37,7 @@
 
 **Interfaces:** `ColorMode = 'light' | 'dark'`; `createAppTheme(mode: ColorMode): Theme`; `useColorMode(): { mode: ColorMode; setMode(mode: ColorMode): void; toggleMode(): void }`. Use storage key `clara.color-mode`.
 
-- [ ] **Step 1: Write the failing tests.** Test that no stored value plus `matchMedia().matches === true` resolves to `dark`, invalid storage resolves to `light` when the system is light, and toggling persists the new value.
+- [x] **Step 1: Write the failing tests.** Test that no stored value plus `matchMedia().matches === true` resolves to `dark`, invalid storage resolves to `light` when the system is light, and toggling persists the new value.
 
 ```tsx
 it('uses the system preference and persists an explicit choice', async () => {
@@ -50,13 +50,13 @@ it('uses the system preference and persists an explicit choice', async () => {
 });
 ```
 
-- [ ] **Step 2: Verify RED.** Run `bun run --filter web test --run src/shared/theme/colorMode.test.tsx src/shared/theme/theme.test.ts`; expect missing-provider/factory failures.
+- [x] **Step 2: Verify RED.** Run `bun run --filter web test --run src/shared/theme/colorMode.test.tsx src/shared/theme/theme.test.ts`; missing-provider/factory failures confirmed.
 
-- [ ] **Step 3: Implement the minimum.** Move the current theme configuration behind `createAppTheme(mode)` and use these exact semantic tokens: light canvas `#F4F6F8`, surface `#FFFFFF`, raised `#E9EDF2`, border `#CBD3DD`, text `#171A1F`, shell `#151A20`; dark canvas `#101419`, surface `#1A2028`, raised `#232C36`, border `#3A4653`, text `#F3F6F8`, shell `#0B0F13`. The provider initializes from storage, then `matchMedia('(prefers-color-scheme: dark)')`, then light; it updates `document.documentElement.dataset.theme` and `color-scheme`.
+- [x] **Step 3: Implement the minimum.** Move the current theme configuration behind `createAppTheme(mode)` and use these exact semantic tokens: light canvas `#F4F6F8`, surface `#FFFFFF`, raised `#E9EDF2`, border `#CBD3DD`, text `#171A1F`, shell `#151A20`; dark canvas `#101419`, surface `#1A2028`, raised `#232C36`, border `#3A4653`, text `#F3F6F8`, shell `#0B0F13`. The provider initializes from storage, then `matchMedia('(prefers-color-scheme: dark)')`, then light; it updates `document.documentElement.dataset.theme` and `color-scheme`.
 
-- [ ] **Step 4: Verify GREEN.** Run `bun run --filter web test --run src/shared/theme/colorMode.test.tsx src/shared/theme/theme.test.ts src/pwa/check-build.test.ts`; expect all passing.
+- [x] **Step 4: Verify GREEN.** Run `bun run --filter web test --run src/shared/theme/colorMode.test.tsx src/shared/theme/theme.test.ts src/pwa/check-build.test.ts`; 12 tests passed.
 
-- [ ] **Step 5: Refactor and commit.** `git add apps/web/src/shared/theme apps/web/src/main.tsx && git commit -m "feat(web): add persistent light dark theme state"`.
+- [x] **Step 5: Refactor and commit.** Committed as `feat(web): add persistent light dark theme state`.
 
 ### Task 2: Add translated accessible theme toggle
 
