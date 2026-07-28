@@ -11,11 +11,6 @@ on: # yamllint disable-line rule:truthy
         description: Backend branch, tag, or full commit SHA to verify
         required: false
         default: feat-backend-core
-      record_demo:
-        description: Record the named demo flows and upload Playwright videos
-        required: false
-        type: boolean
-        default: false
 
 concurrency:
   group: >-
@@ -119,17 +114,12 @@ jobs:
       - name: Run real Playwright flows
         env:
           E2E_BASE_URL: http://localhost:3100
-          RECORD_DEMO: ${{ inputs.record_demo }}
+          RECORD_DEMO: 'true'
         working-directory: insurance-quotes-web
-        run: |
-          if [ "$RECORD_DEMO" = "true" ]; then
-            bun run --filter e2e test:recordings
-          else
-            bun run e2e -- --retries=0
-          fi
+        run: bun run e2e -- --retries=0
 
       - name: Upload demo recordings
-        if: ${{ always() && inputs.record_demo == true }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: clara-demo-recordings-${{ github.run_id }}

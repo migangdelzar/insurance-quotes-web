@@ -19,5 +19,8 @@ E2E_BASE_URL=http://localhost:3100 RECORD_DEMO=true \
 Use **Actions → Playwright demo recordings → Run workflow**. Keep the default
 frontend/backend refs or provide branches/tags/full commit SHAs. The workflow
 starts the real stack, records the six named flows, and uploads
-`clara-demo-recordings-<run-id>` for seven days. Normal PR E2E runs do not record
-videos by default; they upload diagnostics only when a flow fails.
+`clara-demo-recordings-<run-id>` for seven days.
+
+The regular **Full-stack real E2E** workflow also sets `RECORD_DEMO=true` by
+default. Every pull-request and main-branch run therefore records and uploads
+videos and Playwright reports for the complete real E2E suite.
