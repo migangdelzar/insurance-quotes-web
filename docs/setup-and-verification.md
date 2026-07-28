@@ -17,11 +17,20 @@ Install Docker Compose, Mise, Java 17, Bun 1.3+, and Chromium dependencies for P
 Install dependencies once:
 
 ```bash
-cd insurance-quotes-web
-bun install --frozen-lockfile
-cd ../insurance-quotes-service
-mise run setup
+cd insurance-quotes-service
+mise run setup-all
 ```
+
+For a reviewer-ready browser demo, use one command instead:
+
+```bash
+cd insurance-quotes-service
+mise run demo
+```
+
+Open `http://localhost:3100` and sign in with `demo` / `demo-password`. Stop
+the stack with `mise run stop`. If a healthy Clara stack is already running,
+the command reuses it instead of rebuilding the containers.
 
 ## Fast development loop with HMR
 

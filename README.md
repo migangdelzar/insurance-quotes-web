@@ -51,6 +51,10 @@ mise run setup
 bun run dev                         # Vite HMR at http://localhost:5173
 ```
 
+For reviewers, the backend repository provides the single-command integrated
+demo. From `insurance-quotes-service`, run `mise run demo`; it installs both
+workspaces and starts the browser-ready stack at http://localhost:3100.
+
 Vite proxies same-origin /api/* requests to the backend at port 8080. The
 production Nginx image uses the same /api boundary, so development and
 deployment exercise the same browser contract without direct backend or
