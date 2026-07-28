@@ -124,7 +124,7 @@ jobs:
         working-directory: e2e
         run: |
           declared_version="$(
-            bun -p 'require("./package.json").devDependencies' |
+            bun -p 'JSON.stringify(require("./package.json").devDependencies)' |
               jq -r '."@playwright/test"'
           )"
           installed_version="$(bun run --silent playwright --version)"
@@ -247,7 +247,7 @@ jobs:
         working-directory: e2e
         run: |
           declared_version="$(
-            bun -p 'require("./package.json").devDependencies' |
+            bun -p 'JSON.stringify(require("./package.json").devDependencies)' |
               jq -r '."@playwright/test"'
           )"
           installed_version="$(bun run --silent playwright --version)"
