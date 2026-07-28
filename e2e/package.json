@@ -5,6 +5,7 @@
   "scripts": {
     "playwright": "playwright",
     "test": "playwright test",
+    "test:recordings": "playwright test tests/demo-recordings.spec.ts --project=desktop-chromium --retries=0",
     "test:pwa-preview": "E2E_PWA_PREVIEW=1 E2E_PWA_PREVIEW_SERVER=1 playwright test --project=pwa-preview",
     "test:headed": "playwright test --headed",
     "lint": "eslint .",
