@@ -8,7 +8,9 @@ import { test } from '../support/criticalFlow';
 
 type Rgb = readonly [number, number, number];
 
-const CHARCOAL_SHELL_RGB = 'rgb(29, 29, 31)';
+const LIGHT_SHELL_RGB = 'rgb(21, 26, 32)';
+const DARK_SHELL_RGB = 'rgb(11, 15, 19)';
+const LIGHT_CANVAS_RGB = 'rgb(244, 246, 248)';
 
 function parseCssRgb(value: string): Rgb {
   const channels = value
@@ -54,6 +56,10 @@ test('authenticated app routes retain landmarks, headings, and keyboard focus', 
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.addInitScript(() => {
+    window.localStorage.removeItem('clara.color-mode');
+  });
   await stubAuthenticatedQuoteSession(page);
   await loginAndReachQuotes(page);
 
@@ -66,6 +72,13 @@ test('authenticated app routes retain landmarks, headings, and keyboard focus', 
   await expect(banner).toHaveAttribute('data-shell-tone', 'charcoal');
   await expect(navigation).toHaveAttribute('data-shell-tone', 'charcoal');
   await expect(footer).toHaveAttribute('data-shell-tone', 'charcoal');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(banner).toHaveAttribute('data-shell-mode', 'light');
+  await expect(navigation).toHaveAttribute('data-shell-mode', 'light');
+  await expect(navigation).toHaveAttribute('data-shell-position', 'fixed');
+  await expect(footer).toHaveAttribute('data-shell-mode', 'light');
+
+  await expect(page.getByTestId('theme-toggle')).toBeVisible();
 
   const shellStyles = await Promise.all(
     [banner, navigation, footer].map((landmark) =>
@@ -80,9 +93,14 @@ test('authenticated app routes retain landmarks, headings, and keyboard focus', 
   );
 
   for (const { backgroundColor, color } of shellStyles) {
-    expect(backgroundColor).toBe(CHARCOAL_SHELL_RGB);
+    expect(backgroundColor).toBe(LIGHT_SHELL_RGB);
     expect(contrastRatio(color, backgroundColor)).toBeGreaterThanOrEqual(4.5);
   }
+
+  await expect(page.locator('body')).toHaveCSS(
+    'background-color',
+    LIGHT_CANVAS_RGB
+  );
 
   await expect(navigation).toBeVisible();
   await expect(page.getByRole('main')).toBeVisible();
@@ -99,6 +117,59 @@ test('authenticated app routes retain landmarks, headings, and keyboard focus', 
   await expect(destinationHeading).toHaveCount(1);
   await expect(destinationHeading).toHaveAttribute('tabindex', '-1');
   await expect(destinationHeading).toBeFocused();
+});
+
+test('theme toggle switches all shell landmarks and preserves the selected mode', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.addInitScript(() => {
+    if (window.name !== 'clara-theme-toggle-test') {
+      window.localStorage.removeItem('clara.color-mode');
+      window.name = 'clara-theme-toggle-test';
+    }
+  });
+  await stubAuthenticatedQuoteSession(page);
+  await loginAndReachQuotes(page);
+
+  const landmarks = [
+    page.getByRole('banner'),
+    page.getByRole('navigation', { name: /primary navigation/i }),
+    page.getByRole('contentinfo'),
+  ];
+  const toggle = page.getByTestId('theme-toggle');
+
+  await toggle.click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  for (const landmark of landmarks) {
+    await expect(landmark).toHaveAttribute('data-shell-mode', 'dark');
+  }
+
+  const darkShell = await page
+    .getByRole('banner')
+    .evaluate((element) => window.getComputedStyle(element).backgroundColor);
+  expect(darkShell).toBe(DARK_SHELL_RGB);
+
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+});
+
+test('theme initially follows the system preference when no mode is stored', async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.addInitScript(() => {
+    window.localStorage.removeItem('clara.color-mode');
+  });
+  await stubAuthenticatedQuoteSession(page);
+  await loginAndReachQuotes(page);
+
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.getByRole('banner')).toHaveAttribute(
+    'data-shell-mode',
+    'dark'
+  );
 });
 
 test('account menu closes with Escape and restores focus to its trigger', async ({

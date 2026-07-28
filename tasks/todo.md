@@ -1,5 +1,23 @@
 # Premium fintech web redesign
 
+## Light/dark fixed shell — Task 5
+
+- [x] Add deterministic browser contracts for system-preference startup, explicit theme persistence, and translated keyboard-accessible toggling.
+- [x] Verify fixed authenticated header, fixed desktop icon rail, mobile bottom navigation, visible widget boundaries, and mode propagation.
+- [x] Preserve no-overflow and fixed-navigation/action-dock checks at 320, 375, 768, 1024, and 1440px.
+- [x] Run focused browser checks, complete web quality checks, PWA preview, and all integrated journeys.
+- [x] Restore normal API configuration and clear the local demo passkey after mutation-safe browser verification.
+- [ ] Commit and push the browser contracts and final checklist after review.
+
+### Verification evidence
+
+- RED: the new browser contract failed against the stale web image because `html[data-theme]` was absent; the rebuilt image exposed the current implementation.
+- Focused browser matrix: 15 passed across desktop and mobile Chromium with retries disabled.
+- Web suite: 31 files / 109 tests passed; lint: 0 errors and 4 Fast Refresh warnings; production build passed with the existing Vite chunk-size advisory.
+- E2E build/lint passed; PWA preview passed 1/1.
+- Full integrated Playwright suite: 30 passed with standard, senior diabetes/hypertension pricing, retry, passkey, navigation, accessibility, fixed-shell, and responsive journeys.
+- Static PWA checker still reports the pre-existing Apple metadata limitation; `apps/web/index.html` was not touched or staged.
+
 ## Charcoal premium shell — Task 4
 
 - [x] Add browser contracts for semantic charcoal landmarks and rendered contrast.

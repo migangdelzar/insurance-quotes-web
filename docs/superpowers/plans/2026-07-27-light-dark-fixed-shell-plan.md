@@ -141,7 +141,7 @@ it('keeps a visible boundary in dark mode', () => {
 
 **Files:** Modify `e2e/tests/app-accessibility.spec.ts`, `app-navigation.spec.ts`, `dashboard-responsive.spec.ts`, and `tasks/todo.md`.
 
-- [ ] **Step 1: Write failing browser assertions.** Assert fixed banner/rail, visible theme toggle, `html[data-theme]` changes after keyboard activation, exact mode-safe shell contrast, and no overflow/action-dock overlap at 320/375/768/1024/1440px.
+- [x] **Step 1: Write failing browser assertions.** Added fixed banner/rail, visible theme toggle, `html[data-theme]` persistence/system-preference, exact mode-safe shell contrast, mode propagation, and no overflow/action-dock overlap at 320/375/768/1024/1440px.
 
 ```ts
 await expect(page.getByRole('banner')).toHaveAttribute(
@@ -152,11 +152,11 @@ await page.getByRole('button', { name: 'Toggle theme' }).press('Enter');
 await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 ```
 
-- [ ] **Step 2: Verify RED.** Run `E2E_BASE_URL=http://localhost:3100 bun run --filter e2e test tests/app-accessibility.spec.ts tests/app-navigation.spec.ts tests/dashboard-responsive.spec.ts --project=desktop-chromium --project=mobile-chromium --retries=0`; expect new contract failures.
+- [x] **Step 2: Verify RED.** The new contract initially failed against the stale running web image because `html[data-theme]` was absent; rebuilding the web image supplied the current source bundle for GREEN verification.
 
-- [ ] **Step 3: Implement only browser contracts.** Check computed foreground/background contrast for both modes, fixed geometry, keyboard focus, no console/page errors, and preserve all quote/pricing/passkey/retry/submission assertions.
+- [x] **Step 3: Implement only browser contracts.** Verified computed shell contrast in light mode and dark mode, fixed geometry, keyboard focus, system preference, persistence, no console/page errors, and preserved all quote/pricing/passkey/retry/submission assertions.
 
-- [ ] **Step 4: Complete verification.** Run:
+- [x] **Step 4: Complete verification.** Run:
 
 ```bash
 bun run --filter web test --run
@@ -168,17 +168,17 @@ E2E_PWA_PREVIEW_PORT=43105 bun run --filter e2e test:pwa-preview
 E2E_BASE_URL=http://localhost:3100 bun run e2e -- --retries=0
 ```
 
-Expected: all unit tests, lint/build checks, PWA preview, and complete journeys pass. The static PWA checker may still report the pre-existing Apple metadata limitation; do not edit `apps/web/index.html`.
+Evidence: web tests 31 files/109 tests passed; web lint 0 errors with 4 existing Fast Refresh warnings; web production build passed with the existing chunk advisory; E2E build/lint passed; PWA preview passed 1/1; focused shell browser matrix passed 15/15; complete integrated Playwright suite passed 30/30. The static PWA checker reports only the pre-existing Apple metadata limitation; `apps/web/index.html` remained untouched and unstaged.
 
-- [ ] **Step 5: Update checklist and commit.** Mark the plan and `tasks/todo.md` complete, then `git add e2e/tests tasks/todo.md && git commit -m "test(web): verify light dark fixed shell" && git push origin feat-frontend`.
+- [x] **Step 5: Update checklist and commit.** Updated the plan and `tasks/todo.md`; the browser-contract changes will be committed as `test(web): verify light dark fixed shell` and pushed after final review.
 
 ## Definition of Done
 
-- [ ] Light/dark themes follow system preference initially and persist explicit choices.
-- [ ] Theme toggle is translated, keyboard accessible, visible, and route/server neutral.
-- [ ] Authenticated header is fixed; desktop left navigation is fixed below it and icon-led.
-- [ ] Mobile bottom navigation, safe-area handling, and wizard action clearance remain intact.
-- [ ] Widget boundaries are visible in both themes without relying on shadows or color alone.
-- [ ] Existing routes, selectors, translations, auth, pricing, PWA, and accessibility remain compatible.
-- [ ] Full unit, lint, build, PWA preview, and Playwright journeys pass.
+- [x] Light/dark themes follow system preference initially and persist explicit choices.
+- [x] Theme toggle is translated, keyboard accessible, visible, and route/server neutral.
+- [x] Authenticated header is fixed; desktop left navigation is fixed below it and icon-led.
+- [x] Mobile bottom navigation, safe-area handling, and wizard action clearance remain intact.
+- [x] Widget boundaries are visible in both themes without relying on shadows or color alone.
+- [x] Existing routes, selectors, translations, auth, pricing, PWA, and accessibility remain compatible.
+- [x] Full unit, lint, build, PWA preview, and Playwright journeys pass.
 - [ ] All changes are committed and pushed; only the pre-existing `apps/web/index.html` edit remains unstaged.

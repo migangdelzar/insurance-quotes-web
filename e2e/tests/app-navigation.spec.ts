@@ -10,6 +10,10 @@ test('authenticated user can navigate the app destinations', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.addInitScript(() => {
+    window.localStorage.removeItem('clara.color-mode');
+  });
   await stubAuthenticatedQuoteSession(page);
   await loginAndReachQuotes(page);
 
@@ -22,6 +26,11 @@ test('authenticated user can navigate the app destinations', async ({
     'charcoal'
   );
   await expect(navigation).toHaveAttribute('data-shell-tone', 'charcoal');
+  await expect(page.getByRole('banner')).toHaveAttribute(
+    'data-shell-position',
+    'fixed'
+  );
+  await expect(navigation).toHaveAttribute('data-shell-position', 'fixed');
   await expect(page.getByRole('contentinfo')).toHaveAttribute(
     'data-shell-tone',
     'charcoal'
@@ -80,6 +89,10 @@ for (const width of [320, 375]) {
     page,
   }) => {
     await page.setViewportSize({ width, height: 812 });
+    await page.emulateMedia({ colorScheme: 'light' });
+    await page.addInitScript(() => {
+      window.localStorage.removeItem('clara.color-mode');
+    });
     await stubAuthenticatedQuoteSession(page);
     await loginAndReachQuotes(page);
 
@@ -94,6 +107,12 @@ for (const width of [320, 375]) {
     );
     await expect(navigation).toHaveAttribute('data-shell-tone', 'charcoal');
     await expect(footer).toHaveAttribute('data-shell-tone', 'charcoal');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+    await expect(page.getByRole('banner')).toHaveAttribute(
+      'data-shell-position',
+      'fixed'
+    );
+    await expect(navigation).toHaveAttribute('data-shell-position', 'fixed');
 
     await footer.scrollIntoViewIfNeeded();
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
@@ -113,6 +132,10 @@ for (const width of [320, 375]) {
     page,
   }) => {
     await page.setViewportSize({ width, height: 812 });
+    await page.emulateMedia({ colorScheme: 'light' });
+    await page.addInitScript(() => {
+      window.localStorage.removeItem('clara.color-mode');
+    });
     await stubAuthenticatedQuoteSession(page);
     await loginAndReachQuotes(page);
 
@@ -124,6 +147,8 @@ for (const width of [320, 375]) {
 
     await expect(navigation).toBeVisible();
     await expect(navigation).toHaveAttribute('data-shell-tone', 'charcoal');
+    await expect(navigation).toHaveAttribute('data-shell-mode', 'light');
+    await expect(navigation).toHaveAttribute('data-shell-position', 'fixed');
     await expect(page.getByTestId(tid('wizard.actions'))).toBeVisible();
 
     expect(

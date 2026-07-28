@@ -26,6 +26,10 @@ const quotes: QuoteView[] = [
 for (const width of viewports) {
   test(`dashboard remains usable at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 800 });
+    await page.emulateMedia({ colorScheme: 'light' });
+    await page.addInitScript(() => {
+      window.localStorage.removeItem('clara.color-mode');
+    });
     await stubAuthenticatedQuoteSession(page, quotes);
     await loginAndReachQuotes(page);
 
@@ -44,6 +48,18 @@ for (const width of viewports) {
     await expect(page.getByRole('contentinfo')).toHaveAttribute(
       'data-shell-tone',
       'charcoal'
+    );
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+    await expect(page.getByRole('banner')).toHaveAttribute(
+      'data-shell-mode',
+      'light'
+    );
+    await expect(
+      page.getByRole('navigation', { name: /primary navigation/i })
+    ).toHaveAttribute('data-shell-mode', 'light');
+    await expect(page.getByRole('contentinfo')).toHaveAttribute(
+      'data-shell-mode',
+      'light'
     );
 
     const dimensions = await page.evaluate(() => ({
