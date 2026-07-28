@@ -6,6 +6,11 @@ on: # yamllint disable-line rule:truthy
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
+    inputs:
+      backend_ref:
+        description: Backend branch, tag, or SHA to verify with this frontend
+        required: false
+        default: feat-backend-core
 
 concurrency:
   group: >-
@@ -100,6 +105,13 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v4
 
+      - name: Check out backend for real API browser audit
+        uses: actions/checkout@v4
+        with:
+          repository: migangdelzar/insurance-quotes-service
+          ref: ${{ inputs.backend_ref || 'feat-backend-core' }}
+          path: insurance-quotes-service
+
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -111,10 +123,41 @@ jobs:
       - name: Install workspace-pinned Chromium
         working-directory: e2e
         run: |
-          declared_version="$(bun -p 'require("./package.json").devDependencies["@playwright/test"]')"
+          declared_version="$(
+            bun -p 'require("./package.json").devDependencies' |
+              jq -r '."@playwright/test"'
+          )"
           installed_version="$(bun run --silent playwright --version)"
           test "$installed_version" = "Version $declared_version"
           bun run playwright install --with-deps chromium
+
+      - name: Start real JVM API and WireMock insurer stub
+        working-directory: insurance-quotes-service
+        env:
+          WEB_RATE_LIMIT_ENABLED: 'true'
+          WEB_RATE_LIMIT_AUTH_LIMIT: '1000'
+          WEB_RATE_LIMIT_QUOTE_MUTATION_LIMIT: '1000'
+        run: |
+          set -euo pipefail
+          compose=(
+            docker compose
+            -f deployment/compose/docker-compose.yml
+            -f deployment/compose/docker-compose.jvm.yml
+            -f deployment/compose/compose.e2e.yml
+          )
+          "${compose[@]}" up -d --build \
+            postgres kafka redis wiremock api
+          for attempt in $(seq 1 90); do
+           if curl --fail --silent http://127.0.0.1:8080/actuator/health |
+             grep -q '"status":"UP"' &&
+              curl --fail --silent \
+                http://127.0.0.1:8089/__admin/ > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          "${compose[@]}" logs --no-color
+          exit 1
 
       - name: Start Vite server
         env:
@@ -146,7 +189,7 @@ jobs:
           tests/responsive-layout.spec.ts
           --project=desktop-chromium
 
-      - name: Run mocked quote journey
+      - name: Run real quote journey
         working-directory: e2e
         env:
           E2E_BASE_URL: http://127.0.0.1:3100
@@ -174,6 +217,16 @@ jobs:
         if: ${{ always() }}
         run: kill "$(cat /tmp/insurance-quotes-web.pid)" 2>/dev/null || true
 
+      - name: Stop real JVM API and WireMock insurer stub
+        if: ${{ always() }}
+        working-directory: insurance-quotes-service
+        run: >-
+          docker compose
+          -f deployment/compose/docker-compose.yml
+          -f deployment/compose/docker-compose.jvm.yml
+          -f deployment/compose/compose.e2e.yml
+          down --volumes --remove-orphans
+
   pwa:
     name: Production PWA preview
     needs: quality
@@ -193,7 +246,10 @@ jobs:
       - name: Install workspace-pinned Chromium
         working-directory: e2e
         run: |
-          declared_version="$(bun -p 'require("./package.json").devDependencies["@playwright/test"]')"
+          declared_version="$(
+            bun -p 'require("./package.json").devDependencies' |
+              jq -r '."@playwright/test"'
+          )"
           installed_version="$(bun run --silent playwright --version)"
           test "$installed_version" = "Version $declared_version"
           bun run playwright install --with-deps chromium
