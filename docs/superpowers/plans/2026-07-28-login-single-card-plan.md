@@ -153,4 +153,19 @@ git push origin feat-frontend
 - Responsive login matrix: 5 desktop widths passed with one `h1`, no complementary aside, no horizontal overflow, and a centered `560px` maximum card.
 - Full HMR Playwright suite: 30 passed, including standard password login, senior health pricing, insurer retry, passkey lifecycle, forced expired-challenge recovery, navigation, accessibility, PWA, and console guards.
 - Real-only passkey lifecycle: 1 mobile Playwright test passed against Vite `5173` proxying the Java 17 Spring `dev` API; it covered unregistered preflight, registration, MFA assertion, and passwordless sign-in without `page.route` interception.
+
+### Task 4: Server-side quote history pagination, filtering, and ordering
+
+- [x] Define a versioned quote-list query contract with page, size, search, status, coverage, sort field, and direction.
+- [x] Implement bounded server-side filtering, ordering, and pagination in the hexagonal application and persistence adapters.
+- [x] Return page metadata (`totalElements`, `totalPages`, `hasNext`, and `hasPrevious`) and update the OpenAPI/TypeScript contract.
+- [x] Add responsive quote-history controls and preserve query state in TanStack Query keys.
+- [x] Add backend unit/controller tests, frontend component tests, and a real Playwright journey proving query parameters and page navigation reach the live endpoint.
+
+#### Task 4 verification evidence — 2026-07-28
+
+- Backend full Maven suite passed, including query parsing, service filtering/order/page metadata, controller query parameters, and invalid-query `400` mapping.
+- OpenAPI generation and drift check passed; the generated TypeScript contract is synchronized.
+- Frontend suite passed: 33 files / 120 tests; lint passed with 0 errors and 4 existing Fast Refresh warnings; production build passed with the existing chunk-size advisory.
+- Full real HMR Playwright matrix passed: 31/31, including live quote creation, search, ordering, page-size selection, and navigation to a live `page=1` endpoint request.
 - Visual inspection: `/tmp/clara-login-hmr.png` shows the centered single-card login composition.

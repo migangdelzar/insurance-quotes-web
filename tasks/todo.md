@@ -346,3 +346,18 @@
 ### Results
 
 The login flow now checks a known username for a registered credential before starting WebAuthn, and the password-authenticated first visit presents a dedicated setup dialog. Real Playwright verification passed on the HMR frontend against the Java 17 Spring `dev` API with no auth or quote route interception.
+
+## Real API E2E and quote history controls — 2026-07-28
+
+- [x] Remove Playwright API route interception from all journeys.
+- [x] Verify all current flows through the real HMR/API boundary.
+- [x] Add server-side quote pagination, filtering, and ordering.
+- [x] Add frontend controls and real API query-parameter coverage.
+- [x] Run final unit, contract, build, and real Playwright verification.
+
+### Results — 2026-07-28
+
+- Backend Maven tests passed, including quote query validation, persistence filtering/order, page metadata, and controller error mapping.
+- OpenAPI generation and drift validation passed.
+- Web tests: 33 files / 120 tests passed; lint: 0 errors and 4 existing Fast Refresh warnings; production build passed.
+- Real HMR Playwright suite: 31/31 passed against Vite `5173` and the Java 17 Spring `dev` API, with no browser API route mocks.

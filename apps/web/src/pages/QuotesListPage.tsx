@@ -2,23 +2,34 @@ import {
   Box,
   Button,
   Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   Skeleton,
   Stack,
   SvgIcon,
+  TablePagination,
+  TextField,
   Typography,
 } from '@mui/material';
+import { useState } from 'react';
 import type { SvgIconProps } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { useQuery } from '@tanstack/react-query';
 import { tid } from '@clara/app-i18n';
-import type { QuoteStatus } from '@clara/api-contract';
+import type { CoverageType, QuoteStatus } from '@clara/api-contract';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { ApiErrorAlert } from '@shared/components/ApiErrorAlert';
 import { PageIntro } from '@shared/components/PageIntro';
 import { StatusBadge } from '@shared/components/StatusBadge';
 import { Surface } from '@shared/components/Surface';
-import { listQuotes } from '@features/quote-wizard/api/quoteApi';
+import {
+  defaultQuoteListQuery,
+  listQuotes,
+  type QuoteListQuery,
+} from '@features/quote-wizard/api/quoteApi';
 
 const statusKeys: Record<QuoteStatus, string> = {
   DRAFT: 'quotesList.statusDraft',
@@ -42,7 +53,12 @@ type QuotesListPageProps = {
 export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const quotes = useQuery({ queryKey: ['quotes'], queryFn: listQuotes });
+  const [query, setQuery] = useState(defaultQuoteListQuery);
+  const [searchInput, setSearchInput] = useState('');
+  const quotes = useQuery({
+    queryKey: ['quotes', query],
+    queryFn: () => listQuotes(query),
+  });
   const locale = i18n.resolvedLanguage === 'es-MX' ? 'es-MX' : 'en-US';
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat(locale, {
@@ -52,9 +68,10 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
       maximumFractionDigits: 2,
     }).format(value);
 
-  const quoteData = quotes.data ?? [];
+  const quoteData = quotes.data?.content ?? [];
+  const totalElements = quotes.data?.totalElements ?? 0;
   const isOverview = view === 'overview';
-  const hasQuotes = quoteData.length > 0;
+  const hasQuotes = totalElements > 0;
   const submittedCount = quoteData.filter(
     (quote) => quote.status === 'SUBMITTED'
   ).length;
@@ -64,6 +81,16 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
   );
 
   const startQuote = () => void navigate('/quote/personal');
+  const updateQuery = <K extends keyof QuoteListQuery>(
+    key: K,
+    value: QuoteListQuery[K]
+  ) => {
+    setQuery((current) => ({ ...current, [key]: value, page: 0 }));
+  };
+  const clearFilters = () => {
+    setSearchInput('');
+    setQuery(defaultQuoteListQuery);
+  };
 
   return (
     <Stack spacing={4}>
@@ -87,6 +114,171 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
           ) : null
         }
       />
+
+      {quotes.isSuccess ? (
+        <Surface
+          component="form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            updateQuery('search', searchInput.trim() || undefined);
+          }}
+          aria-labelledby="quotes-filter-title"
+          data-testid={tid('quotesList.filters')}
+        >
+          <Stack spacing={2}>
+            <Typography component="h2" variant="h4" id="quotes-filter-title">
+              {t('quotesList.filters')}
+            </Typography>
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: {
+                  xs: '1fr',
+                  sm: 'repeat(2, minmax(0, 1fr))',
+                  lg: 'repeat(4, minmax(0, 1fr))',
+                },
+                gap: 2,
+              }}
+            >
+              <TextField
+                label={t('quotesList.search')}
+                value={searchInput}
+                onChange={(event) => setSearchInput(event.target.value)}
+                inputProps={{ 'data-testid': tid('quotesList.search') }}
+              />
+              <FormControl>
+                <InputLabel id="quotes-status-filter-label">
+                  {t('quotesList.statusFilter')}
+                </InputLabel>
+                <Select
+                  labelId="quotes-status-filter-label"
+                  label={t('quotesList.statusFilter')}
+                  value={query.status ?? ''}
+                  onChange={(event) =>
+                    updateQuery(
+                      'status',
+                      (event.target.value || undefined) as
+                        QuoteStatus | undefined
+                    )
+                  }
+                  data-testid={tid('quotesList.statusFilter')}
+                >
+                  <MenuItem value="">{t('quotesList.allStatuses')}</MenuItem>
+                  <MenuItem value="DRAFT">
+                    {t('quotesList.statusDraft')}
+                  </MenuItem>
+                  <MenuItem value="SUBMITTED">
+                    {t('quotesList.statusSubmitted')}
+                  </MenuItem>
+                  <MenuItem value="SUBMISSION_FAILED">
+                    {t('quotesList.statusFailed')}
+                  </MenuItem>
+                  <MenuItem value="EXPIRED">
+                    {t('quotesList.statusExpired')}
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl>
+                <InputLabel id="quotes-coverage-filter-label">
+                  {t('quotesList.coverageFilter')}
+                </InputLabel>
+                <Select
+                  labelId="quotes-coverage-filter-label"
+                  label={t('quotesList.coverageFilter')}
+                  value={query.coverage ?? ''}
+                  onChange={(event) =>
+                    updateQuery(
+                      'coverage',
+                      (event.target.value || undefined) as
+                        CoverageType | undefined
+                    )
+                  }
+                  data-testid={tid('quotesList.coverageFilter')}
+                >
+                  <MenuItem value="">{t('quotesList.allCoverages')}</MenuItem>
+                  <MenuItem value="BASIC">
+                    {t('wizard.coverage.basic')}
+                  </MenuItem>
+                  <MenuItem value="STANDARD">
+                    {t('wizard.coverage.standard')}
+                  </MenuItem>
+                  <MenuItem value="PREMIUM">
+                    {t('wizard.coverage.premium')}
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl>
+                <InputLabel id="quotes-sort-by-label">
+                  {t('quotesList.sortBy')}
+                </InputLabel>
+                <Select
+                  labelId="quotes-sort-by-label"
+                  label={t('quotesList.sortBy')}
+                  value={query.sortBy}
+                  onChange={(event) =>
+                    updateQuery(
+                      'sortBy',
+                      event.target.value as QuoteListQuery['sortBy']
+                    )
+                  }
+                  data-testid={tid('quotesList.sortBy')}
+                >
+                  <MenuItem value="createdAt">
+                    {t('quotesList.createdAt')}
+                  </MenuItem>
+                  <MenuItem value="updatedAt">
+                    {t('quotesList.updatedAt')}
+                  </MenuItem>
+                  <MenuItem value="name">{t('quotesList.nameSort')}</MenuItem>
+                  <MenuItem value="monthlyPremium">
+                    {t('quotesList.premiumSort')}
+                  </MenuItem>
+                  <MenuItem value="status">
+                    {t('quotesList.statusSort')}
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl>
+                <InputLabel id="quotes-direction-label">
+                  {t('quotesList.direction')}
+                </InputLabel>
+                <Select
+                  labelId="quotes-direction-label"
+                  label={t('quotesList.direction')}
+                  value={query.direction}
+                  onChange={(event) =>
+                    updateQuery(
+                      'direction',
+                      event.target.value as QuoteListQuery['direction']
+                    )
+                  }
+                  data-testid={tid('quotesList.direction')}
+                >
+                  <MenuItem value="desc">{t('quotesList.descending')}</MenuItem>
+                  <MenuItem value="asc">{t('quotesList.ascending')}</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <Stack direction="row" spacing={1} flexWrap="wrap">
+              <Button
+                type="submit"
+                variant="contained"
+                data-testid={tid('quotesList.applyFilters')}
+              >
+                {t('quotesList.applyFilters')}
+              </Button>
+              <Button
+                type="button"
+                variant="text"
+                onClick={clearFilters}
+                data-testid={tid('quotesList.clearFilters')}
+              >
+                {t('quotesList.clearFilters')}
+              </Button>
+            </Stack>
+          </Stack>
+        </Surface>
+      ) : null}
 
       {quotes.isPending ? (
         <Surface
@@ -237,7 +429,7 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
               m: 0,
             }}
           >
-            {quotes.data.map((quote, index) => {
+            {quoteData.map((quote, index) => {
               const statusLabel = quote.status
                 ? t(statusKeys[quote.status])
                 : t('common.notAvailable');
@@ -320,6 +512,28 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
             })}
           </Box>
         </Stack>
+      ) : null}
+
+      {quotes.isSuccess ? (
+        <TablePagination
+          component="div"
+          count={totalElements}
+          page={quotes.data?.page ?? query.page}
+          rowsPerPage={quotes.data?.size ?? query.size}
+          onPageChange={(_event, page) =>
+            setQuery((current) => ({ ...current, page }))
+          }
+          onRowsPerPageChange={(event) =>
+            setQuery((current) => ({
+              ...current,
+              page: 0,
+              size: Number(event.target.value),
+            }))
+          }
+          rowsPerPageOptions={[5, 10, 20, 50]}
+          labelRowsPerPage={t('quotesList.pagination')}
+          data-testid={tid('quotesList.pagination')}
+        />
       ) : null}
     </Stack>
   );

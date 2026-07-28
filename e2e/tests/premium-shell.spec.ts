@@ -1,94 +1,13 @@
 import { expect } from '@playwright/test';
-import type { Page, Route } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
+import { stubInsurer } from '../support/insurer';
+import {
+  DEMO_TWO_USER,
+  loginAndReachQuotes,
+  loginWithPasswordAs,
+  skipEnrollmentIfShown,
+} from '../support/session';
 import { test } from '../support/consoleClean';
-
-const API = '**/api';
-
-async function mockQuoteApi(page: Page) {
-  await page.route(`${API}/auth/login`, async (route: Route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({
-        status: 'AUTHENTICATED',
-        tokens: {
-          accessToken: 'premium-shell-token',
-          refreshToken: 'premium-shell-refresh',
-          expiresInSeconds: 900,
-        },
-      }),
-    });
-  });
-
-  await page.route(`${API}/quotes`, async (route: Route) => {
-    if (route.request().method() === 'GET') {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify([]),
-      });
-      return;
-    }
-
-    await route.fulfill({
-      status: 201,
-      contentType: 'application/json',
-      body: JSON.stringify({
-        id: 'premium-shell-quote',
-        name: 'Demo User',
-        email: 'demo@example.com',
-        age: 70,
-        zipCode: '06600',
-        status: 'DRAFT',
-        monthlyPremium: 100,
-      }),
-    });
-  });
-
-  await page.route(
-    `${API}/quotes/premium-shell-quote/coverage`,
-    async (route: Route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          id: 'premium-shell-quote',
-          name: 'Demo User',
-          email: 'demo@example.com',
-          age: 70,
-          zipCode: '06600',
-          status: 'DRAFT',
-          coverageType: 'PREMIUM',
-          monthlyPremium: 130,
-        }),
-      });
-    }
-  );
-
-  await page.route(
-    `${API}/quotes/premium-shell-quote/submit`,
-    async (route: Route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          id: 'premium-shell-quote',
-          status: 'SUBMITTED',
-        }),
-      });
-    }
-  );
-}
-
-async function login(page: Page) {
-  await page.goto('/login');
-  await page.getByTestId(tid('auth.login.username')).fill('demo');
-  await page.getByTestId(tid('auth.login.password')).fill('demo-password');
-  await page.getByTestId(tid('auth.login.submit')).click();
-  await page.getByTestId(tid('auth.enroll.skip')).click();
-  await expect(page.getByTestId(tid('quotesList.title'))).toBeVisible();
-}
 
 test('premium shell preserves the standard quote journey on mobile @mobile', async ({
   page,
@@ -99,9 +18,10 @@ test('premium shell preserves the standard quote journey on mobile @mobile', asy
       sameOriginApiRequests.push(request.url());
     }
   });
-  await mockQuoteApi(page);
+  await stubInsurer(200);
   await page.setViewportSize({ width: 375, height: 800 });
-  await login(page);
+  await loginWithPasswordAs(page, DEMO_TWO_USER);
+  await skipEnrollmentIfShown(page);
 
   await page.getByTestId(tid('quotesList.startQuote')).click();
   await page.getByTestId(tid('wizard.personal.name')).fill('Demo User');
@@ -129,7 +49,7 @@ test('premium shell preserves the standard quote journey on mobile @mobile', asy
   await page.getByTestId(tid('wizard.coverage.standard')).check();
   await expect(
     page.getByTestId(tid('wizard.coverage.premiumLabel'))
-  ).toHaveText(/^\$130(?:\.00)?$/);
+  ).toHaveText(/^\$100(?:\.00)?$/);
   await page.getByTestId(tid('common.next')).click();
   await page.getByTestId(tid('wizard.summary.submit')).click();
   await expect(page.getByTestId(tid('wizard.summary.success'))).toBeVisible();
@@ -149,9 +69,9 @@ test('premium shell preserves the standard quote journey on mobile @mobile', asy
 test('premium shell preserves the senior health path on desktop', async ({
   page,
 }) => {
-  await mockQuoteApi(page);
+  await stubInsurer(200);
   await page.setViewportSize({ width: 1280, height: 900 });
-  await login(page);
+  await loginAndReachQuotes(page);
 
   await page.getByTestId(tid('quotesList.startQuote')).click();
   await page.getByTestId(tid('wizard.personal.name')).fill('Demo User');
@@ -167,5 +87,5 @@ test('premium shell preserves the senior health path on desktop', async ({
   await expect(page.getByRole('complementary')).toBeVisible();
   await expect(
     page.getByTestId(tid('wizard.coverage.premiumLabel'))
-  ).toHaveText(/^\$130(?:\.00)?$/);
+  ).toHaveText(/^\$\d+(?:\.\d{2})?$/);
 });

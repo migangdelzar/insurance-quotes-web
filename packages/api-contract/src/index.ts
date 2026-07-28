@@ -5,6 +5,7 @@ export type { paths, components } from './generated/schema';
 type Schemas = components['schemas'];
 
 export type QuoteView = Schemas['QuoteView'];
+export type QuotePageView = Schemas['QuotePageView'];
 export type CoverageType = NonNullable<QuoteView['coverageType']>;
 export type HealthCondition = NonNullable<QuoteView['conditions']>[number];
 export type QuoteStatus = NonNullable<QuoteView['status']>;

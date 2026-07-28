@@ -1,14 +1,24 @@
-import type { Page, Route } from '@playwright/test';
-import type { QuoteView } from '@clara/api-contract';
+import type { Page } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
 
 export const DEMO_USER = { username: 'demo', password: 'demo-password' };
+export const DEMO_TWO_USER = {
+  username: 'demo-two',
+  password: 'demo-password-two',
+};
+
+export async function loginWithPasswordAs(
+  page: Page,
+  user: { username: string; password: string }
+): Promise<void> {
+  await page.goto('/login');
+  await page.getByTestId(tid('auth.login.username')).fill(user.username);
+  await page.getByTestId(tid('auth.login.password')).fill(user.password);
+  await page.getByTestId(tid('auth.login.submit')).click();
+}
 
 export async function loginWithPassword(page: Page): Promise<void> {
-  await page.goto('/login');
-  await page.getByTestId(tid('auth.login.username')).fill(DEMO_USER.username);
-  await page.getByTestId(tid('auth.login.password')).fill(DEMO_USER.password);
-  await page.getByTestId(tid('auth.login.submit')).click();
+  await loginWithPasswordAs(page, DEMO_USER);
 }
 
 export async function skipEnrollmentIfShown(page: Page): Promise<void> {
@@ -27,36 +37,4 @@ export async function skipEnrollmentIfShown(page: Page): Promise<void> {
 export async function loginAndReachQuotes(page: Page): Promise<void> {
   await loginWithPassword(page);
   await skipEnrollmentIfShown(page);
-}
-
-export async function stubAuthenticatedQuoteSession(
-  page: Page,
-  quotes: QuoteView[] = []
-): Promise<void> {
-  await page.route('**/auth/login', async (route: Route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({
-        status: 'AUTHENTICATED',
-        tokens: {
-          accessToken: 'app-shell-access-token',
-          refreshToken: 'app-shell-refresh-token',
-          expiresInSeconds: 900,
-        },
-      }),
-    });
-  });
-  await page.route('**/api/quotes', async (route: Route) => {
-    if (route.request().method() !== 'GET') {
-      await route.fallback();
-      return;
-    }
-
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(quotes),
-    });
-  });
 }

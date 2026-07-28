@@ -162,6 +162,7 @@ export function AppShell({ children }: AppShellProps) {
                 <ThemeToggle />
                 <Box
                   sx={(theme) => ({
+                    display: { xs: 'none', sm: 'inline-flex' },
                     '& .MuiButton-root': {
                       color: theme.palette.shell.contrastText,
                     },

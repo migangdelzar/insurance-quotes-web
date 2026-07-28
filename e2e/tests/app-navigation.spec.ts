@@ -1,9 +1,6 @@
 import { expect } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
-import {
-  loginAndReachQuotes,
-  stubAuthenticatedQuoteSession,
-} from '../support/session';
+import { loginAndReachQuotes } from '../support/session';
 import { test } from '../support/criticalFlow';
 
 test('authenticated user can navigate the app destinations', async ({
@@ -14,7 +11,6 @@ test('authenticated user can navigate the app destinations', async ({
   await page.addInitScript(() => {
     window.localStorage.removeItem('clara.color-mode');
   });
-  await stubAuthenticatedQuoteSession(page);
   await loginAndReachQuotes(page);
 
   const navigation = page.getByRole('navigation', {
@@ -64,7 +60,6 @@ test('mobile navigation reaches every primary destination @mobile', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await stubAuthenticatedQuoteSession(page);
   await loginAndReachQuotes(page);
 
   const navigation = page.getByRole('navigation', {
@@ -93,7 +88,6 @@ for (const width of [320, 375]) {
     await page.addInitScript(() => {
       window.localStorage.removeItem('clara.color-mode');
     });
-    await stubAuthenticatedQuoteSession(page);
     await loginAndReachQuotes(page);
 
     const navigation = page.getByRole('navigation', {
@@ -136,7 +130,6 @@ for (const width of [320, 375]) {
     await page.addInitScript(() => {
       window.localStorage.removeItem('clara.color-mode');
     });
-    await stubAuthenticatedQuoteSession(page);
     await loginAndReachQuotes(page);
 
     const navigation = page.getByRole('navigation', {

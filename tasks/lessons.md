@@ -19,3 +19,5 @@
 - Playwright API mocks must include the `/api` boundary; a broad `**/quotes` matcher can intercept SPA document reloads and return JSON as HTML.
 - Browser error handling should branch on stable response codes, not `instanceof` across module/runtime boundaries; use a structural code guard for API errors.
 - Keep passkey lifecycle Playwright coverage real-only when validating WebAuthn setup: use a virtual authenticator and the source-backed API, while keeping deterministic error-shape coverage at the component/API test layers.
+- Server-side list controls need a single query object shared by the API serializer, TanStack Query key, and page metadata; otherwise filters can look correct while requesting stale pages.
+- Stateful browser suites must isolate tests that run after passkey mutation with a separate seeded account, even when the mutating test is intended to be last within one project.

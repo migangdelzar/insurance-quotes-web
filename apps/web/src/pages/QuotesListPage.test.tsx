@@ -6,7 +6,7 @@ import { I18nextProvider } from 'react-i18next';
 import { MemoryRouter } from 'react-router';
 import type * as ReactRouter from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { QuoteView } from '@clara/api-contract';
+import type { QuotePageView, QuoteView } from '@clara/api-contract';
 import { tid } from '@clara/app-i18n';
 import i18n from '@app/i18n';
 import { theme } from '@shared/theme/theme';
@@ -15,6 +15,12 @@ import { QuotesListPage } from './QuotesListPage';
 
 vi.mock('@features/quote-wizard/api/quoteApi', () => ({
   listQuotes: vi.fn(),
+  defaultQuoteListQuery: {
+    page: 0,
+    size: 20,
+    sortBy: 'createdAt',
+    direction: 'desc',
+  },
 }));
 
 const navigate = vi.fn();
@@ -24,6 +30,22 @@ vi.mock('react-router', async () => {
 });
 
 const mockedListQuotes = vi.mocked(listQuotes);
+
+function quotePage(
+  content: QuoteView[],
+  overrides: Partial<QuotePageView> = {}
+): QuotePageView {
+  return {
+    content,
+    page: 0,
+    size: 20,
+    totalElements: content.length,
+    totalPages: content.length === 0 ? 0 : 1,
+    hasNext: false,
+    hasPrevious: false,
+    ...overrides,
+  };
+}
 
 function renderPage(view: 'overview' | 'history' = 'overview') {
   const queryClient = new QueryClient({
@@ -52,7 +74,7 @@ describe('QuotesListPage', () => {
   });
 
   it('renders an actionable empty state in the dashboard hierarchy', async () => {
-    mockedListQuotes.mockResolvedValue([]);
+    mockedListQuotes.mockResolvedValue(quotePage([]));
 
     renderPage();
 
@@ -88,7 +110,7 @@ describe('QuotesListPage', () => {
         monthlyPremium: 80,
       },
     ];
-    mockedListQuotes.mockResolvedValue(quotes);
+    mockedListQuotes.mockResolvedValue(quotePage(quotes));
 
     renderPage();
 
@@ -103,15 +125,17 @@ describe('QuotesListPage', () => {
   });
 
   it('shows the overview action and concise metrics on the Home destination', async () => {
-    mockedListQuotes.mockResolvedValue([
-      {
-        id: 'q-1',
-        name: 'Jane Roe',
-        coverageType: 'PREMIUM',
-        status: 'SUBMITTED',
-        monthlyPremium: 129.5,
-      },
-    ]);
+    mockedListQuotes.mockResolvedValue(
+      quotePage([
+        {
+          id: 'q-1',
+          name: 'Jane Roe',
+          coverageType: 'PREMIUM',
+          status: 'SUBMITTED',
+          monthlyPremium: 129.5,
+        },
+      ])
+    );
 
     renderPage('overview');
 
@@ -126,15 +150,17 @@ describe('QuotesListPage', () => {
   });
 
   it('shows quote history as a focused list on the Quotes destination', async () => {
-    mockedListQuotes.mockResolvedValue([
-      {
-        id: 'q-1',
-        name: 'Jane Roe',
-        coverageType: 'PREMIUM',
-        status: 'SUBMITTED',
-        monthlyPremium: 129.5,
-      },
-    ]);
+    mockedListQuotes.mockResolvedValue(
+      quotePage([
+        {
+          id: 'q-1',
+          name: 'Jane Roe',
+          coverageType: 'PREMIUM',
+          status: 'SUBMITTED',
+          monthlyPremium: 129.5,
+        },
+      ])
+    );
 
     renderPage('history');
 
@@ -179,14 +205,16 @@ describe('QuotesListPage', () => {
 
   it('formats the premium with the active locale', async () => {
     await i18n.changeLanguage('es-MX');
-    mockedListQuotes.mockResolvedValue([
-      {
-        id: 'q-1',
-        name: 'Jane Roe',
-        status: 'SUBMITTED',
-        monthlyPremium: 129.5,
-      },
-    ]);
+    mockedListQuotes.mockResolvedValue(
+      quotePage([
+        {
+          id: 'q-1',
+          name: 'Jane Roe',
+          status: 'SUBMITTED',
+          monthlyPremium: 129.5,
+        },
+      ])
+    );
 
     renderPage();
 
@@ -197,7 +225,7 @@ describe('QuotesListPage', () => {
 
   it('navigates to the personal quote step from the primary action', async () => {
     const user = userEvent.setup();
-    mockedListQuotes.mockResolvedValue([]);
+    mockedListQuotes.mockResolvedValue(quotePage([]));
 
     renderPage();
 
@@ -207,5 +235,49 @@ describe('QuotesListPage', () => {
     await user.click(screen.getByRole('button', { name: /start a quote/i }));
 
     expect(navigate).toHaveBeenCalledWith('/quote/personal');
+  });
+
+  it('requests the next page with server-side pagination controls', async () => {
+    const user = userEvent.setup();
+    const firstQuote: QuoteView = {
+      id: 'q-1',
+      name: 'Jane Roe',
+      status: 'SUBMITTED',
+      monthlyPremium: 129.5,
+    };
+    const secondQuote: QuoteView = {
+      id: 'q-2',
+      name: 'Alex Roe',
+      status: 'DRAFT',
+      monthlyPremium: 80,
+    };
+    mockedListQuotes
+      .mockResolvedValueOnce(
+        quotePage([firstQuote], {
+          size: 5,
+          totalElements: 6,
+          totalPages: 2,
+          hasNext: true,
+        })
+      )
+      .mockResolvedValueOnce(
+        quotePage([secondQuote], {
+          page: 1,
+          size: 5,
+          totalElements: 6,
+          totalPages: 2,
+          hasPrevious: true,
+        })
+      );
+
+    renderPage('history');
+    await waitFor(() => expect(screen.getByText('Jane Roe')).toBeVisible());
+
+    await user.click(screen.getByRole('button', { name: /go to next page/i }));
+
+    await waitFor(() => expect(screen.getByText('Alex Roe')).toBeVisible());
+    expect(mockedListQuotes).toHaveBeenLastCalledWith(
+      expect.objectContaining({ page: 1 })
+    );
   });
 });

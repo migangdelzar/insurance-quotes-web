@@ -186,10 +186,24 @@ export interface components {
     schemas: {
         CreateQuoteRequest: {
             name: string;
+            /** Format: email */
             email: string;
             /** Format: int32 */
             age: number;
             zipCode: string;
+        };
+        QuotePageView: {
+            content: components["schemas"]["QuoteView"][];
+            /** Format: int32 */
+            page: number;
+            /** Format: int32 */
+            size: number;
+            /** Format: int64 */
+            totalElements: number;
+            /** Format: int32 */
+            totalPages: number;
+            hasNext: boolean;
+            hasPrevious: boolean;
         };
         QuoteView: {
             /** Format: uuid */
@@ -268,8 +282,18 @@ export type $defs = Record<string, never>;
 export interface operations {
     listQuotes: {
         parameters: {
-            query?: never;
-            header?: never;
+            query?: {
+                page?: number;
+                size?: number;
+                search?: string;
+                status?: "DRAFT" | "SUBMITTED" | "SUBMISSION_FAILED" | "EXPIRED";
+                coverage?: "BASIC" | "STANDARD" | "PREMIUM";
+                sortBy?: "createdAt" | "updatedAt" | "name" | "monthlyPremium" | "status";
+                direction?: "asc" | "desc";
+            };
+            header?: {
+                "API-Version"?: "1.0";
+            };
             path?: never;
             cookie?: never;
         };
@@ -281,7 +305,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["QuoteView"][];
+                    "*/*": components["schemas"]["QuotePageView"];
                 };
             };
         };
@@ -289,7 +313,9 @@ export interface operations {
     create: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "API-Version"?: "1.0";
+            };
             path?: never;
             cookie?: never;
         };
@@ -313,7 +339,9 @@ export interface operations {
     submit: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "API-Version"?: "1.0";
+            };
             path: {
                 id: string;
             };
@@ -335,7 +363,9 @@ export interface operations {
     register: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "API-Version"?: "1.0";
+            };
             path?: never;
             cookie?: never;
         };
@@ -357,7 +387,9 @@ export interface operations {
     registerOptions: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "API-Version"?: "1.0";
+            };
             path?: never;
             cookie?: never;
         };
@@ -377,7 +409,9 @@ export interface operations {
     assertionOptions: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "API-Version"?: "1.0";
+            };
             path?: never;
             cookie?: never;
         };
@@ -401,7 +435,9 @@ export interface operations {
     assertPasskey: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "API-Version"?: "1.0";
+            };
             path?: never;
             cookie?: never;
         };
@@ -425,7 +461,9 @@ export interface operations {
     refresh: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "API-Version"?: "1.0";
+            };
             path?: never;
             cookie?: never;
         };
@@ -449,7 +487,9 @@ export interface operations {
     logout: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "API-Version"?: "1.0";
+            };
             path?: never;
             cookie?: never;
         };
@@ -471,7 +511,9 @@ export interface operations {
     login: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "API-Version"?: "1.0";
+            };
             path?: never;
             cookie?: never;
         };
@@ -495,7 +537,9 @@ export interface operations {
     updateCoverage: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "API-Version"?: "1.0";
+            };
             path: {
                 id: string;
             };
@@ -521,7 +565,9 @@ export interface operations {
     getQuote: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "API-Version"?: "1.0";
+            };
             path: {
                 id: string;
             };

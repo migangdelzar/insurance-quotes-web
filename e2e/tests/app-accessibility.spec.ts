@@ -1,9 +1,6 @@
 import { expect } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
-import {
-  loginAndReachQuotes,
-  stubAuthenticatedQuoteSession,
-} from '../support/session';
+import { loginAndReachQuotes } from '../support/session';
 import { test } from '../support/criticalFlow';
 
 type Rgb = readonly [number, number, number];
@@ -60,7 +57,6 @@ test('authenticated app routes retain landmarks, headings, and keyboard focus', 
   await page.addInitScript(() => {
     window.localStorage.removeItem('clara.color-mode');
   });
-  await stubAuthenticatedQuoteSession(page);
   await loginAndReachQuotes(page);
 
   const navigation = page.getByRole('navigation', {
@@ -130,7 +126,6 @@ test('theme toggle switches all shell landmarks and preserves the selected mode'
       window.name = 'clara-theme-toggle-test';
     }
   });
-  await stubAuthenticatedQuoteSession(page);
   await loginAndReachQuotes(page);
 
   const landmarks = [
@@ -162,7 +157,6 @@ test('theme initially follows the system preference when no mode is stored', asy
   await page.addInitScript(() => {
     window.localStorage.removeItem('clara.color-mode');
   });
-  await stubAuthenticatedQuoteSession(page);
   await loginAndReachQuotes(page);
 
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
@@ -175,7 +169,6 @@ test('theme initially follows the system preference when no mode is stored', asy
 test('account menu closes with Escape and restores focus to its trigger', async ({
   page,
 }) => {
-  await stubAuthenticatedQuoteSession(page);
   await loginAndReachQuotes(page);
 
   const accountTrigger = page.getByRole('button', { name: 'Account' });
