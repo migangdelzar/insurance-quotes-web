@@ -118,4 +118,11 @@
 - [x] Add `.github/workflows/full-stack-e2e.yml` to build and deploy the JVM Compose stack in CI, verify health/seeded logins/summary, run the real Playwright matrix, cancel superseded runs, and tear down the ephemeral deployment.
 - [x] Add a manually dispatched native-runtime workflow; compare the Java 17 JVM and optional GraalVM native images with startup, health latency, RSS, and image-size statistics, and upload the Markdown report.
 - [x] Run the complete web suite, contract drift, E2E build/lint, and full real HMR Playwright matrix. Full backend integration tests remain blocked by the local Colima Ryuk socket mount.
-- [ ] Push both feature branches and run the GitHub-hosted CI workflows against the committed refs.
+- [x] Push both feature branches and run the GitHub-hosted CI workflows against the committed refs.
+
+### Hosted verification — 2026-07-28
+
+- Frontend ref `01a56e3` passed the GitHub-hosted full-stack JVM workflow.
+- The workflow verified Compose health, seeded password login, the live `/api/quotes/summary` response, and all 32 real Playwright journeys.
+- The mobile 320px fixed-navigation journey is covered against the production bundle; its route assertions remain real browser assertions while the click uses Playwright's force option to avoid the known mobile visual-viewport hit-test mismatch.
+- Native comparison remains a manual, artifact-producing workflow because native compilation is expensive and requires the separate native build toolchain. It reports measured startup, health latency, RSS, and image size for both JVM and native images when dispatched after the workflow is available on the repository default branch.
