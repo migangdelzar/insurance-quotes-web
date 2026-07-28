@@ -136,7 +136,9 @@ export function AppNavigation() {
           sx={(theme) => ({
             display: 'block',
             position: 'fixed',
-            zIndex: theme.zIndex.appBar + 1,
+            zIndex: theme.zIndex.modal,
+            isolation: 'isolate',
+            pointerEvents: 'auto',
             right: 0,
             bottom: 0,
             left: 0,
