@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
 import { enableVirtualAuthenticator } from '../support/webauthn';
 import {
-  DEMO_TWO_USER,
+  DEMO_THREE_USER,
   loginAndReachQuotes,
   loginWithPasswordAs,
 } from '../support/session';
@@ -122,20 +122,20 @@ test('04-passkey-lifecycle', async ({ context, page }, testInfo) => {
   await page.goto('/login');
   await page
     .getByTestId(tid('auth.login.username'))
-    .fill(DEMO_TWO_USER.username);
+    .fill(DEMO_THREE_USER.username);
   await page.getByTestId(tid('auth.login.passwordless')).click();
   await expect(
     page.getByTestId(tid('auth.login.passkeySetupRequired'))
   ).toBeVisible();
 
-  await loginWithPasswordAs(page, DEMO_TWO_USER);
+  await loginWithPasswordAs(page, DEMO_THREE_USER);
   await page.getByTestId(tid('auth.enroll.action')).click();
   await expect(page.getByTestId(tid('quotesList.title'))).toBeVisible();
 
   await page.context().clearCookies();
   await page.evaluate(() => sessionStorage.clear());
   await page.goto('/login');
-  await loginWithPasswordAs(page, DEMO_TWO_USER);
+  await loginWithPasswordAs(page, DEMO_THREE_USER);
   await expect(page.getByTestId(tid('auth.mfa.title'))).toBeVisible();
   await page.getByTestId(tid('auth.login.passwordless')).click();
   await expect(page.getByTestId(tid('quotesList.title'))).toBeVisible();

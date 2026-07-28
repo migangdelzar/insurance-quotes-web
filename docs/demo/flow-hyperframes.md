@@ -64,7 +64,7 @@ remains resubmittable, and the second submission completes successfully.
 
 **Test:** [04-passkey-lifecycle](../../e2e/tests/demo-recordings.spec.ts)
 
-This recording uses the isolated `demo-two` seeded account so it can mutate
+This recording uses the isolated `demo-three` seeded account so it can mutate
 passkey state without changing the account used by the other stories.
 
 ## 05 · History and analytics

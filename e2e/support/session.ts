@@ -6,6 +6,10 @@ export const DEMO_TWO_USER = {
   username: 'demo-two',
   password: 'demo-password-two',
 };
+export const DEMO_THREE_USER = {
+  username: 'demo-three',
+  password: 'demo-password-three',
+};
 
 export async function loginWithPasswordAs(
   page: Page,
