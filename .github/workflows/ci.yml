@@ -1,0 +1,284 @@
+---
+name: Frontend CI
+
+on: # yamllint disable-line rule:truthy
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      backend_ref:
+        description: Backend branch, tag, or SHA to verify with this frontend
+        required: false
+        default: feat-backend-core
+
+concurrency:
+  group: >-
+    frontend-ci-${{ github.event.pull_request.head.repo.full_name ||
+    github.repository }}-${{ github.event.pull_request.head.ref ||
+    github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: .
+
+jobs:
+  quality:
+    name: Web quality gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        with:
+          bun-version: '1.3.13'
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run web tests
+        run: bun run --filter web test
+
+      - name: Run lint
+        run: |
+          bun run --filter web lint
+          bun run --filter e2e lint
+
+      - name: Validate locale catalog
+        working-directory: packages/app-i18n
+        run: bun run validate
+
+      - name: Check changed-source formatting
+        run: >-
+          bunx prettier --check
+          apps/web/src
+          apps/web/index.html
+          apps/web/vite.config.ts
+          e2e/tests
+          e2e/playwright.config.ts
+          .github/workflows/ci.yml
+          README.md
+
+      - name: Build workspace
+        env:
+          VITE_API_BASE_URL: /api
+        run: bun run build
+
+      - name: Check production PWA artifacts
+        working-directory: apps/web
+        run: node src/pwa/check-build.mjs
+
+  docker:
+    name: Build production web image
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f
+
+      - name: Build production image
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8
+        with:
+          context: .
+          file: Dockerfile
+          push: false
+          load: true
+          tags: insurance-quotes-web:ci
+          build-args: |
+            VITE_API_BASE_URL=/api
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test production image
+        run: |
+          set -euo pipefail
+          docker run --detach --rm --name insurance-quotes-web-ci --publish 8080:8080 insurance-quotes-web:ci
+          trap 'docker stop insurance-quotes-web-ci >/dev/null 2>&1 || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --max-time 5 http://127.0.0.1:8080/ >/dev/null &&
+              curl --fail --silent --max-time 5 http://127.0.0.1:8080/does-not-exist >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          exit 1
+
+  responsive:
+    name: Responsive browser audit
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Check out backend for real API browser audit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          repository: migangdelzar/insurance-quotes-service
+          ref: ${{ inputs.backend_ref || 'feat-backend-core' }}
+          path: insurance-quotes-service
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        with:
+          bun-version: '1.3.13'
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install workspace-pinned Chromium
+        working-directory: e2e
+        run: ./install-chromium.sh
+
+      - name: Start real JVM API and WireMock insurer stub
+        working-directory: insurance-quotes-service
+        env:
+          WEB_RATE_LIMIT_ENABLED: 'true'
+          WEB_RATE_LIMIT_AUTH_LIMIT: '1000'
+          WEB_RATE_LIMIT_QUOTE_MUTATION_LIMIT: '1000'
+        run: |
+          set -euo pipefail
+          compose=(
+            docker compose
+            -f deployment/compose/docker-compose.yml
+            -f deployment/compose/docker-compose.jvm.yml
+            -f deployment/compose/compose.e2e.yml
+          )
+          "${compose[@]}" up -d --build \
+            postgres kafka redis wiremock api
+          for attempt in $(seq 1 90); do
+           if curl --fail --silent http://127.0.0.1:8080/actuator/health |
+             grep -q '"status":"UP"' &&
+              curl --fail --silent \
+                http://127.0.0.1:8089/__admin/ > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          "${compose[@]}" logs --no-color
+          exit 1
+
+      - name: Start Vite server
+        env:
+          VITE_API_BASE_URL: /api
+        run: |
+          bun run --filter web dev -- \
+            --host 127.0.0.1 --port 3100 \
+            > /tmp/insurance-quotes-web.log 2>&1 &
+          echo $! > /tmp/insurance-quotes-web.pid
+
+      - name: Wait for Vite server
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:3100/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/insurance-quotes-web.log
+          exit 1
+
+      - name: Run responsive browser audit
+        working-directory: e2e
+        env:
+          E2E_BASE_URL: http://127.0.0.1:3100
+        run: >-
+          bun run test
+          tests/responsive-layout.spec.ts
+          --project=desktop-chromium
+
+      - name: Run real quote journey
+        working-directory: e2e
+        env:
+          E2E_BASE_URL: http://127.0.0.1:3100
+        run: >-
+          bun run test
+          tests/premium-shell.spec.ts
+          --project=mobile-chromium
+          --project=desktop-chromium
+          --retries=0
+
+      - name: Run app-first browser audits
+        working-directory: e2e
+        env:
+          E2E_BASE_URL: http://127.0.0.1:3100
+        run: >-
+          bun run test
+          tests/app-navigation.spec.ts
+          tests/app-accessibility.spec.ts
+          tests/dashboard-responsive.spec.ts
+          --project=mobile-chromium
+          --project=desktop-chromium
+          --retries=0
+
+      - name: Stop Vite server
+        if: ${{ always() }}
+        run: kill "$(cat /tmp/insurance-quotes-web.pid)" 2>/dev/null || true
+
+      - name: Upload browser audit diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: responsive-audit-diagnostics
+          if-no-files-found: warn
+          retention-days: 7
+          path: |
+            e2e/test-results
+            e2e/playwright-report
+            /tmp/insurance-quotes-web.log
+
+      - name: Stop real JVM API and WireMock insurer stub
+        if: ${{ always() }}
+        working-directory: insurance-quotes-service
+        run: >-
+          docker compose
+          -f deployment/compose/docker-compose.yml
+          -f deployment/compose/docker-compose.jvm.yml
+          -f deployment/compose/compose.e2e.yml
+          down --volumes --remove-orphans
+
+  pwa:
+    name: Production PWA preview
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        with:
+          bun-version: '1.3.13'
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install workspace-pinned Chromium
+        working-directory: e2e
+        run: ./install-chromium.sh
+
+      - name: Run production PWA preview
+        env:
+          E2E_PWA_PREVIEW_PORT: 43102
+          VITE_API_BASE_URL: /api
+        run: bun run --filter e2e test:pwa-preview

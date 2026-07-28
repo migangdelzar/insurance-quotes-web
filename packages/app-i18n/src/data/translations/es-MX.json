@@ -1,0 +1,230 @@
+{
+  "common": {
+    "appName": "Cotizaciones de Seguro",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "retry": "Reintentar",
+    "loading": "Cargando…",
+    "networkError": "No se puede conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.",
+    "sessionExpired": "Tu sesión expiró. Inicia sesión de nuevo.",
+    "reference": " (ref: {{traceId}})",
+    "apiError": "No se pudo completar la solicitud.",
+    "currencyPrefix": "$",
+    "notAvailable": "—",
+    "skipToContent": "Saltar al contenido"
+  },
+  "layout": {
+    "secureSessionAnonymous": "Acceso seguro",
+    "secureSessionAuthenticated": "Sesión segura",
+    "secureSessionDefault": "Experiencia protegida",
+    "languageLabel": "Idioma",
+    "languages": {
+      "en-US": "English",
+      "es-MX": "Español"
+    },
+    "signOut": "Cerrar sesión",
+    "theme": {
+      "toggle": "Cambiar tema",
+      "light": "Claro",
+      "dark": "Oscuro"
+    },
+    "footer": {
+      "support": "Soporte",
+      "privacySecurity": "Privacidad y seguridad",
+      "trustStatement": "Clara mantiene cada paso de la cotización en un flujo premium protegido.",
+      "supportContact": "Para recibir ayuda, contacta al administrador de beneficios o a tu empleador.",
+      "privacySummary": "El acceso listo para passkeys y las sesiones seguras ayudan a proteger tu información mientras revisas cotizaciones.",
+      "buildLabel": "Compilación · {{label}}"
+    }
+  },
+  "navigation": {
+    "primary": "Navegación principal",
+    "home": "Inicio",
+    "quotes": "Cotizaciones",
+    "newQuote": "Nueva cotización",
+    "account": "Cuenta",
+    "shellTitle": "Espacio de cotizaciones",
+    "accountTitle": "Cuenta",
+    "accountLanguage": "Idioma",
+    "accountSession": "Sesión y seguridad",
+    "accountSecurity": "Tu cuenta está protegida con controles de sesión segura.",
+    "accountSupport": "Soporte",
+    "accountPrivacy": "Privacidad y seguridad",
+    "accountSignOut": "Cerrar sesión",
+    "offlineNotice": "Modo sin conexión",
+    "offlineTitle": "Estás sin conexión",
+    "offlineDescription": "Vuelve a conectarte para continuar con las acciones de cuenta y cotización."
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "eyebrow": "Cotizaciones de seguro Clara",
+      "brandHeadline": "Protección, con una perspectiva más clara.",
+      "brandDescription": "Diseña tu plan de cobertura con una experiencia guiada pensada para darte confianza.",
+      "trustTitle": "Una forma más pensada de protegerte",
+      "trust": {
+        "guided": "Los pasos guiados mantienen clara cada decisión.",
+        "secure": "El acceso con passkey hace simple el inicio de sesión.",
+        "private": "Tus datos permanecen dentro de tu sesión segura."
+      },
+      "description": "Usa tus credenciales de Clara para continuar a tu espacio de cotizaciones.",
+      "securityNote": "Tu sesión está protegida. También puedes usar un passkey para acceder más rápido.",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "submit": "Entrar",
+      "passwordless": "Entrar con passkey",
+      "invalidCredentials": "Usuario o contraseña inválidos",
+      "passkeyError": "No pudimos verificar tu passkey. Inténtalo de nuevo o inicia sesión con tu contraseña.",
+      "passkeySetupRequired": "Esta cuenta aún no tiene un passkey registrado. Inicia sesión primero con tu contraseña para configurarlo."
+    },
+    "mfa": {
+      "title": "Confirma con tu passkey",
+      "prompt": "Usa tu passkey para terminar de iniciar sesión.",
+      "passkeyError": "No pudimos verificar ese passkey. Inténtalo de nuevo para terminar de iniciar sesión."
+    },
+    "enroll": {
+      "title": "Configura tu passkey",
+      "description": "Registra un passkey ahora para usar el acceso con passkey en tus próximas visitas.",
+      "error": "No pudimos registrar tu passkey. Inténtalo de nuevo o continúa sin registrarlo.",
+      "action": "Registrar un passkey",
+      "skip": "Ahora no"
+    }
+  },
+  "wizard": {
+    "progress": "Progreso de la cotización",
+    "actions": "Acciones de la cotización",
+    "backToQuotes": "Volver a cotizaciones",
+    "personal": {
+      "title": "Información personal",
+      "description": "Comienza con algunos datos para crear la cotización adecuada para ti.",
+      "name": "Nombre completo",
+      "email": "Correo electrónico",
+      "age": "Edad",
+      "zipCode": "Código postal",
+      "nameRequired": "El nombre es obligatorio",
+      "emailInvalid": "Ingresa un correo válido",
+      "ageRange": "La edad debe estar entre 18 y 120",
+      "zipFormat": "El código postal debe tener 5 dígitos"
+    },
+    "coverage": {
+      "title": "Selección de cobertura",
+      "description": "Compara tus opciones y mira cómo cambia la estimación mientras defines tu plan.",
+      "basic": "Básica",
+      "standard": "Estándar",
+      "premium": "Premium",
+      "premiumLabel": "Prima mensual estimada",
+      "health": {
+        "title": "Preguntas de salud",
+        "preexisting": "¿Condiciones preexistentes?",
+        "conditions": "¿Cuáles condiciones?",
+        "diabetes": "Diabetes",
+        "heartDisease": "Enfermedad cardíaca",
+        "hypertension": "Hipertensión",
+        "cancerHistory": "Historial de cáncer",
+        "other": "Otra",
+        "prescription": "¿Medicamento con receta?",
+        "tobacco": "¿Consumo de tabaco?",
+        "spouse": "¿Cobertura para cónyuge?",
+        "yes": "Sí",
+        "no": "No"
+      }
+    },
+    "summary": {
+      "title": "Revisar y enviar",
+      "description": "Revisa tus datos una última vez antes de enviar tu cotización.",
+      "submit": "Enviar cotización",
+      "allQuotes": "Ver todas las cotizaciones",
+      "newQuote": "Iniciar nueva cotización",
+      "success": "Tu cotización se envió con éxito.",
+      "failure": "El envío falló. Tu cotización quedó guardada y puedes reintentar.",
+      "submitting": "Enviando cotización…",
+      "checking": "Confirmando el estado del envío…"
+    },
+    "reassurance": {
+      "eyebrow": "Estándar Clara",
+      "title": "Una forma más tranquila de protegerte",
+      "description": "Tus datos permanecen en un flujo seguro mientras comparas tus opciones."
+    }
+  },
+  "quotesList": {
+    "title": "Mis cotizaciones",
+    "loading": "Cargando cotizaciones",
+    "eyebrow": "Espacio de cotizaciones",
+    "description": "Mantén una vista clara de cada plan de protección, desde el primer borrador hasta una cotización enviada.",
+    "summary": {
+      "title": "Resumen de cotizaciones",
+      "totalLabel": "Portafolio",
+      "total": "{{count}} cotizaciones",
+      "submittedLabel": "Progreso",
+      "submitted": "{{count}} enviadas",
+      "monthlyValueLabel": "Valor mensual"
+    },
+    "analytics": {
+      "title": "Inteligencia del portafolio",
+      "description": "Una vista completa de tu actividad, exposición de primas y ritmo reciente.",
+      "total": "Cotizaciones totales",
+      "draft": "Borradores",
+      "submitted": "Enviadas",
+      "failed": "Envíos fallidos",
+      "expired": "Expiradas",
+      "priced": "Cotizaciones valuadas",
+      "totalPremium": "Valor mensual de primas",
+      "averagePremium": "Prima promedio",
+      "submissionRate": "Éxito de envío",
+      "statusDistribution": "Distribución por estado",
+      "coverageDistribution": "Mezcla de coberturas",
+      "trend": "Actividad de siete días",
+      "created": "Creadas",
+      "submittedSeries": "Enviadas",
+      "failedSeries": "Fallidas",
+      "noData": "Aún no hay actividad registrada",
+      "loading": "Cargando inteligencia del portafolio",
+      "error": "La inteligencia del portafolio no está disponible temporalmente",
+      "retry": "Reintentar analítica"
+    },
+    "yourQuotes": "Historial de cotizaciones",
+    "latestQuotes": "Cotizaciones más recientes",
+    "historyDescription": "Revisa los planes que has comenzado y la cobertura asociada con cada uno.",
+    "monthlyPremium": "Prima mensual estimada",
+    "empty": "Aún no hay cotizaciones. ¡Comienza la primera!",
+    "emptyTitle": "Tu plan de cobertura comienza aquí",
+    "emptyDescription": "Crea un plan pensado en unos cuantos pasos guiados y vuelve cuando quieras revisarlo.",
+    "startQuote": "Iniciar cotización",
+    "filters": "Filtrar y ordenar cotizaciones",
+    "search": "Buscar por nombre o correo",
+    "statusFilter": "Estado",
+    "coverageFilter": "Cobertura",
+    "sortBy": "Ordenar por",
+    "direction": "Dirección",
+    "applyFilters": "Aplicar filtros",
+    "clearFilters": "Limpiar",
+    "allStatuses": "Todos los estados",
+    "allCoverages": "Todas las coberturas",
+    "createdAt": "Fecha de creación",
+    "updatedAt": "Fecha de actualización",
+    "nameSort": "Nombre",
+    "premiumSort": "Prima",
+    "statusSort": "Estado",
+    "ascending": "Ascendente",
+    "descending": "Descendente",
+    "pagination": "Paginación de cotizaciones",
+    "statusDraft": "Borrador",
+    "statusSubmitted": "Enviada",
+    "statusFailed": "Envío fallido",
+    "statusExpired": "Expirada"
+  },
+  "notFound": {
+    "eyebrow": "Espacio de cotizaciones Clara",
+    "title": "Página no encontrada",
+    "description": "Esta ruta no forma parte de tu recorrido de cotización, pero tu espacio de trabajo sigue cerca.",
+    "home": "Ir a cotizaciones"
+  },
+  "errors": {
+    "QUOTE_NOT_FOUND": "Cotización no encontrada",
+    "QUOTE_INVALID_STATE_TRANSITION": "Esta cotización ya no permite esa acción",
+    "QUOTE_HEALTH_DATA_NOT_ALLOWED": "La información de salud aplica solo a mayores de 65",
+    "QUOTE_INCOMPLETE": "A la cotización le falta información",
+    "INSURER_UNAVAILABLE": "La aseguradora no pudo procesar el envío",
+    "EXPIRED": "Esta cotización expiró. Inicia una nueva."
+  }
+}

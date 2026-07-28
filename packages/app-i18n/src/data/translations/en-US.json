@@ -1,0 +1,230 @@
+{
+  "common": {
+    "appName": "Insurance Quotes",
+    "next": "Next",
+    "back": "Back",
+    "retry": "Retry",
+    "loading": "Loading…",
+    "networkError": "Can't reach the server. Check your connection and try again.",
+    "sessionExpired": "Your session expired. Please sign in again.",
+    "reference": " (ref: {{traceId}})",
+    "apiError": "The request could not be completed.",
+    "currencyPrefix": "$",
+    "notAvailable": "—",
+    "skipToContent": "Skip to content"
+  },
+  "layout": {
+    "secureSessionAnonymous": "Secure sign-in",
+    "secureSessionAuthenticated": "Secure session",
+    "secureSessionDefault": "Protected experience",
+    "languageLabel": "Language",
+    "languages": {
+      "en-US": "English",
+      "es-MX": "Español"
+    },
+    "signOut": "Sign out",
+    "theme": {
+      "toggle": "Toggle theme",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "footer": {
+      "support": "Support",
+      "privacySecurity": "Privacy & security",
+      "trustStatement": "Clara keeps every quote step in a protected, premium workflow.",
+      "supportContact": "For help, contact your benefits administrator or employer.",
+      "privacySummary": "Passkey-ready sign-in and secure sessions help protect your information while you review quotes.",
+      "buildLabel": "Build · {{label}}"
+    }
+  },
+  "navigation": {
+    "primary": "Primary navigation",
+    "home": "Home",
+    "quotes": "Quotes",
+    "newQuote": "New quote",
+    "account": "Account",
+    "shellTitle": "Quote workspace",
+    "accountTitle": "Account",
+    "accountLanguage": "Language",
+    "accountSession": "Session and security",
+    "accountSecurity": "Your account is protected with secure session controls.",
+    "accountSupport": "Support",
+    "accountPrivacy": "Privacy and security",
+    "accountSignOut": "Sign out",
+    "offlineNotice": "Offline mode",
+    "offlineTitle": "You are offline",
+    "offlineDescription": "Reconnect to continue account and quote actions."
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "eyebrow": "Clara insurance quotes",
+      "brandHeadline": "Protection, with a clearer point of view.",
+      "brandDescription": "Build your coverage plan through a guided experience designed around your confidence.",
+      "trustTitle": "A more considered way to get covered",
+      "trust": {
+        "guided": "Guided steps keep every decision clear.",
+        "secure": "Passkey-ready access keeps sign-in simple.",
+        "private": "Your details stay within your secure session."
+      },
+      "description": "Use your Clara credentials to continue to your quote workspace.",
+      "securityNote": "Your session is protected. You can also use a passkey for faster access.",
+      "username": "Username",
+      "password": "Password",
+      "submit": "Sign in",
+      "passwordless": "Sign in with a passkey",
+      "invalidCredentials": "Invalid username or password",
+      "passkeyError": "We couldn't verify your passkey. Try again or sign in with your password.",
+      "passkeySetupRequired": "No passkey is registered for this account yet. Sign in with your password first to set one up."
+    },
+    "mfa": {
+      "title": "Confirm with your passkey",
+      "prompt": "Use your passkey to finish signing in.",
+      "passkeyError": "We couldn't verify that passkey. Try again to finish signing in."
+    },
+    "enroll": {
+      "title": "Set up your passkey",
+      "description": "Register a passkey now so you can use passkey sign-in on future visits.",
+      "error": "We couldn't register your passkey. Try again or continue without it.",
+      "action": "Register a passkey",
+      "skip": "Not now"
+    }
+  },
+  "wizard": {
+    "progress": "Quote progress",
+    "actions": "Quote actions",
+    "backToQuotes": "Back to quotes",
+    "personal": {
+      "title": "Personal information",
+      "description": "Start with a few details so we can shape the right quote for you.",
+      "name": "Full name",
+      "email": "Email",
+      "age": "Age",
+      "zipCode": "Zip code",
+      "nameRequired": "Name is required",
+      "emailInvalid": "Enter a valid email",
+      "ageRange": "Age must be between 18 and 120",
+      "zipFormat": "Zip code must be 5 digits"
+    },
+    "coverage": {
+      "title": "Coverage selection",
+      "description": "Compare your options and see an estimate update as your plan takes shape.",
+      "basic": "Basic",
+      "standard": "Standard",
+      "premium": "Premium",
+      "premiumLabel": "Estimated monthly premium",
+      "health": {
+        "title": "Health questions",
+        "preexisting": "Pre-existing conditions?",
+        "conditions": "Which conditions?",
+        "diabetes": "Diabetes",
+        "heartDisease": "Heart disease",
+        "hypertension": "Hypertension",
+        "cancerHistory": "Cancer history",
+        "other": "Other",
+        "prescription": "Prescription medication?",
+        "tobacco": "Tobacco use?",
+        "spouse": "Spouse coverage?",
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "summary": {
+      "title": "Review and submit",
+      "description": "Take one final look at your details before you send your quote.",
+      "submit": "Submit quote",
+      "allQuotes": "View all quotes",
+      "newQuote": "Start a new quote",
+      "success": "Your quote was submitted successfully.",
+      "failure": "Submission failed. Your quote was saved and you can retry.",
+      "submitting": "Submitting quote…",
+      "checking": "Confirming submission status…"
+    },
+    "reassurance": {
+      "eyebrow": "Clara standard",
+      "title": "A calmer path to cover",
+      "description": "Your details stay in a secure flow while you compare your options."
+    }
+  },
+  "quotesList": {
+    "title": "My quotes",
+    "loading": "Loading quotes",
+    "eyebrow": "Quote workspace",
+    "description": "Keep a clear view of every protection plan, from your first draft to a submitted quote.",
+    "summary": {
+      "title": "Quote summary",
+      "totalLabel": "Portfolio",
+      "total": "{{count}} quotes",
+      "submittedLabel": "Progress",
+      "submitted": "{{count}} submitted",
+      "monthlyValueLabel": "Monthly value"
+    },
+    "analytics": {
+      "title": "Portfolio intelligence",
+      "description": "A complete view of your quote activity, premium exposure, and recent momentum.",
+      "total": "Total quotes",
+      "draft": "Draft",
+      "submitted": "Submitted",
+      "failed": "Failed submissions",
+      "expired": "Expired",
+      "priced": "Priced quotes",
+      "totalPremium": "Monthly premium value",
+      "averagePremium": "Average premium",
+      "submissionRate": "Submission success",
+      "statusDistribution": "Status distribution",
+      "coverageDistribution": "Coverage mix",
+      "trend": "Seven-day activity",
+      "created": "Created",
+      "submittedSeries": "Submitted",
+      "failedSeries": "Failed",
+      "noData": "No activity recorded yet",
+      "loading": "Loading portfolio intelligence",
+      "error": "Portfolio intelligence is temporarily unavailable",
+      "retry": "Retry analytics"
+    },
+    "yourQuotes": "Your quote history",
+    "latestQuotes": "Latest quotes",
+    "historyDescription": "Review the plans you have started and the coverage attached to each one.",
+    "monthlyPremium": "Estimated monthly premium",
+    "empty": "No quotes yet. Start your first one!",
+    "emptyTitle": "Your coverage plan starts here",
+    "emptyDescription": "Build a thoughtful plan in a few guided steps, then return here whenever you want to review it.",
+    "startQuote": "Start a quote",
+    "filters": "Filter and order quotes",
+    "search": "Search by name or email",
+    "statusFilter": "Status",
+    "coverageFilter": "Coverage",
+    "sortBy": "Sort by",
+    "direction": "Direction",
+    "applyFilters": "Apply filters",
+    "clearFilters": "Clear",
+    "allStatuses": "All statuses",
+    "allCoverages": "All coverage",
+    "createdAt": "Created date",
+    "updatedAt": "Updated date",
+    "nameSort": "Name",
+    "premiumSort": "Premium",
+    "statusSort": "Status",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "pagination": "Quote pagination",
+    "statusDraft": "Draft",
+    "statusSubmitted": "Submitted",
+    "statusFailed": "Submission failed",
+    "statusExpired": "Expired"
+  },
+  "notFound": {
+    "eyebrow": "Clara quote workspace",
+    "title": "Page not found",
+    "description": "This route is not part of your quote journey, but your workspace is still close by.",
+    "home": "Go to quotes"
+  },
+  "errors": {
+    "QUOTE_NOT_FOUND": "Quote not found",
+    "QUOTE_INVALID_STATE_TRANSITION": "This quote no longer allows that action",
+    "QUOTE_HEALTH_DATA_NOT_ALLOWED": "Health information applies only to applicants over 65",
+    "QUOTE_INCOMPLETE": "The quote is missing required information",
+    "INSURER_UNAVAILABLE": "The insurer could not process the submission",
+    "EXPIRED": "This quote expired. Please start a new one."
+  }
+}

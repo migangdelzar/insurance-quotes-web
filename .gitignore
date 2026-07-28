@@ -1,8 +1,10 @@
 node_modules/
 dist/
-coverage/
+/coverage/
+apps/web/coverage/
 .env.local
 mise.local.toml
 *.tsbuildinfo
 test-results/
 playwright-report/
+.superpowers/

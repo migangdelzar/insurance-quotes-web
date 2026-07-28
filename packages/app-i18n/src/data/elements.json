@@ -1,0 +1,146 @@
+{
+  "common": {
+    "appName": "app-title",
+    "next": "btn-next",
+    "back": "btn-back",
+    "retry": "btn-retry",
+    "loading": "loading-indicator",
+    "networkError": "network-error",
+    "sessionExpired": "session-expired",
+    "reference": "error-reference",
+    "apiError": "api-error",
+    "currencyPrefix": "currency-prefix",
+    "notAvailable": "not-available",
+    "skipToContent": "skip-to-content"
+  },
+  "layout": {
+    "main": "main-content",
+    "footer": "app-footer",
+    "themeToggle": "theme-toggle"
+  },
+  "navigation": {
+    "primary": "navigation-primary",
+    "home": "navigation-home",
+    "quotes": "navigation-quotes",
+    "newQuote": "navigation-new-quote",
+    "account": "navigation-account",
+    "shellTitle": "navigation-shell-title",
+    "accountTitle": "account-title",
+    "accountLanguage": "account-language",
+    "accountSession": "account-session",
+    "accountSecurity": "account-security",
+    "accountSupport": "account-support",
+    "accountPrivacy": "account-privacy",
+    "accountSignOut": "account-sign-out",
+    "offlineNotice": "offline-notice",
+    "offlineTitle": "offline-title",
+    "offlineDescription": "offline-description"
+  },
+  "auth": {
+    "login": {
+      "title": "login-title",
+      "username": "login-username",
+      "password": "login-password",
+      "submit": "login-submit",
+      "passwordless": "login-passkey",
+      "invalidCredentials": "login-error",
+      "passkeyError": "login-passkey-error",
+      "passkeySetupRequired": "login-passkey-setup-required"
+    },
+    "mfa": {
+      "title": "mfa-title",
+      "prompt": "mfa-prompt",
+      "passkeyError": "mfa-passkey-error"
+    },
+    "enroll": {
+      "title": "enroll-title",
+      "error": "enroll-error",
+      "action": "enroll-passkey",
+      "skip": "enroll-skip"
+    }
+  },
+  "wizard": {
+    "progress": "wizard-progress",
+    "actions": "wizard-actions",
+    "backToQuotes": "wizard-back-to-quotes",
+    "personal": {
+      "title": "wizard-personal-title",
+      "name": "wizard-personal-name",
+      "email": "wizard-personal-email",
+      "age": "wizard-personal-age",
+      "zipCode": "wizard-personal-zip",
+      "nameRequired": "error-name-required",
+      "emailInvalid": "error-email-invalid",
+      "ageRange": "error-age-range",
+      "zipFormat": "error-zip-format"
+    },
+    "coverage": {
+      "title": "wizard-coverage-title",
+      "basic": "coverage-basic",
+      "standard": "coverage-standard",
+      "premium": "coverage-premium",
+      "premiumLabel": "premium-display",
+      "health": {
+        "title": "health-title",
+        "preexisting": "health-preexisting",
+        "conditions": "health-conditions",
+        "diabetes": "condition-diabetes",
+        "heartDisease": "condition-heart-disease",
+        "hypertension": "condition-hypertension",
+        "cancerHistory": "condition-cancer-history",
+        "other": "condition-other",
+        "prescription": "health-prescription",
+        "tobacco": "health-tobacco",
+        "spouse": "health-spouse",
+        "yes": "answer-yes",
+        "no": "answer-no"
+      }
+    },
+    "summary": {
+      "title": "wizard-summary-title",
+      "submit": "summary-submit",
+      "allQuotes": "summary-all-quotes",
+      "newQuote": "summary-new-quote",
+      "success": "submission-success",
+      "failure": "submission-failure",
+      "submitting": "submission-submitting",
+      "checking": "submission-checking"
+    }
+  },
+  "quotesList": {
+    "title": "quotes-list-title",
+    "loading": "quotes-loading-state",
+    "empty": "quotes-empty-state",
+    "startQuote": "btn-start-quote",
+    "filters": "quotes-filters",
+    "search": "quotes-search",
+    "statusFilter": "quotes-status-filter",
+    "coverageFilter": "quotes-coverage-filter",
+    "sortBy": "quotes-sort-by",
+    "direction": "quotes-sort-direction",
+    "applyFilters": "quotes-apply-filters",
+    "clearFilters": "quotes-clear-filters",
+    "pagination": "quotes-pagination",
+    "latestQuotes": "quotes-latest",
+    "analytics": "quotes-analytics",
+    "analyticsStatus": "quotes-analytics-status",
+    "analyticsCoverage": "quotes-analytics-coverage",
+    "analyticsTrend": "quotes-analytics-trend",
+    "statusDraft": "quote-status-draft",
+    "statusSubmitted": "quote-status-submitted",
+    "statusFailed": "quote-status-failed",
+    "statusExpired": "quote-status-expired"
+  },
+  "notFound": {
+    "title": "not-found-title",
+    "home": "not-found-home"
+  },
+  "errors": {
+    "QUOTE_NOT_FOUND": "err-quote-not-found",
+    "QUOTE_INVALID_STATE_TRANSITION": "err-invalid-state",
+    "QUOTE_HEALTH_DATA_NOT_ALLOWED": "err-health-not-allowed",
+    "QUOTE_INCOMPLETE": "err-incomplete",
+    "INSURER_UNAVAILABLE": "err-insurer",
+    "EXPIRED": "err-expired"
+  }
+}

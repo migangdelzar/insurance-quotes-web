@@ -1,0 +1,140 @@
+---
+name: Playwright demo recordings
+
+on: # yamllint disable-line rule:truthy
+  workflow_dispatch:
+    inputs:
+      frontend_ref:
+        description: Frontend branch, tag, or full commit SHA to record
+        required: false
+        default: feat-frontend
+      backend_ref:
+        description: Backend branch, tag, or full commit SHA to record
+        required: false
+        default: feat-backend-core
+
+concurrency:
+  group: demo-recordings-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  record:
+    name: Record real application flows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out frontend
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.frontend_ref || 'feat-frontend' }}
+          path: insurance-quotes-web
+
+      - name: Check out backend
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          repository: migangdelzar/insurance-quotes-service
+          ref: ${{ inputs.backend_ref || 'feat-backend-core' }}
+          path: insurance-quotes-service
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        with:
+          bun-version: 1.3.13
+
+      - name: Install frontend dependencies
+        working-directory: insurance-quotes-web
+        run: bun install --frozen-lockfile
+
+      - name: Install pinned Chromium
+        working-directory: insurance-quotes-web/e2e
+        run: ./install-chromium.sh
+
+      - name: Validate Compose configuration
+        working-directory: insurance-quotes-service
+        run: >-
+          docker compose
+          -f deployment/compose/docker-compose.yml
+          -f deployment/compose/docker-compose.jvm.yml
+          -f deployment/compose/compose.fullstack.yml
+          -f deployment/compose/compose.e2e.yml
+          config
+
+      - name: Start ephemeral JVM stack
+        working-directory: insurance-quotes-service
+        env:
+          WEB_RATE_LIMIT_ENABLED: 'true'
+          WEB_RATE_LIMIT_AUTH_LIMIT: '1000'
+          WEB_RATE_LIMIT_QUOTE_MUTATION_LIMIT: '1000'
+        run: >-
+          docker compose
+          -f deployment/compose/docker-compose.yml
+          -f deployment/compose/docker-compose.jvm.yml
+          -f deployment/compose/compose.fullstack.yml
+          -f deployment/compose/compose.e2e.yml
+          up -d --build
+
+      - name: Wait for real stack
+        working-directory: insurance-quotes-service
+        run: |
+          set -euo pipefail
+          compose=(
+            docker compose
+            -f deployment/compose/docker-compose.yml
+            -f deployment/compose/docker-compose.jvm.yml
+            -f deployment/compose/compose.fullstack.yml
+            -f deployment/compose/compose.e2e.yml
+          )
+          for attempt in $(seq 1 90); do
+            if curl --fail --silent http://localhost:3100/api/actuator/health |
+              grep -q '"status":"UP"' &&
+              curl --fail --silent http://localhost:3100/ > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          "${compose[@]}" logs --no-color
+          exit 1
+
+      - name: Record six real flows
+        working-directory: insurance-quotes-web
+        env:
+          E2E_BASE_URL: http://localhost:3100
+          RECORD_DEMO: 'true'
+        run: bun run --filter e2e test:recordings
+
+      - name: Upload demo videos and reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: clara-demo-recordings-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            insurance-quotes-web/e2e/test-results
+            insurance-quotes-web/e2e/playwright-report
+
+      - name: Dump Compose logs on failure
+        if: ${{ failure() }}
+        working-directory: insurance-quotes-service
+        run: >-
+          docker compose
+          -f deployment/compose/docker-compose.yml
+          -f deployment/compose/docker-compose.jvm.yml
+          -f deployment/compose/compose.fullstack.yml
+          -f deployment/compose/compose.e2e.yml
+          logs --no-color
+
+      - name: Tear down ephemeral stack
+        if: ${{ always() }}
+        working-directory: insurance-quotes-service
+        run: >-
+          docker compose
+          -f deployment/compose/docker-compose.yml
+          -f deployment/compose/docker-compose.jvm.yml
+          -f deployment/compose/compose.fullstack.yml
+          -f deployment/compose/compose.e2e.yml
+          down --volumes --remove-orphans

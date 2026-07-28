@@ -1,0 +1,20 @@
+{
+  "name": "@clara/app-i18n",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint .",
+    "validate": "node src/validate.mjs"
+  },
+  "devDependencies": {
+    "@clara/build-config": "workspace:*",
+    "typescript": "~5.7.2",
+    "vitest": "^3.0.0"
+  }
+}
