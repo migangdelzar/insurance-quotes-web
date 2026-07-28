@@ -16,10 +16,12 @@ Run the local gallery suite:
 E2E_BASE_URL=http://localhost:3100 bun run --filter e2e test:recordings
 ```
 
-Or dispatch [Playwright demo recordings](../../.github/workflows/demo-recordings.yml)
-from GitHub Actions. Download the artifact named
-clara-demo-recordings-<run-id>. Videos and reports are deliberately generated
-artifacts rather than large files committed to the repository.
+Or dispatch the `Full-stack real E2E` workflow with `record_demo=true`. The
+latest verified artifact is
+[clara-demo-recordings-30384361064](https://github.com/migangdelzar/insurance-quotes-web/actions/runs/30384361064),
+which contains the six videos and the Playwright report. Videos and reports are
+deliberately generated artifacts rather than large files committed to the
+repository.
 
 ## 01 · Standard quote
 
@@ -62,8 +64,8 @@ remains resubmittable, and the second submission completes successfully.
 
 **Test:** [04-passkey-lifecycle](../../e2e/tests/demo-recordings.spec.ts)
 
-This recording is intentionally serial and last in the suite because it mutates
-the demo user’s passkey state.
+This recording uses the isolated `demo-two` seeded account so it can mutate
+passkey state without changing the account used by the other stories.
 
 ## 05 · History and analytics
 
