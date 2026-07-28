@@ -42,14 +42,18 @@
       "password": "login-password",
       "submit": "login-submit",
       "passwordless": "login-passkey",
-      "invalidCredentials": "login-error"
+      "invalidCredentials": "login-error",
+      "passkeyError": "login-passkey-error",
+      "passkeySetupRequired": "login-passkey-setup-required"
     },
     "mfa": {
       "title": "mfa-title",
-      "prompt": "mfa-prompt"
+      "prompt": "mfa-prompt",
+      "passkeyError": "mfa-passkey-error"
     },
     "enroll": {
       "title": "enroll-title",
+      "error": "enroll-error",
       "action": "enroll-passkey",
       "skip": "enroll-skip"
     }

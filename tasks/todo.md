@@ -126,6 +126,25 @@
 - [x] Preserve the `/api` development proxy while debugging the full flow locally.
 - [x] Verify the Vite client, HMR WebSocket, and API proxy from a running dev server.
 
+## Login single-card polish and passkey recovery — 2026-07-28
+
+- [x] Remove the anonymous-login marketing aside and center the single auth card.
+- [x] Preserve the login form accessibility contract and stable selectors while promoting the title to the sole `h1`.
+- [x] Add responsive browser assertions for no aside, no overflow, centered geometry, and the `560px` maximum card at 320/375/768/1024/1440px.
+- [x] Handle passwordless and MFA WebAuthn failures with localized, visible, retryable alerts.
+- [x] Keep MFA pending after a failed passkey assertion and disable generic HTTP refresh for the final WebAuthn assertion request.
+- [x] Narrow mocked authenticated quote traffic to `/api/quotes` so document reloads are not intercepted.
+- [x] Verify HMR login, password login, MFA/passkey recovery, passwordless login, and full browser flows.
+- [x] Commit and push all intended files while preserving the unrelated `apps/web/index.html` edit.
+
+### Results
+
+- Focused auth tests: 3 files / 17 tests passed.
+- Full web tests: 31 files / 113 tests passed.
+- Web lint: 0 errors and 4 existing Fast Refresh warnings.
+- Web production build, E2E build, and E2E lint passed.
+- Full HMR Playwright suite: 30 passed; forced `401` passkey recovery passed without unexpected browser errors.
+
 ## Working notes
 
 - The feature branch is `feat-frontend`.
@@ -315,3 +334,15 @@
 - `bun run --filter web build && cd apps/web && node src/pwa/check-build.mjs`: passed; Vite reported the existing >500 kB chunk-size advisory.
 - `E2E_PWA_PREVIEW_PORT=43102 bun run --filter e2e test:pwa-preview`: 1 passed.
 - `E2E_BASE_URL=http://localhost:3100 bun run e2e -- --retries=0`: 15 passed / 11 failed because port 3100 is an older SSH-forwarded/full-stack deployment, not the current branch bundle. Do not treat it as a current-source app-shell verification until that image is rebuilt and redeployed.
+
+## Passkey setup-before-use — 2026-07-28
+
+- [x] Add an explicit password-first passkey enrollment step.
+- [x] Add a real backend preflight for known users without a registered passkey.
+- [x] Show localized setup guidance instead of opening the browser credential prompt prematurely.
+- [x] Keep enrollment open after registration failure so it can be retried.
+- [x] Verify focused web tests, backend auth tests, i18n validation, and real-only Playwright passkey lifecycle.
+
+### Results
+
+The login flow now checks a known username for a registered credential before starting WebAuthn, and the password-authenticated first visit presents a dedicated setup dialog. Real Playwright verification passed on the HMR frontend against the Java 17 Spring `dev` API with no auth or quote route interception.

@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { I18nextProvider } from 'react-i18next';
 import { MemoryRouter } from 'react-router';
@@ -80,6 +81,27 @@ describe('LoginPage', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('shows passkey setup as an explicit step after password sign-in', async () => {
+    mockedUseAuth.mockReturnValue({
+      sessionState: 'authenticated',
+      authenticationMethod: 'password',
+      isAuthenticated: true,
+      login: vi.fn(),
+      completeMfa: vi.fn(),
+      loginWithPasskey: vi.fn(),
+      enrollPasskey: vi.fn(),
+      logout: vi.fn(),
+    });
+
+    renderPage();
+
+    expect(
+      await screen.findByTestId(tid('auth.enroll.title'))
+    ).toHaveTextContent(i18n.t('auth.enroll.title'));
+    expect(screen.getByText(i18n.t('auth.enroll.description'))).toBeVisible();
+    expect(screen.getByTestId(tid('auth.enroll.action'))).toBeVisible();
+  });
+
   it('renders the passkey MFA prompt as the next accessible heading level', () => {
     renderPage();
 
@@ -91,7 +113,7 @@ describe('LoginPage', () => {
     ).toBeVisible();
   });
 
-  it('keeps password and passkey actions available in the premium auth layout', () => {
+  it('renders a focused single-card login surface without the marketing aside', () => {
     mockedUseAuth.mockReturnValue({
       sessionState: 'anonymous',
       authenticationMethod: null,
@@ -105,20 +127,20 @@ describe('LoginPage', () => {
 
     renderPage();
 
+    expect(screen.queryByRole('complementary')).not.toBeInTheDocument();
+    expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: i18n.t('auth.login.brandHeadline'),
-      })
-    ).toBeVisible();
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
         name: i18n.t('auth.login.title'),
       })
     ).toBeVisible();
-    expect(screen.getByRole('complementary')).toBeVisible();
-    expect(screen.getByText(i18n.t('auth.login.trustTitle'))).toBeVisible();
+    expect(
+      screen.queryByText(i18n.t('auth.login.brandHeadline'))
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('form', { name: i18n.t('auth.login.title') })
+    ).toHaveAttribute('aria-describedby', 'auth-login-description');
     expect(
       screen.queryByRole('heading', {
         level: 3,
@@ -166,5 +188,98 @@ describe('LoginPage', () => {
     });
     expect(form).toHaveAttribute('aria-describedby', 'auth-login-description');
     expect(screen.getByText(i18n.t('auth.login.description'))).toBeVisible();
+  });
+
+  it('shows a recoverable error when passwordless sign-in fails', async () => {
+    const loginWithPasskey = vi
+      .fn()
+      .mockRejectedValue(new Error('unknown or expired challenge'));
+    mockedUseAuth.mockReturnValue({
+      sessionState: 'anonymous',
+      authenticationMethod: null,
+      isAuthenticated: false,
+      login: vi.fn(),
+      completeMfa: vi.fn(),
+      loginWithPasskey,
+      enrollPasskey: vi.fn(),
+      logout: vi.fn(),
+    });
+
+    renderPage();
+    const user = userEvent.setup();
+
+    await user.type(screen.getByTestId(tid('auth.login.username')), 'demo');
+    await user.click(screen.getByTestId(tid('auth.login.passwordless')));
+
+    expect(
+      await screen.findByTestId(tid('auth.login.passkeyError'))
+    ).toHaveTextContent(i18n.t('auth.login.passkeyError'));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId(tid('auth.login.passwordless'))
+      ).not.toBeDisabled()
+    );
+    expect(loginWithPasskey).toHaveBeenCalledWith('demo');
+  });
+
+  it('explains that password sign-in is required when no passkey is registered', async () => {
+    const loginWithPasskey = vi.fn().mockRejectedValue({
+      status: 409,
+      code: 'AUTH_PASSKEY_NOT_REGISTERED',
+      message: 'No passkey is registered',
+    });
+    mockedUseAuth.mockReturnValue({
+      sessionState: 'anonymous',
+      authenticationMethod: null,
+      isAuthenticated: false,
+      login: vi.fn(),
+      completeMfa: vi.fn(),
+      loginWithPasskey,
+      enrollPasskey: vi.fn(),
+      logout: vi.fn(),
+    });
+
+    renderPage();
+    const user = userEvent.setup();
+    await user.type(screen.getByTestId(tid('auth.login.username')), 'demo');
+    await user.click(screen.getByTestId(tid('auth.login.passwordless')));
+
+    expect(
+      await screen.findByTestId(tid('auth.login.passkeySetupRequired'))
+    ).toHaveTextContent(i18n.t('auth.login.passkeySetupRequired'));
+    expect(
+      screen.queryByTestId(tid('auth.login.passkeyError'))
+    ).not.toBeInTheDocument();
+  });
+
+  it('shows a recoverable error when MFA passkey verification fails', async () => {
+    const completeMfa = vi
+      .fn()
+      .mockRejectedValue(new Error('unknown or expired challenge'));
+    mockedUseAuth.mockReturnValue({
+      sessionState: 'mfa-pending',
+      authenticationMethod: null,
+      isAuthenticated: false,
+      login: vi.fn(),
+      completeMfa,
+      loginWithPasskey: vi.fn(),
+      enrollPasskey: vi.fn(),
+      logout: vi.fn(),
+    });
+
+    renderPage();
+    const user = userEvent.setup();
+
+    await user.click(screen.getByTestId(tid('auth.login.passwordless')));
+
+    expect(
+      await screen.findByTestId(tid('auth.mfa.passkeyError'))
+    ).toHaveTextContent(i18n.t('auth.mfa.passkeyError'));
+    await waitFor(() =>
+      expect(
+        screen.getByTestId(tid('auth.login.passwordless'))
+      ).not.toBeDisabled()
+    );
+    expect(completeMfa).toHaveBeenCalledOnce();
   });
 });

@@ -73,14 +73,19 @@
       "password": "Password",
       "submit": "Sign in",
       "passwordless": "Sign in with a passkey",
-      "invalidCredentials": "Invalid username or password"
+      "invalidCredentials": "Invalid username or password",
+      "passkeyError": "We couldn't verify your passkey. Try again or sign in with your password.",
+      "passkeySetupRequired": "No passkey is registered for this account yet. Sign in with your password first to set one up."
     },
     "mfa": {
       "title": "Confirm with your passkey",
-      "prompt": "Use your passkey to finish signing in."
+      "prompt": "Use your passkey to finish signing in.",
+      "passkeyError": "We couldn't verify that passkey. Try again to finish signing in."
     },
     "enroll": {
-      "title": "Protect your account",
+      "title": "Set up your passkey",
+      "description": "Register a passkey now so you can use passkey sign-in on future visits.",
+      "error": "We couldn't register your passkey. Try again or continue without it.",
       "action": "Register a passkey",
       "skip": "Not now"
     }

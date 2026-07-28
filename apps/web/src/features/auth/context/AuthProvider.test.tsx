@@ -67,6 +67,38 @@ describe('AuthProvider', () => {
     expect(result.current.sessionState).toBe('authenticated');
   });
 
+  it('passes the entered username when starting passwordless sign-in', async () => {
+    vi.mocked(authApi.assertPasskey).mockResolvedValue({
+      accessToken: 'acc3',
+      refreshToken: 'ref3',
+      expiresInSeconds: 1800,
+    });
+    const { result } = renderHook(() => useAuth(), { wrapper });
+
+    await act(() => result.current.loginWithPasskey('demo'));
+
+    expect(authApi.assertPasskey).toHaveBeenCalledWith(undefined, 'demo');
+  });
+
+  it('keeps MFA pending when passkey verification fails', async () => {
+    vi.mocked(authApi.login).mockResolvedValue({
+      status: 'MFA_REQUIRED',
+      mfaToken: 'mfa-1',
+    });
+    vi.mocked(authApi.assertPasskey).mockRejectedValue(
+      new Error('unknown or expired challenge')
+    );
+    const { result } = renderHook(() => useAuth(), { wrapper });
+    await act(() => result.current.login('demo', 'demo-password'));
+
+    await expect(act(() => result.current.completeMfa())).rejects.toThrow(
+      'unknown or expired challenge'
+    );
+
+    expect(result.current.sessionState).toBe('mfa-pending');
+    expect(result.current.isAuthenticated).toBe(false);
+  });
+
   it('logout clears the session', async () => {
     vi.mocked(authApi.login).mockResolvedValue({
       status: 'TOKENS_ISSUED',

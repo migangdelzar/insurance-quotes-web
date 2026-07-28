@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Dialog,
   DialogActions,
@@ -7,6 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { tid } from '@clara/app-i18n';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthProvider';
 
@@ -15,10 +17,20 @@ type Props = { open: boolean; onClose: () => void };
 export function PasskeyEnrollDialog({ open, onClose }: Props) {
   const { t } = useTranslation();
   const { enrollPasskey } = useAuth();
+  const [error, setError] = useState(false);
+  const [pending, setPending] = useState(false);
 
   const enroll = async () => {
-    await enrollPasskey().catch(() => undefined);
-    onClose();
+    setError(false);
+    setPending(true);
+    try {
+      await enrollPasskey();
+      onClose();
+    } catch {
+      setError(true);
+    } finally {
+      setPending(false);
+    }
   };
 
   return (
@@ -31,7 +43,12 @@ export function PasskeyEnrollDialog({ open, onClose }: Props) {
         {t('auth.enroll.title')}
       </DialogTitle>
       <DialogContent>
-        <Typography>{t('auth.mfa.prompt')}</Typography>
+        <Typography>{t('auth.enroll.description')}</Typography>
+        {error && (
+          <Alert severity="error" data-testid={tid('auth.enroll.error')}>
+            {t('auth.enroll.error')}
+          </Alert>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} data-testid={tid('auth.enroll.skip')}>
@@ -40,6 +57,7 @@ export function PasskeyEnrollDialog({ open, onClose }: Props) {
         <Button
           variant="contained"
           onClick={() => void enroll()}
+          disabled={pending}
           data-testid={tid('auth.enroll.action')}
         >
           {t('auth.enroll.action')}

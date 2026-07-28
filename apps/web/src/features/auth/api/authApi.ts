@@ -47,6 +47,7 @@ export async function assertPasskey(
   });
   return request('/auth/webauthn/assert', {
     method: 'POST',
+    retryOnUnauthorized: false,
     body: {
       challengeId: challenge.challengeId,
       credentialJson: JSON.stringify(credential),

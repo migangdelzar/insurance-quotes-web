@@ -16,14 +16,38 @@ export function LoginForm({ labelledBy, describedBy }: LoginFormProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
+  const [passkeyError, setPasskeyError] = useState(false);
+  const [passkeySetupRequired, setPasskeySetupRequired] = useState(false);
+  const [passkeyPending, setPasskeyPending] = useState(false);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(false);
+    setPasskeyError(false);
+    setPasskeySetupRequired(false);
     try {
       await login(username, password);
     } catch {
       setError(true);
+    }
+  };
+
+  const signInWithPasskey = async () => {
+    setPasskeyError(false);
+    setPasskeySetupRequired(false);
+    setPasskeyPending(true);
+    try {
+      await loginWithPasskey(username.trim() || undefined);
+    } catch (error) {
+      const needsSetup =
+        typeof error === 'object' &&
+        error !== null &&
+        'code' in error &&
+        error.code === 'AUTH_PASSKEY_NOT_REGISTERED';
+      setPasskeySetupRequired(needsSetup);
+      setPasskeyError(!needsSetup);
+    } finally {
+      setPasskeyPending(false);
     }
   };
 
@@ -41,6 +65,19 @@ export function LoginForm({ labelledBy, describedBy }: LoginFormProps) {
             data-testid={tid('auth.login.invalidCredentials')}
           >
             {t('auth.login.invalidCredentials')}
+          </Alert>
+        )}
+        {passkeyError && (
+          <Alert severity="error" data-testid={tid('auth.login.passkeyError')}>
+            {t('auth.login.passkeyError')}
+          </Alert>
+        )}
+        {passkeySetupRequired && (
+          <Alert
+            severity="info"
+            data-testid={tid('auth.login.passkeySetupRequired')}
+          >
+            {t('auth.login.passkeySetupRequired')}
           </Alert>
         )}
         <TextField
@@ -71,7 +108,8 @@ export function LoginForm({ labelledBy, describedBy }: LoginFormProps) {
         </Button>
         <Button
           type="button"
-          onClick={() => void loginWithPasskey()}
+          onClick={() => void signInWithPasskey()}
+          disabled={passkeyPending}
           data-testid={tid('auth.login.passwordless')}
         >
           {t('auth.login.passwordless')}

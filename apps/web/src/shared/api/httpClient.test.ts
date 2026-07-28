@@ -64,6 +64,23 @@ describe('httpClient', () => {
     expect(onSessionExpired).toHaveBeenCalledTimes(1);
   });
 
+  it('does not refresh the session when unauthorized retries are disabled', async () => {
+    fetchMock.mockResolvedValueOnce(
+      jsonResponse(401, { code: 'WEBAUTHN_ASSERTION_FAILED' })
+    );
+
+    await expect(
+      request('/auth/webauthn/assert', {
+        method: 'POST',
+        retryOnUnauthorized: false,
+      })
+    ).rejects.toBeInstanceOf(ApiRequestError);
+
+    expect(refreshSession).not.toHaveBeenCalled();
+    expect(onSessionExpired).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it('normalizes ApiError bodies', async () => {
     fetchMock.mockResolvedValueOnce(
       jsonResponse(422, {

@@ -73,14 +73,19 @@
       "password": "Contraseña",
       "submit": "Entrar",
       "passwordless": "Entrar con passkey",
-      "invalidCredentials": "Usuario o contraseña inválidos"
+      "invalidCredentials": "Usuario o contraseña inválidos",
+      "passkeyError": "No pudimos verificar tu passkey. Inténtalo de nuevo o inicia sesión con tu contraseña.",
+      "passkeySetupRequired": "Esta cuenta aún no tiene un passkey registrado. Inicia sesión primero con tu contraseña para configurarlo."
     },
     "mfa": {
       "title": "Confirma con tu passkey",
-      "prompt": "Usa tu passkey para terminar de iniciar sesión."
+      "prompt": "Usa tu passkey para terminar de iniciar sesión.",
+      "passkeyError": "No pudimos verificar ese passkey. Inténtalo de nuevo para terminar de iniciar sesión."
     },
     "enroll": {
-      "title": "Protege tu cuenta",
+      "title": "Configura tu passkey",
+      "description": "Registra un passkey ahora para usar el acceso con passkey en tus próximas visitas.",
+      "error": "No pudimos registrar tu passkey. Inténtalo de nuevo o continúa sin registrarlo.",
       "action": "Registrar un passkey",
       "skip": "Ahora no"
     }

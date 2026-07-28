@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "dev": "bun run --filter web dev",
+    "dev:hmr": "bun run --filter web dev -- --host 0.0.0.0",
     "build": "bun run --filter '*' build",
     "test": "bun run --filter '*' test",
     "e2e": "bun run --filter e2e test",

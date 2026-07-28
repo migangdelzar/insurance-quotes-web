@@ -47,7 +47,7 @@ export async function stubAuthenticatedQuoteSession(
       }),
     });
   });
-  await page.route('**/quotes', async (route: Route) => {
+  await page.route('**/api/quotes', async (route: Route) => {
     if (route.request().method() !== 'GET') {
       await route.fallback();
       return;

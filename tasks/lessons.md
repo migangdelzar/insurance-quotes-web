@@ -14,3 +14,8 @@
 - A debounced mutation must expose an awaitable flush at route-transition boundaries; unmount cleanup otherwise cancels the timer and can drop user-selected data before the next page reads it.
 - Theme persistence tests must not clear local storage on every navigation; use a first-load-only fixture when the test reloads, and reset the stateful demo passkey before password-based integrated journeys.
 - Full-stack browser tests must wait for API health after Compose recreation; otherwise a startup 502 can masquerade as a frontend login or console regression.
+- Vite HMR browser verification needs the dev origin in the backend CORS allow-list; a healthy proxy can still return an API `403` before the UI is exercised.
+- WebAuthn assertion `401`s should not trigger generic refresh-session behavior: preserve the MFA challenge state, show localized retry guidance, and test the recovery path with a virtual authenticator.
+- Playwright API mocks must include the `/api` boundary; a broad `**/quotes` matcher can intercept SPA document reloads and return JSON as HTML.
+- Browser error handling should branch on stable response codes, not `instanceof` across module/runtime boundaries; use a structural code guard for API errors.
+- Keep passkey lifecycle Playwright coverage real-only when validating WebAuthn setup: use a virtual authenticator and the source-backed API, while keeping deterministic error-shape coverage at the component/API test layers.

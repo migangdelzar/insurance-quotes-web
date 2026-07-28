@@ -13,6 +13,7 @@ type RequestInitLite = {
   method?: string;
   body?: unknown;
   timeoutMs?: number;
+  retryOnUnauthorized?: boolean;
 };
 
 const DEFAULT_TIMEOUT_MS = 10_000;
@@ -34,7 +35,7 @@ export async function request<T>(
   init: RequestInitLite = {}
 ): Promise<T> {
   const response = await performFetch(path, init);
-  if (response.status !== 401) {
+  if (response.status !== 401 || init.retryOnUnauthorized === false) {
     return parseOrThrow<T>(response);
   }
 

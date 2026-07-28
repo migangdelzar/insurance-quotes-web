@@ -23,7 +23,7 @@ type AuthContextValue = {
   isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<void>;
   completeMfa: () => Promise<void>;
-  loginWithPasskey: () => Promise<void>;
+  loginWithPasskey: (username?: string) => Promise<void>;
   enrollPasskey: () => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -99,15 +99,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const completeMfa = useCallback(async () => {
-    const pair = await authApi.assertPasskey(mfaTokenRef.current ?? undefined);
-    mfaTokenRef.current = null;
-    storeTokens(pair.accessToken ?? '', pair.refreshToken ?? '', 'mfa');
+    const pendingMfaToken = mfaTokenRef.current;
+    try {
+      const pair = await authApi.assertPasskey(pendingMfaToken ?? undefined);
+      mfaTokenRef.current = null;
+      storeTokens(pair.accessToken ?? '', pair.refreshToken ?? '', 'mfa');
+    } catch (error) {
+      mfaTokenRef.current = pendingMfaToken;
+      setAuthenticationMethod(null);
+      setSessionState('mfa-pending');
+      throw error;
+    }
   }, [storeTokens]);
 
-  const loginWithPasskey = useCallback(async () => {
-    const pair = await authApi.assertPasskey();
-    storeTokens(pair.accessToken ?? '', pair.refreshToken ?? '', 'passkey');
-  }, [storeTokens]);
+  const loginWithPasskey = useCallback(
+    async (username?: string) => {
+      const pair = await authApi.assertPasskey(undefined, username);
+      storeTokens(pair.accessToken ?? '', pair.refreshToken ?? '', 'passkey');
+    },
+    [storeTokens]
+  );
 
   const enrollPasskey = useCallback(() => authApi.registerPasskey(), []);
 

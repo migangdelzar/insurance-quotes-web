@@ -12,6 +12,18 @@ for (const width of viewports) {
     await expect(page.getByTestId(tid('auth.login.title'))).toBeVisible();
     await expect(page.getByTestId(tid('auth.login.username'))).toBeVisible();
     await expect(page.getByTestId(tid('auth.login.submit'))).toBeVisible();
+    await expect(page.getByRole('complementary')).toHaveCount(0);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
+
+    const loginSurface = page.locator(
+      `section[aria-labelledby="${tid('auth.login.title')}"]`
+    );
+    const surfaceBox = await loginSurface.boundingBox();
+    expect(surfaceBox).not.toBeNull();
+    expect(surfaceBox?.width ?? 0).toBeLessThanOrEqual(Math.min(560, width));
+    expect(
+      Math.abs((surfaceBox?.x ?? 0) + (surfaceBox?.width ?? 0) / 2 - width / 2)
+    ).toBeLessThanOrEqual(1);
 
     const dimensions = await page.evaluate(() => ({
       documentWidth: document.documentElement.scrollWidth,
