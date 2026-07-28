@@ -153,7 +153,8 @@ generate the current artifact; individual run links are historical evidence.
 
 ## CI/CD
 
-- [Frontend CI](.github/workflows/ci.yml) runs on every push and pull request:
+- [Frontend CI](.github/workflows/ci.yml) runs on pushes to `main` and on every
+  pull request, cancelling superseded runs for the same branch:
   tests, lint, locale validation, formatting, build, PWA checks, image build,
   and responsive/accessible browser audits.
 - [Full-stack real E2E](.github/workflows/full-stack-e2e.yml) builds the
