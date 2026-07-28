@@ -61,6 +61,10 @@ jobs:
 
       - name: Start ephemeral JVM stack
         working-directory: insurance-quotes-service
+        env:
+          WEB_RATE_LIMIT_ENABLED: 'true'
+          WEB_RATE_LIMIT_AUTH_LIMIT: '1000'
+          WEB_RATE_LIMIT_QUOTE_MUTATION_LIMIT: '1000'
         run: >-
           docker compose
           -f deployment/compose/docker-compose.yml
