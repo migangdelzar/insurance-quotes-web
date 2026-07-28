@@ -13,6 +13,8 @@ import { AppNavigation } from './AppNavigation';
 import { AccountMenu } from './AccountMenu';
 import { BrandMark } from './BrandMark';
 import { OfflineNotice } from './OfflineNotice';
+import { ThemeToggle } from './ThemeToggle';
+import { useColorMode } from '@shared/theme/colorMode';
 
 type AppShellProps = {
   children: ReactNode;
@@ -22,6 +24,7 @@ export function AppShell({ children }: AppShellProps) {
   const { t } = useTranslation();
   const location = useLocation();
   const { isAuthenticated } = useAuth();
+  const { mode } = useColorMode();
   const mainRef = useRef<HTMLElement>(null);
   const activeDestination = getActiveDestination(
     location.pathname,
@@ -49,6 +52,7 @@ export function AppShell({ children }: AppShellProps) {
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: 'background.default',
+        pt: isAuthenticated ? { xs: '64px', md: '72px' } : 0,
       }}
     >
       <a
@@ -73,10 +77,17 @@ export function AppShell({ children }: AppShellProps) {
       <Box
         component="header"
         data-shell-tone={isAuthenticated ? 'charcoal' : undefined}
+        data-shell-mode={isAuthenticated ? mode : undefined}
+        data-shell-position={isAuthenticated ? 'fixed' : undefined}
         sx={(theme) => {
           const shellDivider = alpha(theme.palette.shell.contrastText, 0.16);
 
           return {
+            position: isAuthenticated ? 'fixed' : 'relative',
+            top: 0,
+            right: 0,
+            left: 0,
+            zIndex: isAuthenticated ? theme.zIndex.appBar : 'auto',
             borderBottom: `1px solid ${
               isAuthenticated ? shellDivider : theme.palette.divider
             }`,
@@ -148,6 +159,7 @@ export function AppShell({ children }: AppShellProps) {
                     {t('layout.secureSessionAuthenticated')}
                   </Typography>
                 </Box>
+                <ThemeToggle />
                 <Box
                   sx={(theme) => ({
                     '& .MuiButton-root': {
@@ -162,9 +174,12 @@ export function AppShell({ children }: AppShellProps) {
                 </Box>
               </Stack>
             ) : (
-              <Typography variant="body2" color="text.secondary">
-                {t('layout.secureSessionAnonymous')}
-              </Typography>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Typography variant="body2" color="text.secondary">
+                  {t('layout.secureSessionAnonymous')}
+                </Typography>
+                <ThemeToggle />
+              </Stack>
             )}
           </Stack>
         </Container>
@@ -180,6 +195,7 @@ export function AppShell({ children }: AppShellProps) {
           sx={{
             flex: 1,
             minWidth: 0,
+            ml: isAuthenticated ? { xs: 0, md: '224px' } : 0,
             pb: isAuthenticated
               ? { xs: 'calc(72px + env(safe-area-inset-bottom))', md: 0 }
               : 0,
@@ -200,6 +216,7 @@ export function AppShell({ children }: AppShellProps) {
           component="footer"
           data-testid={tid('layout.footer')}
           data-shell-tone="charcoal"
+          data-shell-mode={mode}
           sx={(theme) => ({
             borderTop: `1px solid ${alpha(
               theme.palette.shell.contrastText,
@@ -207,6 +224,7 @@ export function AppShell({ children }: AppShellProps) {
             )}`,
             bgcolor: 'shell.main',
             color: 'shell.contrastText',
+            ml: { xs: 0, md: '224px' },
             mb: {
               xs: 'calc(56px + env(safe-area-inset-bottom))',
               md: 0,

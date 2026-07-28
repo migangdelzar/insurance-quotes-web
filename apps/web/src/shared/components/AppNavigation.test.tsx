@@ -5,17 +5,20 @@ import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, it } from 'vitest';
 import i18n from '@app/i18n';
 import { theme } from '@shared/theme/theme';
+import { ColorModeProvider } from '@shared/theme/colorMode';
 import { AppNavigation } from './AppNavigation';
 
 function renderNavigation(route: string) {
   return render(
     <I18nextProvider i18n={i18n}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <MemoryRouter initialEntries={[route]}>
-          <AppNavigation />
-        </MemoryRouter>
-      </ThemeProvider>
+      <ColorModeProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <MemoryRouter initialEntries={[route]}>
+            <AppNavigation />
+          </MemoryRouter>
+        </ThemeProvider>
+      </ColorModeProvider>
     </I18nextProvider>
   );
 }
@@ -48,6 +51,9 @@ describe('AppNavigation', () => {
     expect(
       screen.getAllByRole('navigation', { name: /primary navigation/i })
     ).not.toHaveLength(0);
+    expect(
+      screen.getByRole('navigation', { name: /primary navigation/i })
+    ).toHaveAttribute('data-shell-position', 'fixed');
   });
 
   it('shows an icon for every mobile destination and a non-color active treatment', () => {

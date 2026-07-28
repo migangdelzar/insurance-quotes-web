@@ -4,6 +4,7 @@ import {
   Box,
   List,
   ListItem,
+  ListItemIcon,
   ListItemButton,
   ListItemText,
   SvgIcon,
@@ -19,6 +20,7 @@ import {
   getActiveDestination,
   primaryDestinations,
 } from '@shared/navigation/navigation';
+import { useColorMode } from '@shared/theme/colorMode';
 
 function NavigationIcon({
   destination,
@@ -42,6 +44,7 @@ function NavigationIcon({
 export function AppNavigation() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const { mode } = useColorMode();
   const location = useLocation();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true });
   const activeDestination = getActiveDestination(
@@ -57,8 +60,15 @@ export function AppNavigation() {
           component="nav"
           aria-label={navigationLabel}
           data-shell-tone="charcoal"
+          data-shell-mode={mode}
+          data-shell-position="fixed"
           sx={(theme) => ({
             display: 'flex',
+            position: 'fixed',
+            top: '72px',
+            bottom: 0,
+            left: 0,
+            zIndex: theme.zIndex.appBar - 1,
             width: 224,
             flexShrink: 0,
             borderRight: 1,
@@ -99,6 +109,14 @@ export function AppNavigation() {
                       },
                     })}
                   >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 36,
+                        color: 'inherit',
+                      }}
+                    >
+                      <NavigationIcon destination={destination.id} />
+                    </ListItemIcon>
                     <ListItemText primary={t(destination.labelKey)} />
                   </ListItemButton>
                 </ListItem>
@@ -113,6 +131,8 @@ export function AppNavigation() {
           component="nav"
           aria-label={navigationLabel}
           data-shell-tone="charcoal"
+          data-shell-mode={mode}
+          data-shell-position="fixed"
           sx={(theme) => ({
             display: 'block',
             position: 'fixed',

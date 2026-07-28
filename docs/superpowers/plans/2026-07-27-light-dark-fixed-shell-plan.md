@@ -91,7 +91,7 @@ it('shows and toggles the current mode', async () => {
 
 **Interface:** Preserve `banner`, `main`, `contentinfo`, `navigation`, `aria-current`, skip link, account menu, route focus, and all existing `tid('navigation.*')` values. Add stable `data-shell-mode` and `data-shell-position="fixed"` attributes for browser contracts.
 
-- [ ] **Step 1: Write failing tests.** Assert the authenticated banner has fixed-position mode, desktop nav has the fixed-position attribute, every desktop destination contains an SVG, and the theme toggle is visible.
+- [x] **Step 1: Write failing tests.** Assert the authenticated banner has fixed-position mode, desktop nav has the fixed-position attribute, every desktop destination contains an SVG, and the theme toggle is visible.
 
 ```tsx
 expect(
@@ -102,13 +102,13 @@ expect(
 ).not.toBeNull();
 ```
 
-- [ ] **Step 2: Verify RED.** Run `bun run --filter web test --run src/shared/components/AppShell.test.tsx src/shared/components/AppNavigation.test.tsx`; expect the new contract failures.
+- [x] **Step 2: Verify RED.** Run `bun run --filter web test --run src/shared/components/AppShell.test.tsx src/shared/components/AppNavigation.test.tsx`; fixed/mode contract failures confirmed.
 
-- [ ] **Step 3: Implement fixed geometry.** Use header height `72px` desktop/`64px` mobile and rail width `224px`. Set the authenticated header fixed at top, desktop rail fixed from `top: 72px` to bottom, and give main/footer matching top/left offsets. Add the existing `NavigationIcon` to desktop list buttons, keep mobile bottom navigation unchanged, and mount `ThemeToggle` in the authenticated header.
+- [x] **Step 3: Implement fixed geometry.** Use header height `72px` desktop/`64px` mobile and rail width `224px`. Set the authenticated header fixed at top, desktop rail fixed from `top: 72px` to bottom, and give main/footer matching top/left offsets. Add the existing `NavigationIcon` to desktop list buttons, keep mobile bottom navigation unchanged, and mount `ThemeToggle` in the authenticated header.
 
-- [ ] **Step 4: Verify GREEN.** Run the two focused suites, then `bun run --filter web test --run`; expect no route, selector, or focus regressions.
+- [x] **Step 4: Verify GREEN.** Focused shell/toggle tests passed 8/8; full web suite remains scheduled for Task 4/5 after widget migration.
 
-- [ ] **Step 5: Refactor and commit.** `git add apps/web/src/shared/components/AppShell.tsx apps/web/src/shared/components/AppNavigation.tsx apps/web/src/shared/components/AppShell.test.tsx apps/web/src/shared/components/AppNavigation.test.tsx && git commit -m "feat(web): fix shell header and icon navigation"`.
+- [x] **Step 5: Refactor and commit.** Committed as `feat(web): fix shell header and icon navigation`.
 
 ### Task 4: Apply visible light/dark widget boundaries
 

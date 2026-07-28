@@ -6,6 +6,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { tid } from '@clara/app-i18n';
 import i18n from '@app/i18n';
 import { theme } from '@shared/theme/theme';
+import { ColorModeProvider } from '@shared/theme/colorMode';
 import { useAuth } from '@features/auth/context/AuthProvider';
 import { AppShell } from './AppShell';
 
@@ -36,14 +37,16 @@ function RouteFocusFixture() {
 function renderWithProviders(route = '/login') {
   return render(
     <I18nextProvider i18n={i18n}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <MemoryRouter initialEntries={[route]}>
-          <AppShell>
-            <RouteProbe />
-          </AppShell>
-        </MemoryRouter>
-      </ThemeProvider>
+      <ColorModeProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <MemoryRouter initialEntries={[route]}>
+            <AppShell>
+              <RouteProbe />
+            </AppShell>
+          </MemoryRouter>
+        </ThemeProvider>
+      </ColorModeProvider>
     </I18nextProvider>
   );
 }
@@ -110,7 +113,7 @@ describe('AppShell', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('marks the authenticated header and footer as charcoal shell surfaces', () => {
+  it('marks authenticated shell surfaces with fixed mode-aware boundaries', () => {
     mockedUseAuth.mockReturnValue({
       sessionState: 'authenticated',
       authenticationMethod: 'password',
@@ -125,13 +128,18 @@ describe('AppShell', () => {
     renderWithProviders('/quotes');
 
     expect(screen.getByRole('banner')).toHaveAttribute(
-      'data-shell-tone',
-      'charcoal'
+      'data-shell-mode',
+      'light'
     );
     expect(screen.getByRole('contentinfo')).toHaveAttribute(
-      'data-shell-tone',
-      'charcoal'
+      'data-shell-mode',
+      'light'
     );
+    expect(screen.getByRole('banner')).toHaveAttribute(
+      'data-shell-position',
+      'fixed'
+    );
+    expect(screen.getByRole('button', { name: 'Toggle theme' })).toBeVisible();
   });
 
   it('focuses the destination heading after an authenticated route transition', () => {
@@ -148,14 +156,16 @@ describe('AppShell', () => {
 
     render(
       <I18nextProvider i18n={i18n}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <MemoryRouter initialEntries={['/quotes']}>
-            <AppShell>
-              <RouteFocusFixture />
-            </AppShell>
-          </MemoryRouter>
-        </ThemeProvider>
+        <ColorModeProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <MemoryRouter initialEntries={['/quotes']}>
+              <AppShell>
+                <RouteFocusFixture />
+              </AppShell>
+            </MemoryRouter>
+          </ThemeProvider>
+        </ColorModeProvider>
       </I18nextProvider>
     );
 
