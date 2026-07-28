@@ -30,6 +30,7 @@ jobs:
   real-e2e:
     name: Build and exercise the real JVM stack
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Check out frontend
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -55,8 +56,8 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Install Playwright Chromium
-        working-directory: insurance-quotes-web
-        run: bun run --filter e2e playwright install --with-deps chromium
+        working-directory: insurance-quotes-web/e2e
+        run: ./install-chromium.sh
 
       - name: Validate Compose configuration
         working-directory: insurance-quotes-service
