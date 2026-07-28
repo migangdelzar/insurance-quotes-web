@@ -43,7 +43,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Install Playwright Chromium
-        run: bunx playwright install --with-deps chromium
+        run: bun run --filter e2e playwright install --with-deps chromium
 
       - name: Validate Compose configuration
         working-directory: insurance-quotes-service
