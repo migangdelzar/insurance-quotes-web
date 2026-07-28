@@ -138,12 +138,15 @@ export function AppNavigation() {
             sx={(theme) => ({
               display: 'block',
               position: 'fixed',
-              zIndex: theme.zIndex.modal,
+              zIndex: 2000,
               isolation: 'isolate',
               pointerEvents: 'auto',
               right: 0,
               bottom: 0,
               left: 0,
+              width: '100%',
+              maxWidth: '100vw',
+              overflow: 'hidden',
               pb: 'env(safe-area-inset-bottom)',
               borderTop: 1,
               borderColor: alpha(theme.palette.shell.contrastText, 0.16),
@@ -170,6 +173,8 @@ export function AppNavigation() {
                     data-testid={tid(destination.testIdKey)}
                     className={active ? 'navigation-action--active' : undefined}
                     sx={(theme) => ({
+                      minWidth: 0,
+                      flex: 1,
                       borderTop: '3px solid transparent',
                       color: alpha(theme.palette.shell.contrastText, 0.72),
                       '&.Mui-selected': {
