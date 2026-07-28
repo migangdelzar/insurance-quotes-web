@@ -120,6 +120,7 @@
     "applyFilters": "quotes-apply-filters",
     "clearFilters": "quotes-clear-filters",
     "pagination": "quotes-pagination",
+    "latestQuotes": "quotes-latest",
     "analytics": "quotes-analytics",
     "analyticsStatus": "quotes-analytics-status",
     "analyticsCoverage": "quotes-analytics-coverage",

@@ -183,6 +183,7 @@
       "retry": "Reintentar analítica"
     },
     "yourQuotes": "Historial de cotizaciones",
+    "latestQuotes": "Cotizaciones más recientes",
     "historyDescription": "Revisa los planes que has comenzado y la cobertura asociada con cada uno.",
     "monthlyPremium": "Prima mensual estimada",
     "empty": "Aún no hay cotizaciones. ¡Comienza la primera!",

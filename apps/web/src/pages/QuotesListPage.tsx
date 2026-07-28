@@ -56,9 +56,10 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
   const [query, setQuery] = useState(defaultQuoteListQuery);
   const [searchInput, setSearchInput] = useState('');
   const isOverview = view === 'overview';
+  const quoteQuery = isOverview ? { ...defaultQuoteListQuery, size: 4 } : query;
   const quotes = useQuery({
-    queryKey: ['quotes', query],
-    queryFn: () => listQuotes(query),
+    queryKey: ['quotes', quoteQuery],
+    queryFn: () => listQuotes(quoteQuery),
   });
   const summary = useQuery({
     queryKey: ['quote-summary'],
@@ -113,7 +114,7 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
         }
       />
 
-      {quotes.isSuccess ? (
+      {!isOverview && quotes.isSuccess ? (
         <Surface
           component="form"
           onSubmit={(event) => {
@@ -368,7 +369,9 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
         >
           <Stack spacing={0.5}>
             <Typography component="h2" variant="h3" id="quotes-history-title">
-              {t('quotesList.yourQuotes')}
+              {t(
+                isOverview ? 'quotesList.latestQuotes' : 'quotesList.yourQuotes'
+              )}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {t('quotesList.historyDescription')}
@@ -473,7 +476,7 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
         </Stack>
       ) : null}
 
-      {quotes.isSuccess ? (
+      {!isOverview && quotes.isSuccess ? (
         <TablePagination
           component="div"
           count={totalElements}

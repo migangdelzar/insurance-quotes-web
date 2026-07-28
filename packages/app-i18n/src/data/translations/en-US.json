@@ -183,6 +183,7 @@
       "retry": "Retry analytics"
     },
     "yourQuotes": "Your quote history",
+    "latestQuotes": "Latest quotes",
     "historyDescription": "Review the plans you have started and the coverage attached to each one.",
     "monthlyPremium": "Estimated monthly premium",
     "empty": "No quotes yet. Start your first one!",

@@ -193,6 +193,41 @@ describe('QuotesListPage', () => {
     expect(screen.getByText('Portfolio intelligence')).toBeVisible();
   });
 
+  it('requests only the four latest quotes for the Home destination', async () => {
+    mockedListQuotes.mockResolvedValue(
+      quotePage(
+        [
+          {
+            id: 'q-1',
+            name: 'Latest quote',
+            status: 'DRAFT',
+            monthlyPremium: 80,
+          },
+        ],
+        {
+          size: 4,
+        }
+      )
+    );
+
+    renderPage('overview');
+
+    await waitFor(() => expect(screen.getByText('Latest quote')).toBeVisible());
+
+    expect(
+      screen.getByRole('heading', { name: /latest quotes/i })
+    ).toBeVisible();
+    expect(mockedListQuotes).toHaveBeenCalledWith({
+      page: 0,
+      size: 4,
+      sortBy: 'createdAt',
+      direction: 'desc',
+    });
+    expect(
+      screen.queryByTestId(tid('quotesList.pagination'))
+    ).not.toBeInTheDocument();
+  });
+
   it('shows quote history as a focused list on the Quotes destination', async () => {
     mockedListQuotes.mockResolvedValue(
       quotePage([
