@@ -1,0 +1,65 @@
+language: en-US
+
+reviews:
+  profile: assertive
+  request_changes_workflow: true
+  high_level_summary: true
+  review_status: true
+  poem: false
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    drafts: false
+    ignore_title_keywords:
+      - 'WIP'
+      - '[skip review]'
+  path_filters:
+    - '!**/node_modules/**'
+    - '!**/dist/**'
+    - '!**/coverage/**'
+    - '!**/test-results/**'
+    - '!**/playwright-report/**'
+    - '!**/*.generated.*'
+    - '!**/*.webm'
+    - '!**/*.png'
+    - '!**/*.pdf'
+  path_instructions:
+    - path: 'apps/web/src/**'
+      instructions: |
+        Review this React, TypeScript, Vite application for accessible semantic HTML,
+        keyboard and focus behavior, responsive desktop/mobile layouts, loading and error
+        states, query cache correctness, stable navigation, and predictable state ownership.
+        Preserve the same-origin /api boundary and avoid direct browser calls to backend or insurer services.
+    - path: 'apps/web/src/features/auth/**'
+      instructions: |
+        Check password login, refresh handling, MFA, passkey enrollment/assertion, actionable
+        unauthorized errors, logout, session cleanup, and secret/token handling. Do not weaken
+        authentication behavior for tests or development convenience.
+    - path: 'apps/web/src/features/quote-wizard/**'
+      instructions: |
+        Check wizard state transitions, mutation synchronization, retry behavior, senior health
+        gating, pricing display, navigation recovery, and preservation of user input after failures.
+    - path: 'e2e/**'
+      instructions: |
+        Check real Playwright coverage for critical journeys, deterministic seeded users,
+        passkey virtual-authenticator isolation, same-origin API assertions, console-error handling,
+        mobile viewport coverage, and avoidance of brittle timing-based waits.
+    - path: 'packages/app-i18n/**'
+      instructions: |
+        Check that t() is used for visible text and tid() for typed test IDs, catalogs remain
+        private, locale fallback behavior is deterministic, and en-US/es-MX keys stay aligned.
+    - path: '.github/workflows/**'
+      instructions: |
+        Check dependency caching, pinned tool versions, concurrency cancellation, permissions,
+        artifact retention, cleanup on failure, real API integration, and deployable image validation.
+    - path: 'docs/**'
+      instructions: |
+        Check setup commands, links, screenshots/video artifact references, challenge coverage,
+        and consistency with the actual scripts, routes, workflows, and sibling backend repository.
+
+knowledge_base:
+  code_guidelines:
+    filePatterns:
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
+      - 'README.md'
