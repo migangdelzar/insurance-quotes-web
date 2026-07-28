@@ -7,6 +7,7 @@ import {
   ListItemIcon,
   ListItemButton,
   ListItemText,
+  Portal,
   SvgIcon,
   useMediaQuery,
   useTheme,
@@ -127,63 +128,65 @@ export function AppNavigation() {
       ) : null}
 
       {!isDesktop ? (
-        <Box
-          component="nav"
-          aria-label={navigationLabel}
-          data-shell-tone="charcoal"
-          data-shell-mode={mode}
-          data-shell-position="fixed"
-          sx={(theme) => ({
-            display: 'block',
-            position: 'fixed',
-            zIndex: theme.zIndex.modal,
-            isolation: 'isolate',
-            pointerEvents: 'auto',
-            right: 0,
-            bottom: 0,
-            left: 0,
-            pb: 'env(safe-area-inset-bottom)',
-            borderTop: 1,
-            borderColor: alpha(theme.palette.shell.contrastText, 0.16),
-            bgcolor: 'shell.main',
-            color: 'shell.contrastText',
-            '& .MuiBottomNavigation-root': {
-              bgcolor: 'transparent',
-            },
-          })}
-        >
-          <BottomNavigation showLabels value={activeDestination}>
-            {primaryDestinations.map((destination) => {
-              const active = activeDestination === destination.id;
-
-              return (
-                <BottomNavigationAction
-                  key={destination.id}
-                  component={RouterLink}
-                  to={destination.path}
-                  value={destination.id}
-                  label={t(destination.labelKey)}
-                  icon={<NavigationIcon destination={destination.id} />}
-                  aria-current={active ? 'page' : undefined}
-                  data-testid={tid(destination.testIdKey)}
-                  className={active ? 'navigation-action--active' : undefined}
-                  sx={(theme) => ({
-                    borderTop: '3px solid transparent',
-                    color: alpha(theme.palette.shell.contrastText, 0.72),
-                    '&.Mui-selected': {
-                      borderTopColor: theme.palette.primary.main,
-                      color: theme.palette.shell.contrastText,
-                      fontWeight: 700,
-                    },
-                    '&.Mui-selected .MuiBottomNavigationAction-label': {
-                      fontWeight: 700,
-                    },
-                  })}
-                />
-              );
+        <Portal>
+          <Box
+            component="nav"
+            aria-label={navigationLabel}
+            data-shell-tone="charcoal"
+            data-shell-mode={mode}
+            data-shell-position="fixed"
+            sx={(theme) => ({
+              display: 'block',
+              position: 'fixed',
+              zIndex: theme.zIndex.modal,
+              isolation: 'isolate',
+              pointerEvents: 'auto',
+              right: 0,
+              bottom: 0,
+              left: 0,
+              pb: 'env(safe-area-inset-bottom)',
+              borderTop: 1,
+              borderColor: alpha(theme.palette.shell.contrastText, 0.16),
+              bgcolor: 'shell.main',
+              color: 'shell.contrastText',
+              '& .MuiBottomNavigation-root': {
+                bgcolor: 'transparent',
+              },
             })}
-          </BottomNavigation>
-        </Box>
+          >
+            <BottomNavigation showLabels value={activeDestination}>
+              {primaryDestinations.map((destination) => {
+                const active = activeDestination === destination.id;
+
+                return (
+                  <BottomNavigationAction
+                    key={destination.id}
+                    component={RouterLink}
+                    to={destination.path}
+                    value={destination.id}
+                    label={t(destination.labelKey)}
+                    icon={<NavigationIcon destination={destination.id} />}
+                    aria-current={active ? 'page' : undefined}
+                    data-testid={tid(destination.testIdKey)}
+                    className={active ? 'navigation-action--active' : undefined}
+                    sx={(theme) => ({
+                      borderTop: '3px solid transparent',
+                      color: alpha(theme.palette.shell.contrastText, 0.72),
+                      '&.Mui-selected': {
+                        borderTopColor: theme.palette.primary.main,
+                        color: theme.palette.shell.contrastText,
+                        fontWeight: 700,
+                      },
+                      '&.Mui-selected .MuiBottomNavigationAction-label': {
+                        fontWeight: 700,
+                      },
+                    })}
+                  />
+                );
+              })}
+            </BottomNavigation>
+          </Box>
+        </Portal>
       ) : null}
     </>
   );
