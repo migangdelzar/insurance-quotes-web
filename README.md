@@ -1,137 +1,44 @@
-# insurance-quotes-web
+# Clara Insurance Quotes · Web
 
-The web app uses the browser's preferred languages to select `en-US` or `es-MX` at startup. The selected locale is also sent to the service as `Accept-Language`, keeping localized API errors consistent with the visible UI. Unsupported browser preferences fall back to `en-US`.
+![React](https://img.shields.io/badge/UI-React%2019-61DAFB?style=flat-square)
+![Vite](https://img.shields.io/badge/dev%20server-Vite%20HMR-646CFF?style=flat-square)
+![Playwright](https://img.shields.io/badge/E2E-Playwright-2EAD33?style=flat-square)
+![PWA](https://img.shields.io/badge/runtime-PWA-111827?style=flat-square)
 
-## Responsive verification
+Clara is a premium, mobile-first insurance quote web app. The UI guides a
+customer from sign-in through personal details, coverage and senior health
+questions, premium calculation, submission, retry, and quote history.
 
-Run unit/build checks with `bun run test`, `bun run build`, and `bun run lint`. With the service stack running, run the browser layout audit at 320, 375, 768, 1024, and 1440 pixels:
+The frontend uses a capability-first structure, typed private localization
+catalogs, TanStack Query for server state, same-origin /api traffic, and
+Playwright journeys against the real JVM backend.
 
-```bash
-E2E_BASE_URL=http://localhost:3100 bunx playwright test tests/responsive-layout.spec.ts --project=desktop-chromium
+> **Full-stack partner:** [insurance-quotes-service](../insurance-quotes-service)
+
+## Product flow
+
+```mermaid
+flowchart LR
+  login[Password or passkey login] --> home[Home: latest four + analytics]
+  home --> wizard[Quote wizard]
+  wizard --> personal[Personal details]
+  personal --> coverage[Coverage + senior health]
+  coverage --> summary[Premium summary]
+  summary --> submit[Submit to insurer]
+  submit --> result[Success or retryable failure]
+  home --> history[Filterable, sortable, paginated history]
+  home --> account[Language, theme, passkey, sign out]
 ```
 
-The audit checks document overflow, critical login controls, and keyboard visibility of the skip link. Screenshots can be captured with Playwright for visual review; pixel snapshots are intentionally not required.
+## Quick start
 
-React/Vite frontend for the insurance quote flow. It is organized by capability (`auth`, `quote-wizard`, and shared application concerns) and consumes the backend through the versioned API contract.
+### Prerequisites
 
-Sibling backend: [insurance-quotes-service](../insurance-quotes-service)
+- Bun 1.3.13
+- Node-compatible shell utilities
+- Docker and the sibling backend for real API journeys
 
-## Setup and run
-
-For the complete sibling-repository, observability, passkey, real Playwright, CI, and JVM/native verification procedure, see [docs/setup-and-verification.md](docs/setup-and-verification.md).
-
-```bash
-mise run setup
-bun run dev                         # Vite + HMR at http://localhost:5173
-bun run build                       # production workspace build
-```
-
-The Vite development server keeps hot-module replacement enabled on port `5173`. It proxies the same-origin `/api/*` requests to `http://localhost:8080`, so local debugging uses the same browser/API boundary as the production Nginx image without requiring browser CORS.
-
-## Authenticated application routes
-
-After sign-in, the app shell exposes four primary destinations:
-
-- `/quotes` — Home / quote overview
-- `/quotes/history` — full quote history
-- `/quote/personal` — start a new quote
-- `/account` — language preference, session/passkey information, support and sign-out
-
-The login route is deliberately outside that authenticated shell. On a phone the same four destinations are available from the fixed bottom navigation; wizard actions reserve space above it and the browser safe area.
-
-## PWA build and local install verification
-
-Production builds generate a manifest, static application shell service worker, and raster install icons. Check those artifacts after a build:
-
-```bash
-bun run --filter web build
-cd apps/web && node src/pwa/check-build.mjs
-```
-
-For a browser-level production check, use the dedicated preview project on an available port (the command starts and stops its own preview server):
-
-```bash
-E2E_PWA_PREVIEW_PORT=43102 bun run --filter e2e test:pwa-preview
-```
-
-Open that preview in Chromium to inspect the manifest and service-worker registration, then use the browser install affordance when it is available. The worker precaches only static build assets. It does **not** cache `/api` traffic, auth tokens, API responses, or mutable quote data; quote/account actions therefore require connectivity.
-
-Vite development mode intentionally does not register this production worker. Use `bun run dev` for HMR and debugging, and use the preview command above for install/PWA verification.
-
-For the integrated reviewer flow, start the backend’s full-stack Compose overlay from the sibling repository:
-
-```bash
-cd ../insurance-quotes-service
-mise run up jvm full                # API :8080 and nginx frontend :3100
-mise run up jvm full e2e            # also WireMock :8089
-```
-
-The production image is built from this repository’s `Dockerfile` and served by nginx. The browser uses the same-origin `/api` base path; nginx serves the SPA and proxies `/api/*` to the backend container. `VITE_API_BASE_URL` defaults to `/api` and can be supplied as a build argument or environment value.
-
-## GitHub Actions
-
-Frontend CI runs on every push and pull request. Runs are grouped by source branch and cancel older in-progress runs when a newer commit arrives. It installs the locked Bun dependencies, runs web and E2E quality checks, builds the production bundle and container image, validates static PWA artifacts, and runs browser audits for the five responsive viewports, authenticated navigation, accessibility, dashboard layout, mocked quote journeys, and the isolated production PWA preview.
-
-## Tests and quality checks
-
-```bash
-bun run test
-bun run lint
-bun run build
-bun run format:check
-E2E_BASE_URL=http://localhost:3100 bun run e2e
-```
-
-To run without retries against the integrated full-stack deployment:
-
-```bash
-E2E_BASE_URL=http://localhost:3100 bun run e2e -- --retries=0
-```
-
-That deployment must be rebuilt from the current frontend branch before it can validate new app-shell behavior. A forwarded or older listener can still validate the existing backend journeys, but it is not evidence for the current frontend build.
-
-The Playwright suite requires the backend full-stack E2E overlay. It covers standard adult submission, the senior health-question path and worked-example premium, insurer failure/retry, and WebAuthn enrollment/MFA/passwordless flows. The mobile-tagged journeys run with the Pixel 7 project.
-
-## How I approached it
-
-1. I froze the API contract and user journeys before building UI details, then mapped each journey to a small feature boundary.
-2. I built the shared shell, authentication, quote wizard, API client, and localization package incrementally with component and reducer tests before integration journeys.
-3. I treated accessibility and automation selectors as part of the UI contract: headings receive focus after navigation, controls have stable semantic labels, and browser tests use catalog-backed selectors.
-
-## Design decisions
-
-### Capability-first structure
-
-Feature code lives under `apps/web/src/features`, while routing, providers, shared API behavior, and reusable UI live under `app` and `shared`. Tests sit beside the behavior they protect; E2E support and journeys are isolated in the `e2e` workspace.
-
-### Private localization catalogs
-
-The package `@clara/app-i18n` keeps `elements.json`, `translations/en-US.json`, and `translations/es-MX.json` private. Consumers use behavior functions only:
-
-```ts
-t('wizard.coverage.title'); // visible localized text
-tid('wizard.coverage.premiumLabel'); // stable test selector, with autocomplete
-```
-
-`ElementKey` is generated from the element catalog, so `tid()` offers editor completion without exposing the nested selector object. `getResources()` is the narrow integration method used to configure i18next; raw catalogs and resources are not exported. Textless elements remain valid because `tid()` resolves the selector independently of whether a translation exists.
-
-### State and server communication
-
-React context owns the local wizard and authentication state. TanStack Query handles server mutations and cache invalidation; the shared HTTP client owns access-token attachment, refresh retry, API-version headers, timeout behavior, and normalized errors.
-
-## AI usage
-
-This repository was built with AI pair-programming across written specifications, implementation plans, TDD slices, code review, and integration debugging. Every generated change was reviewed, verified locally, and committed by the developer. The capability boundaries, i18n API shape, accessibility behavior, and test isolation decisions were explicitly human-reviewed.
-
-## Challenges / unfinished
-
-- WebAuthn browser journeys require Chromium’s virtual authenticator and a clean E2E database; the Playwright configuration serializes the shared demo-user suite and runs the mutating passkey journey last.
-- The frontend bundle currently emits a Vite chunk-size warning; code splitting is a follow-up optimization, not a correctness issue for this challenge.
-- Native runtime comparison belongs to the backend repository because it measures the API image; the frontend verification is the production nginx image and full-stack browser journey.
-
-## Running both repositories
-
-Use this sibling layout:
+Expected layout:
 
 ```text
 workspace/
@@ -139,15 +46,170 @@ workspace/
 └── insurance-quotes-web/
 ```
 
-From the backend repository, one command starts both applications:
+```bash
+mise run setup
+bun run dev                         # Vite HMR at http://localhost:5173
+```
+
+Vite proxies same-origin /api/* requests to the backend at port 8080. The
+production Nginx image uses the same /api boundary, so development and
+deployment exercise the same browser contract without direct backend or
+insurer calls from the browser.
+
+For the integrated runtime:
 
 ```bash
 cd ../insurance-quotes-service
-mise run up jvm full
+mise run up jvm full e2e            # API :8080, Nginx :3100, WireMock :8089
+cd ../insurance-quotes-web
+E2E_BASE_URL=http://localhost:3100 bun run e2e -- --retries=0
 ```
 
-Then run browser tests from this repository after adding the E2E overlay:
+## Application shell
+
+After authentication:
+
+| Route           | Experience                                                        |
+| --------------- | ----------------------------------------------------------------- |
+| /quotes         | Home dashboard with the latest four quotes and business analytics |
+| /quotes/history | Full history with server-side pagination, filtering, and ordering |
+| /quote/personal | New quote wizard                                                  |
+| /account        | Language, theme, passkey/session status, and sign out             |
+
+Desktop uses a fixed header and icon rail. Small devices use the fixed bottom
+navigation and a safe-area-aware wizard action dock. The login route is kept
+outside the authenticated shell and presents a focused single card.
+
+## Localization and selectors
+
+The private app-i18n package keeps its catalog implementation hidden:
+
+```ts
+t('wizard.coverage.title'); // visible localized text
+tid('wizard.coverage.premiumLabel'); // typed stable selector
+```
+
+The browser detects en-US or es-MX, falls back to en-US for unsupported
+preferences, and sends the selected locale as Accept-Language. Textless
+elements can still expose a typed tid() selector.
+
+## PWA and production image
 
 ```bash
-E2E_BASE_URL=http://localhost:3100 bun run e2e
+bun run --filter web build
+cd apps/web && node src/pwa/check-build.mjs
+E2E_PWA_PREVIEW_PORT=43102 bun run --filter e2e test:pwa-preview
 ```
+
+The Dockerfile builds the static app and serves it through Nginx. The service
+worker precaches static assets only; it never caches auth tokens, /api
+responses, or mutable quote data.
+
+## Test matrix
+
+### Fast quality gates
+
+```bash
+bun run test
+bun run lint
+bun run build
+bun run format:check
+```
+
+### Real browser journeys
+
+```bash
+E2E_BASE_URL=http://localhost:3100 bun run e2e -- --retries=0
+```
+
+The suite covers:
+
+- standard adult quote and successful submission;
+- senior health flow with diabetes and hypertension pricing;
+- deterministic insurer failure and retry;
+- password login, passkey enrollment, MFA, and passwordless login;
+- latest-four Home behavior and paginated history;
+- fixed desktop/mobile shell, accessibility, no-overflow, and PWA preview.
+
+### Flow recordings
+
+Run the named demo videos against the real stack:
+
+```bash
+E2E_BASE_URL=http://localhost:3100 bun run --filter e2e test:recordings
+```
+
+The recording source and download instructions are in
+[docs/demo/flow-hyperframes.md](docs/demo/flow-hyperframes.md). Videos are
+generated by Playwright and uploaded by the manual
+[demo-recordings workflow](.github/workflows/demo-recordings.yml); binaries
+are intentionally not committed.
+
+## CI/CD
+
+- [Frontend CI](.github/workflows/ci.yml) runs on every push and pull request:
+  tests, lint, locale validation, formatting, build, PWA checks, image build,
+  and responsive/accessible browser audits.
+- [Full-stack real E2E](.github/workflows/full-stack-e2e.yml) builds the
+  compatible JVM stack and runs real browser flows through same-origin Nginx.
+- [Demo recordings](.github/workflows/demo-recordings.yml) is manually
+  dispatched and uploads named Playwright video artifacts.
+- Concurrency cancellation stops older in-progress runs when a newer commit
+  arrives for the same branch or pull request.
+
+The workflows validate deployable images and integration behavior. Cloud
+deployment remains target-neutral until a registry, hosting provider, and
+credentials are selected.
+
+## Design boundaries
+
+| Area                                       | Owner                 |
+| ------------------------------------------ | --------------------- |
+| Feature behavior                           | apps/web/src/features |
+| Routes and providers                       | apps/web/src/app      |
+| API client, theme, navigation, reusable UI | apps/web/src/shared   |
+| Private text and selectors                 | packages/app-i18n     |
+| Real browser support and journeys          | e2e                   |
+
+React context owns authentication and local wizard state. TanStack Query owns
+server cache and invalidation. The shared HTTP client attaches access tokens,
+refreshes once when appropriate, sends API-version and locale headers, and
+normalizes errors for visible UI alerts.
+
+## Challenge map
+
+| Requirement              | Frontend implementation                                              |
+| ------------------------ | -------------------------------------------------------------------- |
+| Clear quote journey      | Guided wizard with visible progress and recoverable states           |
+| Senior health pricing    | Diabetes/hypertension controls and premium update                    |
+| Authentication           | Password, passkey setup, MFA, passwordless recovery                  |
+| Responsive UX            | Fixed desktop shell, mobile bottom navigation, safe-area action dock |
+| Localization             | Browser detection, t() text, typed tid() selectors                   |
+| Same-origin integration  | Vite/Nginx /api proxy                                                |
+| Observability visibility | Home analytics and backend dashboard links                           |
+| Quality evidence         | Unit tests, lint/build gates, real Playwright, recordings            |
+
+## Troubleshooting
+
+- **Port 3000 is occupied:** Clara’s integrated Nginx app uses port 3100.
+- **API calls return 403 locally:** reset the local Redis rate-limit state or
+  use the dev profile, then restart the current stack.
+- **Passkey asks for a missing credential:** reset the backend E2E database or
+  use a seeded account without a passkey.
+- **Submit is slow:** ensure WireMock is running on port 8089; the browser
+  should still call only same-origin /api.
+- **PWA metadata check warns:** run the production build and inspect the
+  generated manifest/service-worker artifacts separately from HMR.
+
+## Architecture references
+
+The backend ADR catalogue is in
+[insurance-quotes-service/docs/decisions](../insurance-quotes-service/docs/decisions/README.md).
+The full setup guide is [docs/setup-and-verification.md](docs/setup-and-verification.md).
+
+## Contributing
+
+Keep capability boundaries clear, preserve tid() selectors, add tests beside
+behavior, and use real API journeys for cross-repository behavior. Use focused
+conventional commits and update the demo gallery when a user-visible flow
+changes.
