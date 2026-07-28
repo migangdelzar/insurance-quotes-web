@@ -9,6 +9,11 @@ on: # yamllint disable-line rule:truthy
         description: Backend branch, tag, or SHA to verify
         required: false
         default: feat-backend-core
+      record_demo:
+        description: Record the named demo flows and upload Playwright videos
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: >-
@@ -110,7 +115,22 @@ jobs:
         env:
           E2E_BASE_URL: http://localhost:3100
         working-directory: insurance-quotes-web
-        run: bun run e2e -- --retries=0
+        run: |
+          if [ "${{ inputs.record_demo }}" = "true" ]; then
+            bun run --filter e2e test:recordings
+          else
+            bun run e2e -- --retries=0
+          fi
+
+      - name: Upload demo recordings
+        if: ${{ always() && inputs.record_demo == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: clara-demo-recordings-${{ github.run_id }}
+          if-no-files-found: warn
+          path: |
+            insurance-quotes-web/e2e/test-results
+            insurance-quotes-web/e2e/playwright-report
 
       - name: Upload stack and Playwright diagnostics
         if: ${{ failure() }}
