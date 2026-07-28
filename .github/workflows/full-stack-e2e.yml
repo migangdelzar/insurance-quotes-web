@@ -96,7 +96,7 @@ jobs:
             -H 'Content-Type: application/json' \
             -H 'API-Version: 1.0' \
             --data '{"username":"demo","password":"demo-password"}' |
-            jq -r '.accessToken')
+            jq -r '.tokens.accessToken')
           test -n "$token" && test "$token" != "null"
           curl --fail --silent http://localhost:3100/api/quotes/summary \
             -H "Authorization: Bearer $token" \
