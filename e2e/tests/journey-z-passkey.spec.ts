@@ -1,7 +1,8 @@
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
 import { enableVirtualAuthenticator } from '../support/webauthn';
 import { loginWithPassword } from '../support/session';
+import { test } from '../support/consoleClean';
 
 // This mutates the shared demo user and is intentionally ordered last.
 // The E2E stack starts with a fresh database with no passkeys.

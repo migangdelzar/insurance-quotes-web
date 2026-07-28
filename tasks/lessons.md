@@ -13,3 +13,4 @@
 - Keep PWA verification split between a production artifact check (manifest, icons, service-worker route policy) and a browser preview check. Development mode intentionally does not register the production service worker, and static-only caching must never become API-response caching.
 - A debounced mutation must expose an awaitable flush at route-transition boundaries; unmount cleanup otherwise cancels the timer and can drop user-selected data before the next page reads it.
 - Theme persistence tests must not clear local storage on every navigation; use a first-load-only fixture when the test reloads, and reset the stateful demo passkey before password-based integrated journeys.
+- Full-stack browser tests must wait for API health after Compose recreation; otherwise a startup 502 can masquerade as a frontend login or console regression.

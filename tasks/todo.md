@@ -1,5 +1,18 @@
 # Premium fintech web redesign
 
+## End-to-end console verification
+
+- [x] Extend the Playwright console/page-error guard to every browser journey suite.
+- [x] Allow only the deliberate HTTP 500 resource diagnostic in the negative retry flow; keep unexpected browser errors fatal.
+- [x] Run the complete 30-test desktop/mobile suite with zero unexpected `pageerror` or `console.error` events.
+- [x] Restore normal API configuration and clear the stateful demo passkey after verification.
+
+### Results
+
+- Full Playwright suite: 30 passed in 29.3 seconds.
+- Zero unexpected JavaScript/page errors or console errors across all journeys.
+- Expected diagnostic: the negative insurer test produces one browser resource error for its deliberate HTTP 500; it is explicitly scoped to that test.
+
 ## Light/dark fixed shell — Task 5
 
 - [x] Add deterministic browser contracts for system-preference startup, explicit theme persistence, and translated keyboard-accessible toggling.

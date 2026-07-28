@@ -1,11 +1,17 @@
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
 import { stubInsurer } from '../support/insurer';
 import { loginWithPassword, skipEnrollmentIfShown } from '../support/session';
+import { test } from '../support/consoleClean';
 
 test('failed submission surfaces error, quote stays resubmittable, retry succeeds', async ({
   page,
-}) => {
+}, testInfo) => {
+  testInfo.annotations.push({
+    type: 'expected-console-error',
+    description:
+      'Failed to load resource: the server responded with a status of 500',
+  });
   await stubInsurer(500);
   await loginWithPassword(page);
   await skipEnrollmentIfShown(page);

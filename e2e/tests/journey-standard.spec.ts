@@ -1,7 +1,8 @@
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
 import { stubInsurer } from '../support/insurer';
 import { loginWithPassword, skipEnrollmentIfShown } from '../support/session';
+import { test } from '../support/consoleClean';
 
 test('standard adult journey: login → wizard → submit @mobile', async ({
   page,

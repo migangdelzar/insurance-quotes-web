@@ -1,10 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
 import type { QuoteView } from '@clara/api-contract';
 import { tid } from '@clara/app-i18n';
 import {
   loginAndReachQuotes,
   stubAuthenticatedQuoteSession,
 } from '../support/session';
+import { test } from '../support/consoleClean';
 
 const viewports = [320, 375, 768, 1024, 1440];
 

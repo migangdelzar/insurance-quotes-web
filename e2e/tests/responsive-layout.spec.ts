@@ -1,5 +1,6 @@
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { tid } from '@clara/app-i18n';
+import { test } from '../support/consoleClean';
 
 const viewports = [320, 375, 768, 1024, 1440];
 
