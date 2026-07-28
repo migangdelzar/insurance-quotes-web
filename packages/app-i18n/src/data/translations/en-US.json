@@ -23,6 +23,11 @@
       "es-MX": "Español"
     },
     "signOut": "Sign out",
+    "theme": {
+      "toggle": "Toggle theme",
+      "light": "Light",
+      "dark": "Dark"
+    },
     "footer": {
       "support": "Support",
       "privacySecurity": "Privacy & security",

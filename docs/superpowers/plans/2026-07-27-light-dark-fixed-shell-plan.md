@@ -64,7 +64,7 @@ it('uses the system preference and persists an explicit choice', async () => {
 
 **Interface:** `ThemeToggle` has no props, consumes `useColorMode()`, renders one keyboard-accessible button with visible current-mode text, a decorative sun/moon SVG, and `aria-label={t('layout.theme.toggle')}`.
 
-- [ ] **Step 1: Write the failing test.** Add `layout.theme.toggle`, `.light`, and `.dark` in the test fixture expectation and assert the button changes visible text and storage without changing the URL.
+- [x] **Step 1: Write the failing test.** Add `layout.theme.toggle`, `.light`, and `.dark` in the test fixture expectation and assert the button changes visible text and storage without changing the URL.
 
 ```tsx
 it('shows and toggles the current mode', async () => {
@@ -77,13 +77,13 @@ it('shows and toggles the current mode', async () => {
 });
 ```
 
-- [ ] **Step 2: Verify RED.** Run `bun run --filter web test --run src/shared/components/ThemeToggle.test.tsx`; expect the component/key failures.
+- [x] **Step 2: Verify RED.** Run `bun run --filter web test --run src/shared/components/ThemeToggle.test.tsx`; missing component failure confirmed.
 
-- [ ] **Step 3: Implement the toggle.** Use MUI `Button` and `SvgIcon`; keep the SVG `aria-hidden`, preserve focus, use translated English/Spanish labels, and place no server or route behavior in the component.
+- [x] **Step 3: Implement the toggle.** Use MUI `Button` and `SvgIcon`; keep the SVG `aria-hidden`, preserve focus, use translated English/Spanish labels, and place no server or route behavior in the component.
 
-- [ ] **Step 4: Verify GREEN.** Run `bun run --filter web test --run src/shared/components/ThemeToggle.test.tsx packages/app-i18n/src/index.test.ts` and `bun run --filter app-i18n validate`.
+- [x] **Step 4: Verify GREEN.** Theme test passed and `bun run --filter @clara/app-i18n validate` passed; the initial unscoped filter was corrected to the package name.
 
-- [ ] **Step 5: Refactor and commit.** `git add apps/web/src/shared/components/ThemeToggle.tsx apps/web/src/shared/components/ThemeToggle.test.tsx packages/app-i18n/src/data/translations && git commit -m "feat(web): add accessible theme toggle"`.
+- [x] **Step 5: Refactor and commit.** Committed as `feat(web): add accessible theme toggle`.
 
 ### Task 3: Build fixed header and icon-led desktop rail
 
