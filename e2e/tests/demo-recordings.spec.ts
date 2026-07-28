@@ -111,7 +111,12 @@ test('03-submission-retry', async ({ page }, testInfo) => {
   await expect(page.getByTestId(tid('wizard.summary.success'))).toBeVisible();
 });
 
-test('04-passkey-lifecycle', async ({ context, page }) => {
+test('04-passkey-lifecycle', async ({ context, page }, testInfo) => {
+  testInfo.annotations.push({
+    type: 'expected-console-error',
+    description:
+      'Failed to load resource: the server responded with a status of 409',
+  });
   await enableVirtualAuthenticator(context, page);
   await page.goto('/login');
   await page.getByTestId(tid('auth.login.username')).fill(DEMO_USER.username);
