@@ -170,7 +170,7 @@ E2E_BASE_URL=http://localhost:3100 bun run e2e -- --retries=0
 
 Evidence: web tests 31 files/109 tests passed; web lint 0 errors with 4 existing Fast Refresh warnings; web production build passed with the existing chunk advisory; E2E build/lint passed; PWA preview passed 1/1; focused shell browser matrix passed 15/15; complete integrated Playwright suite passed 30/30. The static PWA checker reports only the pre-existing Apple metadata limitation; `apps/web/index.html` remained untouched and unstaged.
 
-- [x] **Step 5: Update checklist and commit.** Updated the plan and `tasks/todo.md`; the browser-contract changes will be committed as `test(web): verify light dark fixed shell` and pushed after final review.
+- [x] **Step 5: Update checklist and commit.** Updated the plan and `tasks/todo.md`; committed as `test(web): verify light dark fixed shell` (`2ec2a27`) and pushed to `origin/feat-frontend`.
 
 ## Definition of Done
 

@@ -7,7 +7,7 @@
 - [x] Preserve no-overflow and fixed-navigation/action-dock checks at 320, 375, 768, 1024, and 1440px.
 - [x] Run focused browser checks, complete web quality checks, PWA preview, and all integrated journeys.
 - [x] Restore normal API configuration and clear the local demo passkey after mutation-safe browser verification.
-- [ ] Commit and push the browser contracts and final checklist after review.
+- [x] Commit and push the browser contracts and final checklist after review (`2ec2a27` pushed to `origin/feat-frontend`).
 
 ### Verification evidence
 
