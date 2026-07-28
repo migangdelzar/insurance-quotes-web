@@ -14,6 +14,7 @@ export function ApiErrorAlert({ error }: { error: unknown }) {
       severity="error"
       data-testid={tid('common.apiError')}
       data-widget-tone="critical"
+      data-widget-boundary="outlined"
       sx={(theme) => ({
         mb: 2,
         alignItems: 'flex-start',

@@ -26,6 +26,11 @@ describe('PremiumDisplay', () => {
     expect(
       screen.getByTestId(tid('wizard.coverage.premiumLabel'))
     ).toHaveAttribute('data-widget-tone', 'accent');
+    expect(
+      screen
+        .getByTestId(tid('wizard.coverage.premiumLabel'))
+        .closest('[data-widget-boundary]')
+    ).toHaveAttribute('data-widget-boundary', 'outlined');
   });
 
   it('shows a loading state while updating', () => {

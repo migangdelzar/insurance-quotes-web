@@ -87,6 +87,7 @@ export function WizardFrame({
           component="section"
           aria-labelledby={headingId}
           data-widget-tone="workspace"
+          data-widget-boundary="outlined"
           sx={{
             minWidth: 0,
             borderTop: '3px solid',
@@ -112,6 +113,7 @@ export function WizardFrame({
           tone="dark"
           aria-label={t('wizard.reassurance.title')}
           data-widget-tone="reassurance"
+          data-widget-boundary="outlined"
           sx={{
             minWidth: 0,
             borderLeft: '3px solid',

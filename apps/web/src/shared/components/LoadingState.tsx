@@ -1,5 +1,4 @@
 import { Box, CircularProgress, Skeleton, Stack } from '@mui/material';
-import { alpha } from '@mui/material/styles';
 import { tid } from '@clara/app-i18n';
 
 type LoadingStateProps = {
@@ -19,13 +18,14 @@ export function LoadingState({
       aria-label={label}
       data-testid={testId}
       data-widget-tone="loading"
+      data-widget-boundary="outlined"
       spacing={1.5}
       sx={(theme) => ({
         p: { xs: 2, sm: 2.5 },
         border: '1px solid',
-        borderColor: alpha(theme.palette.slate.main, 0.2),
+        borderColor: theme.palette.divider,
         borderRadius: 3,
-        backgroundColor: alpha(theme.palette.slate.main, 0.035),
+        backgroundColor: theme.palette.raised.main,
       })}
     >
       <Box aria-hidden="true" sx={{ display: 'flex', alignItems: 'center' }}>

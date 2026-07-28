@@ -114,7 +114,7 @@ expect(
 
 **Files:** Modify `theme.ts`, `QuotesListPage.tsx`, `AccountPage.tsx`, `WizardFrame.tsx`, `PremiumDisplay.tsx`, `LoadingState.tsx`, and `ApiErrorAlert.tsx`; extend their existing tests.
 
-- [ ] **Step 1: Write failing assertions.** Render representative loading, error, premium, account, and quote surfaces in both themes and assert `data-widget-tone` plus a non-empty 1px border.
+- [x] **Step 1: Write failing assertions.** Render representative loading, error, premium, account, and quote surfaces in both themes and assert `data-widget-tone` plus a non-empty 1px border.
 
 ```tsx
 it('keeps a visible boundary in dark mode', () => {
@@ -129,13 +129,13 @@ it('keeps a visible boundary in dark mode', () => {
 });
 ```
 
-- [ ] **Step 2: Verify RED.** Run the affected colocated suites; expect the mode-aware boundary assertion to fail before implementation.
+- [x] **Step 2: Verify RED.** Affected suites failed on the absent `data-widget-boundary="outlined"` contract before implementation.
 
-- [ ] **Step 3: Implement semantic surfaces.** Replace old charcoal-only alpha fills with `background.default`, `background.paper`, raised surface, and active `divider` tokens. Keep existing status roles, visible text, icons, `data-widget-tone`, routes, API calls, and selectors unchanged. Use borders as the primary boundary and subtle shadows only as secondary depth.
+- [x] **Step 3: Implement semantic surfaces.** Replace old charcoal-only alpha fills with `background.default`, `background.paper`, raised surface, and active `divider` tokens. Keep existing status roles, visible text, icons, `data-widget-tone`, routes, API calls, and selectors unchanged. Use borders as the primary boundary and subtle shadows only as secondary depth.
 
-- [ ] **Step 4: Verify GREEN.** Run `bun run --filter web test --run`, `bun run --filter web lint`, and `bun run --filter web build`; expect zero errors and only existing warnings/advisories.
+- [x] **Step 4: Verify GREEN.** 31 files/109 web tests passed; lint has 0 errors and 4 Fast Refresh warnings; production build passed with the existing Vite chunk advisory.
 
-- [ ] **Step 5: Refactor and commit.** `git add apps/web/src/shared/theme/theme.ts apps/web/src/pages apps/web/src/features/quote-wizard/components apps/web/src/shared/components && git commit -m "refactor(web): clarify light dark widget surfaces"`.
+- [x] **Step 5: Refactor and commit.** Committed as `refactor(web): clarify light dark widget surfaces`.
 
 ### Task 5: Verify both themes and responsive journeys
 

@@ -74,14 +74,14 @@ function getContrastRatio(colorA: string, colorB: string) {
 }
 
 describe('shared visual primitives', () => {
-  it('defines the charcoal premium shell tokens', () => {
+  it('defines the mode-aware premium shell tokens', () => {
     expect(theme.palette).toMatchObject({
       shell: {
-        main: '#1D1D1F',
-        contrastText: '#F5F5F7',
+        main: '#151A20',
+        contrastText: '#F3F6F8',
       },
     });
-    expect(theme.palette.background.default).toBe('#FBFBFD');
+    expect(theme.palette.background.default).toBe('#F4F6F8');
     expect(theme.palette.primary.main).toBe('#0071E3');
   });
 
@@ -92,12 +92,12 @@ describe('shared visual primitives', () => {
     expect(theme.components?.MuiPaper?.defaultProps?.elevation).toBe(0);
   });
 
-  it('uses the Emme light palette for the quote workspace', () => {
-    expect(theme.palette.background.default).toBe('#FBFBFD');
+  it('uses the Clara light surface palette for the quote workspace', () => {
+    expect(theme.palette.background.default).toBe('#F4F6F8');
     expect(theme.palette.background.paper).toBe('#FFFFFF');
     expect(theme.palette.primary.main).toBe('#0071E3');
-    expect(theme.palette.text.primary).toBe('#1D1D1F');
-    expect(theme.palette.text.secondary).toBe('#5F6368');
+    expect(theme.palette.text.primary).toBe('#171A1F');
+    expect(theme.palette.text.secondary).toBe('#53606D');
   });
 
   it('renders keyboard focus with an observable accessible ring on light and dark surfaces', () => {

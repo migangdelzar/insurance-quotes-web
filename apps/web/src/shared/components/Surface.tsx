@@ -13,12 +13,12 @@ const toneStyles: Record<SurfaceTone, Pick<PaperProps, 'sx'>['sx']> = {
   default: (theme) => ({
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
-    borderColor: alpha(theme.palette.primary.main, 0.08),
+    borderColor: theme.palette.divider,
   }),
   dark: (theme) => ({
     backgroundColor: theme.palette.charcoal.main,
     color: theme.palette.charcoal.contrastText,
-    borderColor: alpha(theme.palette.charcoal.contrastText, 0.12),
+    borderColor: alpha(theme.palette.charcoal.contrastText, 0.24),
   }),
   gold: (theme) => ({
     backgroundColor: alpha(theme.palette.gold.main, 0.16),
@@ -36,6 +36,7 @@ export function Surface({
   return (
     <Paper
       data-tone={tone}
+      data-widget-boundary="outlined"
       sx={[
         {
           p: { xs: 2.5, sm: 3 },

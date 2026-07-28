@@ -78,6 +78,7 @@ export function AccountPage() {
       <Paper
         variant="outlined"
         data-widget-tone="preferences"
+        data-widget-boundary="outlined"
         sx={(theme) => ({
           p: { xs: 2, sm: 3 },
           borderColor: alpha(theme.palette.primary.main, 0.16),
@@ -106,6 +107,7 @@ export function AccountPage() {
       <Paper
         variant="outlined"
         data-widget-tone="secure"
+        data-widget-boundary="outlined"
         sx={(theme) => ({
           p: { xs: 2, sm: 3 },
           borderLeft: '3px solid',
@@ -135,6 +137,7 @@ export function AccountPage() {
       <Paper
         variant="outlined"
         data-widget-tone="support"
+        data-widget-boundary="outlined"
         sx={{ p: { xs: 2, sm: 3 } }}
       >
         <Stack spacing={2}>

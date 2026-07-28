@@ -27,6 +27,7 @@ export function PremiumDisplay({ premium, updating }: Props) {
     <Surface
       tone="gold"
       data-widget-tone="accent"
+      data-widget-boundary="outlined"
       sx={(theme) => ({
         textAlign: 'center',
         borderTop: '3px solid',
