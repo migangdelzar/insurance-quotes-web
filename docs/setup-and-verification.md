@@ -124,6 +124,6 @@ The report records Spring's startup log, compose elapsed time, health-request la
 
 ## CI/CD deployment verification
 
-The web repository's `full-stack-e2e.yml` runs on every push and pull request with `cancel-in-progress: true`. It builds an ephemeral JVM Compose deployment, verifies API health, seeded password logins, and `/quotes/summary`, runs the real Playwright suite against Nginx, uploads logs and Playwright artifacts on failure, and removes the stack and volumes in an `always` cleanup step. It does not publish production images.
+The web repository's `full-stack-e2e.yml` runs on every push and pull request with `cancel-in-progress: true`. Its current challenge-branch default checks out `feat-backend-core` so this dashboard contract is tested against the matching backend; after that backend is merged, change the workflow default to `main`. The workflow builds an ephemeral JVM Compose deployment, verifies API health, seeded password logins, and `/quotes/summary`, runs the real Playwright suite against Nginx, uploads logs and Playwright artifacts on failure, and removes the stack and volumes in an `always` cleanup step. It does not publish production images.
 
 The backend's `native-runtime-comparison.yml` is manual because GraalVM native compilation is resource-intensive. It builds the native image, runs the same API compose flow for JVM and native images, and uploads the Markdown statistics report.
