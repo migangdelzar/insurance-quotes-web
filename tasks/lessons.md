@@ -21,3 +21,4 @@
 - Keep passkey lifecycle Playwright coverage real-only when validating WebAuthn setup: use a virtual authenticator and the source-backed API, while keeping deterministic error-shape coverage at the component/API test layers.
 - Server-side list controls need a single query object shared by the API serializer, TanStack Query key, and page metadata; otherwise filters can look correct while requesting stale pages.
 - Stateful browser suites must isolate tests that run after passkey mutation with a separate seeded account, even when the mutating test is intended to be last within one project.
+- A workspace-wide test command can silently aim Playwright at the default production port; after UI changes, set `E2E_BASE_URL` to the rebuilt/current origin and verify the rendered bundle before diagnosing source regressions.

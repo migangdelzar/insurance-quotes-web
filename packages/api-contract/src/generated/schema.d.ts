@@ -36,6 +36,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/quotes/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getSummary"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/webauthn/register": {
         parameters: {
             query?: never;
@@ -205,6 +221,41 @@ export interface components {
             hasNext: boolean;
             hasPrevious: boolean;
         };
+        QuoteDistributionView: {
+            key: string;
+            /** Format: int64 */
+            count: number;
+        };
+        QuoteTrendPointView: {
+            /** Format: date */
+            date: string;
+            /** Format: int64 */
+            created: number;
+            /** Format: int64 */
+            submitted: number;
+            /** Format: int64 */
+            failed: number;
+        };
+        QuoteSummaryView: {
+            /** Format: int64 */
+            totalQuotes: number;
+            /** Format: int64 */
+            draftQuotes: number;
+            /** Format: int64 */
+            submittedQuotes: number;
+            /** Format: int64 */
+            submissionFailedQuotes: number;
+            /** Format: int64 */
+            expiredQuotes: number;
+            /** Format: int64 */
+            pricedQuotes: number;
+            totalMonthlyPremium: number;
+            averageMonthlyPremium: number;
+            submissionRate: number;
+            statusDistribution: components["schemas"]["QuoteDistributionView"][];
+            coverageDistribution: components["schemas"]["QuoteDistributionView"][];
+            trend: components["schemas"]["QuoteTrendPointView"][];
+        };
         QuoteView: {
             /** Format: uuid */
             id?: string;
@@ -356,6 +407,28 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["QuoteView"];
+                };
+            };
+        };
+    };
+    getSummary: {
+        parameters: {
+            query?: never;
+            header?: {
+                "API-Version"?: "1.0";
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["QuoteSummaryView"];
                 };
             };
         };

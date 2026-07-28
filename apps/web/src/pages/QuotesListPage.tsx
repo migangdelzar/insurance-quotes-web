@@ -8,13 +8,11 @@ import {
   Select,
   Skeleton,
   Stack,
-  SvgIcon,
   TablePagination,
   TextField,
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
-import type { SvgIconProps } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { useQuery } from '@tanstack/react-query';
 import { tid } from '@clara/app-i18n';
@@ -27,9 +25,11 @@ import { StatusBadge } from '@shared/components/StatusBadge';
 import { Surface } from '@shared/components/Surface';
 import {
   defaultQuoteListQuery,
+  getQuoteSummary,
   listQuotes,
   type QuoteListQuery,
 } from '@features/quote-wizard/api/quoteApi';
+import { QuoteSummaryDashboard } from '@features/quote-dashboard/components/QuoteSummaryDashboard';
 
 const statusKeys: Record<QuoteStatus, string> = {
   DRAFT: 'quotesList.statusDraft',
@@ -55,9 +55,15 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
   const navigate = useNavigate();
   const [query, setQuery] = useState(defaultQuoteListQuery);
   const [searchInput, setSearchInput] = useState('');
+  const isOverview = view === 'overview';
   const quotes = useQuery({
     queryKey: ['quotes', query],
     queryFn: () => listQuotes(query),
+  });
+  const summary = useQuery({
+    queryKey: ['quote-summary'],
+    queryFn: getQuoteSummary,
+    enabled: isOverview,
   });
   const locale = i18n.resolvedLanguage === 'es-MX' ? 'es-MX' : 'en-US';
   const formatCurrency = (value: number) =>
@@ -70,15 +76,7 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
 
   const quoteData = quotes.data?.content ?? [];
   const totalElements = quotes.data?.totalElements ?? 0;
-  const isOverview = view === 'overview';
   const hasQuotes = totalElements > 0;
-  const submittedCount = quoteData.filter(
-    (quote) => quote.status === 'SUBMITTED'
-  ).length;
-  const monthlyValue = quoteData.reduce(
-    (total, quote) => total + (quote.monthlyPremium ?? 0),
-    0
-  );
 
   const startQuote = () => void navigate('/quote/personal');
   const updateQuery = <K extends keyof QuoteListQuery>(
@@ -319,53 +317,14 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
         </Stack>
       ) : null}
 
-      {quotes.isSuccess && isOverview ? (
-        <Surface
-          tone="gold"
-          component="section"
-          aria-label={t('quotesList.summary.title')}
-          data-widget-tone="accent"
-          sx={(theme) => ({
-            borderTop: '3px solid',
-            borderTopColor: theme.palette.primary.main,
-          })}
-        >
-          <Stack spacing={2}>
-            <Typography variant="overline" color="text.secondary">
-              {t('quotesList.summary.title')}
-            </Typography>
-            <Box
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: {
-                  xs: '1fr',
-                  sm: 'repeat(3, minmax(0, 1fr))',
-                },
-                gap: { xs: 2, sm: 3 },
-              }}
-            >
-              <SummaryMetric
-                icon="quotes"
-                label={t('quotesList.summary.totalLabel')}
-                value={t('quotesList.summary.total', {
-                  count: quoteData.length,
-                })}
-              />
-              <SummaryMetric
-                icon="submitted"
-                label={t('quotesList.summary.submittedLabel')}
-                value={t('quotesList.summary.submitted', {
-                  count: submittedCount,
-                })}
-              />
-              <SummaryMetric
-                icon="premium"
-                label={t('quotesList.summary.monthlyValueLabel')}
-                value={formatCurrency(monthlyValue)}
-              />
-            </Box>
-          </Stack>
-        </Surface>
+      {isOverview ? (
+        <QuoteSummaryDashboard
+          summary={summary.data}
+          isLoading={summary.isPending}
+          isError={summary.isError}
+          error={summary.error}
+          onRetry={() => void summary.refetch()}
+        />
       ) : null}
 
       {quotes.isSuccess && !hasQuotes ? (
@@ -535,66 +494,6 @@ export function QuotesListPage({ view = 'overview' }: QuotesListPageProps) {
           data-testid={tid('quotesList.pagination')}
         />
       ) : null}
-    </Stack>
-  );
-}
-
-function MetricIcon({
-  kind,
-  ...props
-}: SvgIconProps & { kind: 'quotes' | 'submitted' | 'premium' }) {
-  const paths = {
-    quotes: 'M4 4h16v12H7l-3 3V4zm3 5h10V7H7v2zm0 4h7v-2H7v2z',
-    submitted: 'm9 16.17-3.88-3.88L3.71 13.7 9 19l12-12-1.41-1.41L9 16.17z',
-    premium:
-      'M12 2 3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4zm4.24 8.59-4.95 4.95-2.83-2.83 1.41-1.41 1.42 1.42 3.54-3.54 1.41 1.41z',
-  } as const;
-
-  return (
-    <SvgIcon aria-hidden {...props}>
-      <path d={paths[kind]} />
-    </SvgIcon>
-  );
-}
-
-function SummaryMetric({
-  icon,
-  label,
-  value,
-}: {
-  icon: 'quotes' | 'submitted' | 'premium';
-  label: string;
-  value: string;
-}) {
-  return (
-    <Stack direction="row" spacing={1.25} minWidth={0} alignItems="center">
-      <Box
-        aria-hidden="true"
-        sx={(theme) => ({
-          display: 'grid',
-          width: 40,
-          height: 40,
-          flexShrink: 0,
-          placeItems: 'center',
-          borderRadius: 2,
-          color: theme.palette.primary.main,
-          backgroundColor: alpha(theme.palette.primary.main, 0.1),
-        })}
-      >
-        <MetricIcon kind={icon} sx={{ fontSize: 24 }} />
-      </Box>
-      <Stack spacing={0.25} minWidth={0}>
-        <Typography variant="overline" color="text.secondary">
-          {label}
-        </Typography>
-        <Typography
-          variant="h4"
-          component="p"
-          sx={{ overflowWrap: 'anywhere' }}
-        >
-          {value}
-        </Typography>
-      </Stack>
     </Stack>
   );
 }

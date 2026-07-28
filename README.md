@@ -18,6 +18,8 @@ Sibling backend: [insurance-quotes-service](../insurance-quotes-service)
 
 ## Setup and run
 
+For the complete sibling-repository, observability, passkey, real Playwright, CI, and JVM/native verification procedure, see [docs/setup-and-verification.md](docs/setup-and-verification.md).
+
 ```bash
 mise run setup
 bun run dev                         # Vite + HMR at http://localhost:5173

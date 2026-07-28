@@ -6,15 +6,23 @@ import { I18nextProvider } from 'react-i18next';
 import { MemoryRouter } from 'react-router';
 import type * as ReactRouter from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { QuotePageView, QuoteView } from '@clara/api-contract';
+import type {
+  QuotePageView,
+  QuoteSummaryView,
+  QuoteView,
+} from '@clara/api-contract';
 import { tid } from '@clara/app-i18n';
 import i18n from '@app/i18n';
 import { theme } from '@shared/theme/theme';
-import { listQuotes } from '@features/quote-wizard/api/quoteApi';
+import {
+  getQuoteSummary,
+  listQuotes,
+} from '@features/quote-wizard/api/quoteApi';
 import { QuotesListPage } from './QuotesListPage';
 
 vi.mock('@features/quote-wizard/api/quoteApi', () => ({
   listQuotes: vi.fn(),
+  getQuoteSummary: vi.fn(),
   defaultQuoteListQuery: {
     page: 0,
     size: 20,
@@ -30,6 +38,7 @@ vi.mock('react-router', async () => {
 });
 
 const mockedListQuotes = vi.mocked(listQuotes);
+const mockedGetQuoteSummary = vi.mocked(getQuoteSummary);
 
 function quotePage(
   content: QuoteView[],
@@ -43,6 +52,35 @@ function quotePage(
     totalPages: content.length === 0 ? 0 : 1,
     hasNext: false,
     hasPrevious: false,
+    ...overrides,
+  };
+}
+
+function quoteSummary(
+  overrides: Partial<QuoteSummaryView> = {}
+): QuoteSummaryView {
+  return {
+    totalQuotes: 2,
+    draftQuotes: 1,
+    submittedQuotes: 1,
+    submissionFailedQuotes: 0,
+    expiredQuotes: 0,
+    pricedQuotes: 2,
+    totalMonthlyPremium: 209.5,
+    averageMonthlyPremium: 104.75,
+    submissionRate: 100,
+    statusDistribution: [
+      { key: 'DRAFT', count: 1 },
+      { key: 'SUBMITTED', count: 1 },
+      { key: 'SUBMISSION_FAILED', count: 0 },
+      { key: 'EXPIRED', count: 0 },
+    ],
+    coverageDistribution: [
+      { key: 'BASIC', count: 0 },
+      { key: 'STANDARD', count: 1 },
+      { key: 'PREMIUM', count: 1 },
+    ],
+    trend: [{ date: '2026-07-28', created: 2, submitted: 1, failed: 0 }],
     ...overrides,
   };
 }
@@ -70,6 +108,8 @@ describe('QuotesListPage', () => {
   beforeEach(async () => {
     navigate.mockReset();
     mockedListQuotes.mockReset();
+    mockedGetQuoteSummary.mockReset();
+    mockedGetQuoteSummary.mockResolvedValue(quoteSummary());
     await i18n.changeLanguage('en-US');
   });
 
@@ -118,10 +158,12 @@ describe('QuotesListPage', () => {
       expect(screen.getByText('Jane Roe')).toBeVisible();
     });
 
-    expect(screen.getByText('Submitted', { exact: true })).toBeVisible();
+    expect(
+      screen.getAllByText('Submitted', { exact: true }).length
+    ).toBeGreaterThan(0);
     expect(screen.getByText(/\$129\.50/)).toBeVisible();
-    expect(screen.getByText(/2 quotes/i)).toBeVisible();
-    expect(screen.getByText(/1 submitted/i)).toBeVisible();
+    expect(screen.getByText('Portfolio intelligence')).toBeVisible();
+    expect(screen.getByText('$209.50')).toBeVisible();
   });
 
   it('shows the overview action and concise metrics on the Home destination', async () => {
@@ -140,13 +182,15 @@ describe('QuotesListPage', () => {
     renderPage('overview');
 
     await waitFor(() => {
-      expect(screen.getByText('Quote summary')).toBeVisible();
+      expect(
+        screen.getByRole('button', { name: /start a quote/i })
+      ).toBeVisible();
     });
 
     expect(
       screen.getByRole('button', { name: /start a quote/i })
     ).toBeVisible();
-    expect(screen.getByText('Portfolio')).toBeVisible();
+    expect(screen.getByText('Portfolio intelligence')).toBeVisible();
   });
 
   it('shows quote history as a focused list on the Quotes destination', async () => {
@@ -219,7 +263,7 @@ describe('QuotesListPage', () => {
     renderPage();
 
     await waitFor(() => {
-      expect(screen.getAllByText(/USD\s*129\.50/)).toHaveLength(2);
+      expect(screen.getAllByText(/USD\s*129\.50/)).toHaveLength(1);
     });
   });
 

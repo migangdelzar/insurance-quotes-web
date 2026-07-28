@@ -1,5 +1,22 @@
 # Premium fintech web redesign
 
+## Home analytics and full-stack runtime verification — 2026-07-28
+
+- [x] Add the backend-driven quote summary API and persistence aggregation.
+- [x] Render Home KPI, distribution, and seven-day trend dashboards from the real summary endpoint.
+- [x] Document local HMR, JVM Compose, observability, passkey reset, real Playwright, and CI setup.
+- [x] Add push/PR full-stack CI with cancellation and ephemeral teardown.
+- [x] Add the manual JVM/native comparison workflow and measured RSS/image/startup report.
+- [x] Run backend, contract, frontend, and real browser verification; update this section with evidence.
+
+### Results
+
+- Backend focused service/controller tests pass; full unit suite passes. Full integration/verify is currently blocked by this host's Colima/Testcontainers Ryuk socket-mount failure, not an application assertion.
+- OpenAPI drift check and generated contract build pass.
+- Web tests: 34 files / 123 tests passed; lint: 0 errors and 4 pre-existing Fast Refresh warnings; production build passed with the existing Vite chunk advisory.
+- E2E build/lint pass; real source-backed HMR Playwright: 32 passed with analytics, pagination, pricing, submission retry, responsive, accessibility, and passkey flows.
+- The production Compose CI workflow and manual native comparison workflow are committed for GitHub-hosted verification; native numbers remain measured-artifact-only until the native builder completes.
+
 ## End-to-end console verification
 
 - [x] Extend the Playwright console/page-error guard to every browser journey suite.

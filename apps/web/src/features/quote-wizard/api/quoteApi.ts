@@ -2,6 +2,7 @@ import type {
   CreateQuoteRequest,
   CoverageType,
   QuotePageView,
+  QuoteSummaryView,
   QuoteStatus,
   QuoteView,
   UpdateCoverageRequest,
@@ -57,3 +58,6 @@ export const listQuotes = (
   params.set('direction', query.direction);
   return request(`/quotes?${params.toString()}`);
 };
+
+export const getQuoteSummary = (): Promise<QuoteSummaryView> =>
+  request('/quotes/summary');
