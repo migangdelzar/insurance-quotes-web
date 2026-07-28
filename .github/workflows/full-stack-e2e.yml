@@ -100,7 +100,7 @@ jobs:
           test -n "$token" && test "$token" != "null"
           curl --fail --silent http://localhost:3100/api/quotes/summary \
             -H "Authorization: Bearer $token" \
-  -H 'API-Version: 1.0' | jq -e '(.totalQuotes != null) and ((.trend | length) == 7)'
+            -H 'API-Version: 1.0' | jq -e '(.totalQuotes != null) and ((.trend | length) == 7)'
 
       - name: Run real Playwright flows
         env:
