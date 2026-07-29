@@ -290,7 +290,7 @@ Grafana is the view over the three telemetry stores:
 | Logs    | JSON stdout → Alloy → Loki         | Explore → Loki; query `{job="docker"} \|= "insurance-quotes-service"`, then filter by `level`, `correlationId`, or `traceId`. |
 | Traces  | OpenTelemetry OTLP → Tempo         | Explore → Tempo; select service `insurance-quotes-service`, or open a trace from a Loki `traceId` link.                       |
 
-Open [Grafana](http://localhost:3001) with `admin` / `admin`. Prometheus,
+Open [Grafana](http://localhost:3001) with `admin` / `demo-grafana-password`. Prometheus,
 Loki, and Tempo answer different questions: measurements, event details, and
 request timelines respectively. The app exposes metrics for Prometheus to
 scrape rather than pushing OTLP metrics to an unavailable collector. Tempo is
