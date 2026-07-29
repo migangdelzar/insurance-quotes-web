@@ -158,9 +158,9 @@ flowchart LR
 4. Exposes one browser origin at `http://localhost:3100`.
 
 The local E2E overlay uses WireMock, so browser journeys do not depend on
-`httpstat.us`. That is why a normal demo does not show an outbound request to
+`httpbin.org`. That is why a normal demo does not show an outbound request to
 that domain: the API calls `http://wiremock:8080/submit` inside the Compose
-network. The direct `httpstat.us` URL remains configurable for non-E2E
+network. The direct `httpbin.org` URL remains configurable for non-E2E
 scenarios.
 
 > **Compose warning:** older Docker installations may print that the Buildx
