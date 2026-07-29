@@ -40,12 +40,38 @@ fullstack-code-challenge/
 > **Java note:** Java 17 is the application runtime. The optional native-image
 > comparison is a separate build path and may require additional Docker memory.
 
+### Ports at a glance
+
+| Component                   |    Default port | When it is used                                               |
+| --------------------------- | --------------: | ------------------------------------------------------------- |
+| Clara web app through Nginx |          `3100` | Full-stack demo and real browser tests                        |
+| Spring API directly         |          `8080` | Backend debugging only; browser traffic uses `/api` on `3100` |
+| Vite HMR                    |          `5173` | Fast frontend development loop                                |
+| PostgreSQL                  |          `5432` | Quote and authentication persistence                          |
+| Redis                       |          `6379` | Cache and distributed rate limiting                           |
+| Kafka                       |          `9094` | Local host access to the event broker                         |
+| WireMock insurer            |          `8089` | Deterministic quote submission responses                      |
+| Prometheus / Grafana        | `9090` / `3001` | Optional observability overlay                                |
+
 ### Start Clara
 
 ```bash
+mise trust -y insurance-quotes-service/mise.toml
+mise trust -y insurance-quotes-service/.mise/config.local.toml
+mise trust -y insurance-quotes-web/mise.toml
 cd insurance-quotes-service
 mise run demo
 ```
+
+These commands trust only the three files used by the default local demo.
+Trust a matching `.mise/config.<profile>.toml` explicitly before selecting a
+different backend profile. This one-time trust is required by Mise because
+configuration files can set environment variables and execute tasks.
+
+The trust commands are required only once per checkout. Mise refuses to load
+`.mise/config.local.toml` until explicitly trusted because profile files can
+set environment variables and execute tasks. This is a Mise safety check, not
+an application or Docker error.
 
 The command is safe to repeat. If a healthy Clara stack is already available
 on port `3100`, it reuses the running stack instead of rebuilding it.
@@ -115,7 +141,15 @@ flowchart LR
 4. Exposes one browser origin at `http://localhost:3100`.
 
 The local E2E overlay uses WireMock, so browser journeys do not depend on
-`httpstat.us`. That external URL remains configurable for non-E2E scenarios.
+`httpstat.us`. That is why a normal demo does not show an outbound request to
+that domain: the API calls `http://wiremock:8080/submit` inside the Compose
+network. The direct `httpstat.us` URL remains configurable for non-E2E
+scenarios.
+
+> **Compose warning:** older Docker installations may print that the Buildx
+> plugin is unavailable and fall back to the classic builder. This is a
+> performance warning, not a failed build. Install Docker Buildx to enable
+> faster builds; the documented demo does not require it.
 
 ## 3. Fast development loop
 

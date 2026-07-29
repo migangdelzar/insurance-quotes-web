@@ -30,6 +30,25 @@ flowchart LR
   home --> account[Language, theme, passkey, sign out]
 ```
 
+## Why this stack and structure
+
+| Choice                            | Why it fits the product                                                                                                                                                                                              |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| React + TypeScript                | Component composition suits a guided wizard and TypeScript keeps API, state, and UI contracts explicit.                                                                                                              |
+| Feature-Sliced Design (FSD)       | `features` own user capabilities, `app` owns composition/routing, and `shared` contains genuinely reusable primitives; changes stay close to the behavior they affect.                                               |
+| Separate workspace packages       | `api-contract` is generated from OpenAPI to detect frontend/backend drift; `app-i18n` owns catalogs and selectors privately; build configuration stays reusable and small.                                           |
+| `t()` + `tid()`                   | Localized copy and automation selectors have different lifecycles. `t()` returns language-specific text; typed `tid()` returns stable test IDs, including for textless controls, without exposing catalog internals. |
+| TanStack Query                    | Server state, caching, invalidation, pagination, and retry behavior belong in one purpose-built layer; React context remains focused on auth and wizard state.                                                       |
+| Vite + Bun                        | Vite gives fast HMR and Bun keeps workspace installation and scripts quick and reproducible.                                                                                                                         |
+| Same-origin `/api` BFF            | Vite and Nginx proxy browser requests through one origin, avoiding browser CORS and keeping insurer/API topology private.                                                                                            |
+| MUI + responsive shell            | Accessible, composable primitives provide a consistent premium UI across fixed desktop navigation and mobile bottom navigation.                                                                                      |
+| Playwright against the real stack | End-to-end tests start the real JVM API, proxy, database dependencies, and insurer stub, proving integration rather than only mocked screens.                                                                        |
+| PWA boundaries                    | Static assets can be installable and resilient offline without caching tokens, mutable quote data, or API responses.                                                                                                 |
+
+The result is app-like UX with enterprise boundaries: local feature ownership,
+typed contracts, stable automation, and a deployment path that mirrors local
+development.
+
 ## Quick start
 
 ### Prerequisites
@@ -46,6 +65,10 @@ workspace/
 ├── insurance-quotes-service/
 └── insurance-quotes-web/
 ```
+
+From the workspace root, follow the one-time trust preflight in
+[`docs/setup-and-verification.md`](docs/setup-and-verification.md). Then run
+these commands from this repository:
 
 ```bash
 mise run setup
