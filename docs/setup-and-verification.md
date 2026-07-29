@@ -43,9 +43,16 @@ fullstack-code-challenge/
 ### Start Clara
 
 ```bash
+mise trust -y --all -C insurance-quotes-service
+mise trust -y --all -C insurance-quotes-web
 cd insurance-quotes-service
 mise run demo
 ```
+
+The trust commands are required only once per checkout. Mise refuses to load
+`.mise/config.local.toml` until explicitly trusted because profile files can
+set environment variables and execute tasks. This is a Mise safety check, not
+an application or Docker error.
 
 The command is safe to repeat. If a healthy Clara stack is already available
 on port `3100`, it reuses the running stack instead of rebuilding it.
