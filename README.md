@@ -66,9 +66,11 @@ workspace/
 └── insurance-quotes-web/
 ```
 
+From the workspace root, follow the one-time trust preflight in
+[`docs/setup-and-verification.md`](docs/setup-and-verification.md). Then run
+these commands from this repository:
+
 ```bash
-mise trust -y --all -C ../insurance-quotes-service
-mise trust -y --all -C .
 mise run setup
 bun run dev                         # Vite HMR at http://localhost:5173
 ```
