@@ -83,6 +83,18 @@ Once the command completes, open:
 | Clara web app                           | [http://localhost:3100](http://localhost:3100)                                         |
 | API health through the browser boundary | [http://localhost:3100/api/actuator/health](http://localhost:3100/api/actuator/health) |
 
+The backend prints this full access matrix when `mise run demo` completes:
+
+| Service                   | Endpoint                                | Local credentials                                        |
+| ------------------------- | --------------------------------------- | -------------------------------------------------------- |
+| Web app                   | `http://localhost:3100`                 | No login at the shell; use a demo user in the app        |
+| API docs                  | `http://localhost:8080/swagger-ui.html` | No separate login in the local demo                      |
+| PostgreSQL                | `localhost:5432`                        | `postgres` / `postgres`; app `quotes_app` / `quotes_app` |
+| Redis / Kafka             | `localhost:6379` / `localhost:9094`     | No authentication                                        |
+| WireMock                  | `http://localhost:8089/__admin`         | No authentication                                        |
+| Grafana                   | `http://localhost:3001`                 | `admin` / `demo-grafana-password`                        |
+| Prometheus / Loki / Tempo | `9090` / `3101` / `3200`                | No authentication                                        |
+
 ### Demo access
 
 <table>
@@ -105,6 +117,11 @@ Once the command completes, open:
     <td><code>demo-three</code></td>
     <td><code>demo-password-three</code></td>
     <td>Independent manual session</td>
+  </tr>
+  <tr>
+    <td><code>demo-admin</code></td>
+    <td><code>demo-admin-password</code></td>
+    <td>Read-only oversight across users</td>
   </tr>
 </table>
 
@@ -213,14 +230,14 @@ cd insurance-quotes-service
 mise run up jvm observability
 ```
 
-| Layer           | Responsibility                                           | Local address                               |
-| --------------- | -------------------------------------------------------- | ------------------------------------------- |
-| Spring Actuator | Health, info, and endpoint exposure                      | `http://localhost:8080/actuator/health`     |
-| Micrometer      | Creates request and business measurements inside the API | API process                                 |
-| Prometheus      | Scrapes `/actuator/prometheus` and stores time series    | `http://localhost:9090`                     |
-| Grafana         | Visualizes Prometheus, Loki, and Tempo data              | `http://localhost:3001` (`admin` / `admin`) |
-| Loki            | Stores structured API/container logs                     | `http://localhost:3101`                     |
-| Tempo           | Stores distributed traces through OTLP                   | `http://localhost:3200`                     |
+| Layer           | Responsibility                                           | Local address                                               |
+| --------------- | -------------------------------------------------------- | ----------------------------------------------------------- |
+| Spring Actuator | Health, info, and endpoint exposure                      | `http://localhost:8080/actuator/health`                     |
+| Micrometer      | Creates request and business measurements inside the API | API process                                                 |
+| Prometheus      | Scrapes `/actuator/prometheus` and stores time series    | `http://localhost:9090`                                     |
+| Grafana         | Visualizes Prometheus, Loki, and Tempo data              | `http://localhost:3001` (`admin` / `demo-grafana-password`) |
+| Loki            | Stores structured API/container logs                     | `http://localhost:3101` (no local login)                    |
+| Tempo           | Stores distributed traces through OTLP                   | `http://localhost:3200` (no local login)                    |
 
 > **Mental model:** Actuator exposes the endpoint, Micrometer creates the
 > measurements, Prometheus stores them, and Grafana visualizes them. Kafka
