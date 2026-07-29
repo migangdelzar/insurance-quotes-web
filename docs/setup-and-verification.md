@@ -239,6 +239,48 @@ The authenticated `GET /api/quotes/summary` endpoint provides application
 analytics for the current user. It complements, but does not replace,
 Prometheus metrics.
 
+### See logs, metrics, and traces
+
+The API emits structured JSON logs to Docker stdout. From the backend
+repository, use these commands while exercising the browser flow:
+
+```bash
+mise run logs          # follow API logs
+mise run logs-errors   # recent warnings/errors only
+mise run diagnose      # health and known infrastructure checks
+mise run logs-all      # every local container
+```
+
+`mise run diagnose` flags exporter, database/Flyway, Kafka, and Redis failures.
+An invalid password, expired passkey challenge, or passkey-not-registered
+response is an expected user-flow error when deliberately testing those
+journeys.
+
+| Log signal                                                   | Interpretation                                                                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| `InvalidCredentialsException` or a 401 during password login | Expected when credentials are deliberately invalid.                                   |
+| `PasskeyNotRegisteredException` or an expired challenge      | Expected until that user enrolls a passkey or starts a new ceremony.                  |
+| Insurer 5xx followed by a retryable quote state              | Expected in the deterministic failure journey.                                        |
+| `UnknownHostException: tempo` / `Failed to export spans`     | Misconfiguration unless the observability overlay and Tempo are running.              |
+| `Failed to publish metrics to OTLP receiver`                 | Misconfiguration; the demo uses Prometheus scraping and should not push OTLP metrics. |
+| JDBC, Flyway, Kafka, or Redis connection failures            | Infrastructure failure; inspect `mise run logs-all` and container health.             |
+
+Grafana is the view over the three telemetry stores:
+
+| Signal  | Store / Grafana source             | How to inspect it                                                                                                             |
+| ------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Metrics | Micrometer → Actuator → Prometheus | Explore → Prometheus; query `quote_*`, `rate_limit_*`, or `http_server_requests_seconds_count`.                               |
+| Logs    | JSON stdout → Alloy → Loki         | Explore → Loki; query `{job="docker"} \|= "insurance-quotes-service"`, then filter by `level`, `correlationId`, or `traceId`. |
+| Traces  | OpenTelemetry OTLP → Tempo         | Explore → Tempo; select service `insurance-quotes-service`, or open a trace from a Loki `traceId` link.                       |
+
+Open [Grafana](http://localhost:3001) with `admin` / `admin`. Prometheus,
+Loki, and Tempo answer different questions: measurements, event details, and
+request timelines respectively. The app exposes metrics for Prometheus to
+scrape rather than pushing OTLP metrics to an unavailable collector. Tempo is
+available only when the observability overlay is running; the normal demo
+intentionally disables trace export to avoid a misleading
+`UnknownHostException: tempo`.
+
 ## 6. Passkey reset
 
 The passkey journey is stateful and should run last when sharing a database. To
