@@ -221,6 +221,55 @@ normalizes errors for visible UI alerts.
 | Observability visibility | Home analytics and backend dashboard links                           |
 | Quality evidence         | Unit tests, lint/build gates, real Playwright, recordings            |
 
+## Approach, AI usage, and challenges
+
+A full requirements traceability audit covering both this frontend and the
+sibling backend — every functional/non-functional requirement from the
+challenge brief, checked against real files and tests rather than assumed from
+either README — lives in
+[insurance-quotes-service/docs/requirements.md](../insurance-quotes-service/docs/requirements.md).
+
+### Thought process
+
+The brief separates a fixed, non-negotiable UI contract (three wizard steps,
+age-gated conditional questions, a dynamically-updating premium, real API
+calls with no mocking) from open implementation choices. The fixed parts were
+treated literally: the premium is never computed client-side — every coverage
+or health-answer change debounces into a real `PATCH /quotes/{id}/coverage`
+call and renders whatever the backend returns, so the number on screen can
+never drift from the server's calculation. The open choices — Feature-Sliced
+Design, a private `app-i18n` package with a `t()`/`tid()` split, TanStack Query
+for server state versus React Context for wizard/auth state — were made to
+keep each wizard step's behavior local to its own folder and to keep
+automation selectors (`tid()`) stable independent of copy changes across
+locales. See [Design boundaries](#design-boundaries) above for the
+per-directory ownership this produced.
+
+### AI tool usage
+
+This project was built with Claude Code (Anthropic) as an active collaborator
+throughout. Most recently, an AI-driven audit read this repo's source directly
+— component files, hooks, test files, `package.json` — to independently verify
+every claim in the "Challenge map" table above and in
+`insurance-quotes-service/docs/requirements.md`, rather than trusting this
+README's own descriptions. That audit's findings for the frontend came back
+fully implemented and tested (wizard steps, conditional age logic, Context API
+state, responsive breakpoints, timeout/401/failed-submission handling, and 34
+test files under `apps/web/src`); its actionable findings were on the backend
+side (a dead external dependency, unmerged branches, under-specified use case
+docs) and are detailed in the backend README's equivalent section. Every
+AI-authored change went through a pull request, CI, and CodeRabbit review
+before merging to `main`, same as any other change.
+
+### Challenges and open items
+
+- **This section didn't exist until flagged.** The audit found this README
+  was missing the sections a reviewer would check for (this one, and the
+  equivalent in the backend README) — recorded as constraint `C-012` in the
+  shared requirements catalog and closed by adding this section to both repos.
+- **No budget or deadline was specified in the brief**, so none is claimed as
+  met or missed.
+
 ## Troubleshooting
 
 - **Port 3000 is occupied:** Clara’s integrated Nginx app uses port 3100.
