@@ -158,7 +158,9 @@ jobs:
           compose=(
             docker compose
             -f deployment/compose/docker-compose.yml
+            -f deployment/compose/docker-compose.api.yml
             -f deployment/compose/docker-compose.jvm.yml
+            -f deployment/compose/docker-compose.ci.yml
             -f deployment/compose/compose.e2e.yml
           )
           "${compose[@]}" up -d --build \
@@ -251,7 +253,9 @@ jobs:
         run: >-
           docker compose
           -f deployment/compose/docker-compose.yml
+          -f deployment/compose/docker-compose.api.yml
           -f deployment/compose/docker-compose.jvm.yml
+          -f deployment/compose/docker-compose.ci.yml
           -f deployment/compose/compose.e2e.yml
           down --volumes --remove-orphans
 
