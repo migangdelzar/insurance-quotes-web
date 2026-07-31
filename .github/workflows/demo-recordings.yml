@@ -7,11 +7,11 @@ on: # yamllint disable-line rule:truthy
       frontend_ref:
         description: Frontend branch, tag, or full commit SHA to record
         required: false
-        default: feat-frontend
+        default: main
       backend_ref:
         description: Backend branch, tag, or full commit SHA to record
         required: false
-        default: feat-backend-core
+        default: main
 
 concurrency:
   group: demo-recordings-${{ github.ref }}
@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-          ref: ${{ inputs.frontend_ref || 'feat-frontend' }}
+          ref: ${{ inputs.frontend_ref || 'main' }}
           path: insurance-quotes-web
 
       - name: Check out backend
@@ -37,7 +37,7 @@ jobs:
         with:
           persist-credentials: false
           repository: migangdelzar/insurance-quotes-service
-          ref: ${{ inputs.backend_ref || 'feat-backend-core' }}
+          ref: ${{ inputs.backend_ref || 'main' }}
           path: insurance-quotes-service
 
       - name: Set up Bun
@@ -58,7 +58,9 @@ jobs:
         run: >-
           docker compose
           -f deployment/compose/docker-compose.yml
+          -f deployment/compose/docker-compose.api.yml
           -f deployment/compose/docker-compose.jvm.yml
+          -f deployment/compose/docker-compose.ci.yml
           -f deployment/compose/compose.fullstack.yml
           -f deployment/compose/compose.e2e.yml
           config
@@ -84,7 +86,9 @@ jobs:
           compose=(
             docker compose
             -f deployment/compose/docker-compose.yml
+            -f deployment/compose/docker-compose.api.yml
             -f deployment/compose/docker-compose.jvm.yml
+            -f deployment/compose/docker-compose.ci.yml
             -f deployment/compose/compose.fullstack.yml
             -f deployment/compose/compose.e2e.yml
           )
@@ -123,7 +127,9 @@ jobs:
         run: >-
           docker compose
           -f deployment/compose/docker-compose.yml
+          -f deployment/compose/docker-compose.api.yml
           -f deployment/compose/docker-compose.jvm.yml
+          -f deployment/compose/docker-compose.ci.yml
           -f deployment/compose/compose.fullstack.yml
           -f deployment/compose/compose.e2e.yml
           logs --no-color

@@ -11,7 +11,7 @@ on: # yamllint disable-line rule:truthy
       backend_ref:
         description: Backend branch, tag, or SHA to verify with this frontend
         required: false
-        default: feat-backend-core
+        default: main
 
 concurrency:
   group: >-
@@ -132,7 +132,7 @@ jobs:
         with:
           persist-credentials: false
           repository: migangdelzar/insurance-quotes-service
-          ref: ${{ inputs.backend_ref || 'feat-backend-core' }}
+          ref: ${{ inputs.backend_ref || 'main' }}
           path: insurance-quotes-service
 
       - name: Set up Bun
@@ -158,7 +158,9 @@ jobs:
           compose=(
             docker compose
             -f deployment/compose/docker-compose.yml
+            -f deployment/compose/docker-compose.api.yml
             -f deployment/compose/docker-compose.jvm.yml
+            -f deployment/compose/docker-compose.ci.yml
             -f deployment/compose/compose.e2e.yml
           )
           "${compose[@]}" up -d --build \
@@ -251,7 +253,9 @@ jobs:
         run: >-
           docker compose
           -f deployment/compose/docker-compose.yml
+          -f deployment/compose/docker-compose.api.yml
           -f deployment/compose/docker-compose.jvm.yml
+          -f deployment/compose/docker-compose.ci.yml
           -f deployment/compose/compose.e2e.yml
           down --volumes --remove-orphans
 
