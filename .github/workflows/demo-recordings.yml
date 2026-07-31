@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-          ref: ${{ inputs.frontend_ref || 'feat-frontend' }}
+          ref: ${{ inputs.frontend_ref || 'main' }}
           path: insurance-quotes-web
 
       - name: Check out backend
@@ -37,7 +37,7 @@ jobs:
         with:
           persist-credentials: false
           repository: migangdelzar/insurance-quotes-service
-          ref: ${{ inputs.backend_ref || 'feat-backend-core' }}
+          ref: ${{ inputs.backend_ref || 'main' }}
           path: insurance-quotes-service
 
       - name: Set up Bun

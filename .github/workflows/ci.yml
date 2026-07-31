@@ -132,7 +132,7 @@ jobs:
         with:
           persist-credentials: false
           repository: migangdelzar/insurance-quotes-service
-          ref: ${{ inputs.backend_ref || 'feat-backend-core' }}
+          ref: ${{ inputs.backend_ref || 'main' }}
           path: insurance-quotes-service
 
       - name: Set up Bun
