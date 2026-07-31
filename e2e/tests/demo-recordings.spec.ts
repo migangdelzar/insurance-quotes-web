@@ -93,7 +93,7 @@ test('03-submission-retry', async ({ page }, testInfo) => {
   testInfo.annotations.push({
     type: 'expected-console-error',
     description:
-      'Failed to load resource: the server responded with a status of 500',
+      'Failed to load resource: the server responded with a status of 502',
   });
   await stubInsurer(500);
   await loginAndReachQuotes(page);
