@@ -11,7 +11,7 @@ on: # yamllint disable-line rule:truthy
       backend_ref:
         description: Backend branch, tag, or SHA to verify with this frontend
         required: false
-        default: feat-backend-core
+        default: main
 
 concurrency:
   group: >-
